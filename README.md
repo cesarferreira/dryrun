@@ -6,17 +6,23 @@
 
 > A dry run (or a practice run) is a testing process where the effects of a possible failure are intentionally mitigated. For example, an aerospace company may conduct a "dry run" test of a jet's new pilot ejection seat while the jet is parked on the ground, rather than while it is in flight.
 
+<!--<p align="center">
+<img src="http://i.ytimg.com/vi/lC6fdoMTX6s/maxresdefault.jpg" width="100%" />
+</p>-->
+
 
 ## Typical scenario
 
 1. Find the github url (lets say `https://github.com/cesarferreira/android-helloworld`)
 2. Click the `download zip`
-3. Extract the `zipfile`
+3. Extract the `zip file`
 4. Open Android Studio
 5. Import the project you just downloaded
 6. Sync gradle
 7. Run the project
 8. Choose the device you want to run
+9. Test all you want
+10. Delete the `project folder` and the `zip file` when you don't want it anymore
 
 ... or you can use `dryrun`:
 
