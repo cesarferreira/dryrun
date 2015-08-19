@@ -5,7 +5,7 @@
 
 ## Typical scenario
 
-1. Find the github url (lets say `https://github.com/cesarferreira/colorize`)
+1. Find the github url (lets say `https://github.com/cesarferreira/android-helloworld`)
 2. Click the `download zip`
 3. Extract the `zipfile`
 4. Open Android Studio
@@ -18,7 +18,7 @@
 
 ## Usage
 
-> dryrun https://github.com/cesarferreira/colorize
+> dryrun https://github.com/cesarferreira/android-helloworld
 
 Wait a few seconds... `et voilà !`
 The app is installed on your phone :smiley:
