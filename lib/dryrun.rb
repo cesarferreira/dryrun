@@ -26,11 +26,8 @@ module DryRun
         exit 1
       end
 
-      # puts "\nLets work this one out: #{url.green}\n\n"
-
       # clone the repository
       clonable = github.clonable_url
-      #puts "git clone #{clonable.yellow}.....\n\n"
 
       repository = github.clone
 
@@ -45,9 +42,6 @@ module DryRun
       end
 
       project.clean_install
-
-
-      puts "\nOpened #{url.green}!\n"
 
     end
   end

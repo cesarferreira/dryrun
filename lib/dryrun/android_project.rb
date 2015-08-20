@@ -33,24 +33,23 @@ module DryRun
 
       Dir.chdir @base_path
 
-      #self.uninstall
-
-      # clean assemble and install
-
       path, execute_line = self.sample_project
-
 
       if path == false and execute_line==false
         puts "Couldn't open, sorry!".red
         exit 1
       end
 
-      if !File.exist?("gradlew")
-        system("gradle clean assembleDebug installDebug")
-      else
+      builder = "gradle"
+
+      if File.exist?("gradlew")
         system("chmod +x gradlew")
-        system("./gradlew clean assembleDebug installDebug")
+        builder = "./gradlew"
       end
+
+      self.uninstall
+
+      system("#{builder} clean assembleDebug installDebug")
 
 
       puts "Installing #{@package.green}...\n"
@@ -67,10 +66,8 @@ module DryRun
         execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
 
         if execute_line
-          puts "\nTHE SAMPLE IS HERE #{full_path.green}:\n"
-
-          system("tree #{full_path}")
-
+          #puts "\nTHE SAMPLE IS HERE #{full_path.green}:\n"
+          #system("tree #{full_path}")
           return full_path, execute_line
         end
 
