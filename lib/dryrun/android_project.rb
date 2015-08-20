@@ -31,20 +31,26 @@ module DryRun
     # ./gradlew clean installDebug
     def clean_install
 
+      Dir.chdir @base_path
+
+      #self.uninstall
+
+      # clean assemble and install
+
       path, execute_line = self.sample_project
 
 
       if path == false and execute_line==false
         puts "Couldn't open, sorry!".red
-        return ''
+        exit 1
       end
 
-      Dir.chdir @base_path
-
-      self.uninstall
-
-      # clean assemble and install
-      system("./gradlew clean assembleDebug installDebug")
+      if !File.exist?("gradlew")
+        system("gradle clean assembleDebug installDebug")
+      else
+        system("chmod +x gradlew")
+        system("./gradlew clean assembleDebug installDebug")
+      end
 
 
       puts "Installing #{@package.green}...\n"

@@ -45,8 +45,6 @@ module DryRun
 
       system("git clone #{clonable} #{tmpdir}")
 
-      Dir.chdir tmpdir
-
       tmpdir
     end
 

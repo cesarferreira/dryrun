@@ -26,13 +26,15 @@ module DryRun
         exit 1
       end
 
-      puts "\nLets work this one out: #{url.green}\n\n"
+      # puts "\nLets work this one out: #{url.green}\n\n"
 
       # clone the repository
       clonable = github.clonable_url
-      puts "git clone #{clonable.yellow}.....\n\n"
+      #puts "git clone #{clonable.yellow}.....\n\n"
 
       repository = github.clone
+
+      Dir.chdir repository
 
       project = AndroidProject.new(repository)
 
