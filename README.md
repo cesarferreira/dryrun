@@ -1,5 +1,5 @@
 # dryrun
-![Header](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
+[![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
 
 **Try** an **android** library on your **smartphone** **directly** from the **command line**
 

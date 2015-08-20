@@ -74,7 +74,7 @@ module DryRun
     end
 
     def uninstall
-      system("#{self.get_uninstall_command} > /dev/null 2>&1")
+      system("#{self.get_uninstall_command}") # > /dev/null 2>&1")
     end
 
 

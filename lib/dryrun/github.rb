@@ -1,7 +1,6 @@
 require 'tmpdir'
 require 'fileutils'
 require 'uri'
-require 'pry'
 
 module DryRun
 
@@ -14,7 +13,9 @@ module DryRun
     def get_destination
       destiny = @base_url.gsub('.git','')
       destiny = destiny.split('/')
-      "#{destiny.last(2).join('/')}"
+      destiny = destiny.last(2).join('/')
+      destiny = destiny.gsub('git@github.com:','')
+      destiny
     end
 
     def is_valid
@@ -46,7 +47,7 @@ module DryRun
     def clone
       clonable = self.clonable_url
 
-      tmpdir = Dir.tmpdir+"dryrun/#{@destination}"
+      tmpdir = Dir.tmpdir+"/dryrun/#{@destination}"
       FileUtils.rm_rf(tmpdir)
 
       system("git clone #{clonable} #{tmpdir}")

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 require 'dryrun/github'
 
 
@@ -46,6 +45,14 @@ describe '#github' do
       expected = 'googlesamples/google-services'
       expect(github.get_destination == expected).to be true
     end
+
+    it 'is from ssh' do
+      url = 'git@github.com:cesarferreira/android-helloworld.git'
+      github = DryRun::Github.new(url)
+      expected = 'cesarferreira/android-helloworld'
+      expect(github.get_destination == expected).to be true
+    end
+
   end
 
 

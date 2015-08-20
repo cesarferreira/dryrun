@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 require 'dryrun/android_project'
 
 
