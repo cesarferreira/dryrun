@@ -51,7 +51,6 @@ module DryRun
 
       system("#{builder} clean assembleDebug installDebug")
 
-
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line}"
       system(execute_line)
@@ -64,19 +63,18 @@ module DryRun
         full_path = "#{@base_path}#{child.first}"
 
         execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
-
-        if execute_line
-          #puts "\nTHE SAMPLE IS HERE #{full_path.green}:\n"
-          #system("tree #{full_path}")
-          return full_path, execute_line
-        end
+        return full_path, execute_line if execute_line
 
       end
       return false, false
     end
 
+    def get_uninstall_command
+      "adb uninstall #{@package}"
+    end
+
     def uninstall
-      system("adb uninstall #{@package}")
+      system("#{self.get_uninstall_command} > /dev/null 2>&1")
     end
 
 
