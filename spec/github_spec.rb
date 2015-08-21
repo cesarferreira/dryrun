@@ -28,6 +28,13 @@ describe '#github' do
       expected = 'git@github.com:cesarferreira/android-helloworld.git'
       expect(github.clonable_url == expected).to be true
     end
+
+    it 'is not an url' do
+      url = 'asdasdas'
+      github = DryRun::Github.new(url)
+      expect(github.is_valid).to be false
+    end
+
   end
 
 

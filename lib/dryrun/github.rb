@@ -19,7 +19,11 @@ module DryRun
     end
 
     def is_valid
-      return true
+       starts_with_git = @base_url.split(//).first(4).join.eql? "git@"
+       starts_with_http = @base_url.split(//).first(7).join.eql? "http://"
+       starts_with_https = @base_url.split(//).first(8).join.eql? "https://"
+
+      return (starts_with_git or starts_with_https or starts_with_http)
     end
 
     def clonable_url
