@@ -40,6 +40,8 @@ module DryRun
         exit 1
       end
 
+      create_local_properties_if_necessary(DryRun::Config.load)
+
       builder = "gradle"
 
       if File.exist?("gradlew")
@@ -67,6 +69,16 @@ module DryRun
 
       end
       return false, false
+    end
+
+    def create_local_properties_if_necessary(sdk_dir)
+      file = "#{@base_path}/local.properties"
+      unless File.exist?(file)
+        File.open(file, 'w') do |f|
+          f.puts "sdk.dir=#{sdk_dir}"
+        end
+        puts "Created: '#{file}'"
+      end
     end
 
     def get_uninstall_command

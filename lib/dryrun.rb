@@ -3,13 +3,14 @@ require 'tmpdir'
 require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/android_project'
+require 'dryrun/config'
 
 module DryRun
 
   class MainApp
 
     def self.is_ANDROID_HOME_defined
-      return true
+      return !DryRun::Config.load.nil?
     end
 
 

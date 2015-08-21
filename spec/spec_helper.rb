@@ -24,4 +24,6 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # suppress stdout during testing
+  config.before { allow($stdout).to receive(:puts) }
 end
