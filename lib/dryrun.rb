@@ -3,6 +3,7 @@ require 'tmpdir'
 require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/android_project'
+require 'dryrun/config'
 
 module DryRun
 
