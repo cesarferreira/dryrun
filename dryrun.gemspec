@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["cesar ferreira"]
   spec.email         = ["cesar.manuel.ferreira@gmail.com"]
 
-  spec.summary       = %q{Tool which allows to quickly try the demo project of an Android Library}
-  spec.description   = %q{Tool which allows to quickly try the demo project of an Android Library}
+  spec.summary       = %q{Tool which allows to quickly try the demo project of any Android Library}
+  spec.description   = %q{Tool which allows to quickly try the demo project of any Android Library}
   spec.homepage      = "https://github.com/cesarferreira/dryrun"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
