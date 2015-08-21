@@ -1,6 +1,6 @@
 module DryRun
   class Config
-    @@file = 'config'
+    @@file = File.expand_path('../../', File.dirname(__FILE__)) + '/config'
 
     class << self
       def load

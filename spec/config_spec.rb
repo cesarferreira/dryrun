@@ -2,15 +2,19 @@ require 'spec_helper'
 require 'dryrun/config'
 
 describe '#config' do
+  before(:each) do
+    @config_file = File.expand_path('..', File.dirname(__FILE__)) + '/config'
+  end
+
   context 'when load' do
     it 'from a nonexistent file' do
-      allow(File).to receive(:exist?).with('config').and_return(false)
+      allow(File).to receive(:exist?).with(@config_file).and_return(false)
       expect{ DryRun::Config.load() }.to raise_error(RuntimeError, 'No config file is detected, please save it first.')
     end
 
     it 'from an existing file but with invalid ANDROID_HOME' do
       invalid_path = '/Users/abc/opt/android-sdk-macosx'
-      allow(File).to receive(:exist?).with('config').and_return(true)
+      allow(File).to receive(:exist?).with(@config_file).and_return(true)
       allow(File).to receive(:exist?).with(invalid_path).and_return(false)
       file = instance_double('File')
       allow(File).to receive(:open).and_yield(file)
@@ -22,7 +26,7 @@ describe '#config' do
 
     it 'from an existing file with valid ANDROID_HOME' do
       expected = '/Users/abc/opt/android-sdk-macosx'
-      allow(File).to receive(:exist?).with('config').and_return(true)
+      allow(File).to receive(:exist?).with(@config_file).and_return(true)
       allow(File).to receive(:exist?).with(expected).and_return(true)
       file = instance_double('File')
       allow(File).to receive(:open).and_yield(file)
