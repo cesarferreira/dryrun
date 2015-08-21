@@ -9,8 +9,6 @@ module DryRun
           File.open(@@file, 'r') do |f|
             path = f.gets.chomp
           end
-          puts 'Read from config:'
-          puts "ANDROID_HOME: #{path}"
           return (File.exist?(path) ? path : nil)
         else
           fail('No config file is detected, please save it first.')
