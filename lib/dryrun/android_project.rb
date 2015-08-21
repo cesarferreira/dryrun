@@ -40,6 +40,8 @@ module DryRun
         exit 1
       end
 
+      create_local_properties_if_necessary(DryRun::Config.load)
+
       builder = "gradle"
 
       if File.exist?("gradlew")
