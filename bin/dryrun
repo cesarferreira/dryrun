@@ -1,11 +1,28 @@
 #!/usr/bin/env ruby
 require 'bundler/setup'
 require 'dryrun'
+require 'optparse'
 
-# ARGUMENTS validation
-if ARGV.length != 1
-  puts "You need to provide the github URL"
-  exit 1
+config = false
+OptionParser.new do |opts|
+  opts.banner = 'Usage: dryrun [github_url]'
+
+  opts.on('-s', '--sdk SDK_PATH', 'Set Android SDK path (only for the first time)') do |v|
+    config = true
+    DryRun::Config.save(v)
+  end
+end.parse!
+
+unless config
+  if DryRun::Config.load.nil?
+    puts 'Wrong Android SDK path, please reconfig it'
+    exit 1
+  end
+
+  if ARGV.size == 1
+    DryRun::MainApp.initialize(ARGV[0])
+  else
+    puts 'You need to provide the github URL'
+    exit 1
+  end
 end
-
-DryRun::MainApp.initialize(ARGV[0])
