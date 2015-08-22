@@ -29,8 +29,6 @@ module DryRun
 
       # Write good lines to temporary file
       open(file, 'r').each { |l| tmp << l unless l.include? 'applicationId' }
-
-      # Close tmp, or troubles ahead
       tmp.close
 
       # Move temp file to origin
