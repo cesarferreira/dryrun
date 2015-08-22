@@ -1,5 +1,5 @@
 # dryrun
-[![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
+[![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dryrun-green.svg?style=flat)](https://android-arsenal.com/details/1/2361)
 
 **Try** any **android library** on your **smartphone** **directly** from the **command line**
 
@@ -31,7 +31,7 @@ Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
 
 ## Alternative scenario (if you don't use `dryrun`)
 
-1. Find the github url (lets say `https://github.com/cesarferreira/android-helloworld`)
+1. Find the github's repository url
 2. Click the `download zip`
 3. Extract the `zip file`
 4. Open Android Studio
