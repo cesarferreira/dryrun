@@ -1,4 +1,6 @@
 require 'nokogiri'
+require 'fileutils'
+require 'tempfile'
 
 module DryRun
 
@@ -8,6 +10,32 @@ module DryRun
       @base_path = path
       @settings_gradle_path = settings_gradle
       @modules = find_modules
+    end
+
+    def remove_local_properties
+      Dir.chdir @base_path
+      file_name = 'local.properties'
+
+      if File.exist?(file_name)
+        File.remove(file_name)
+      end
+    end
+
+    def remove_application_id
+      # Open temporary file
+      tmp = Tempfile.new("extract")
+
+      file = "#{@path_to_sample}/build.gradle"
+
+      # Write good lines to temporary file
+      open(file, 'r').each { |l| tmp << l unless l.include? 'applicationId' }
+
+      # Close tmp, or troubles ahead
+      tmp.close
+
+      # Move temp file to origin
+      FileUtils.mv(tmp.path, file)
+
     end
 
     def settings_gradle
@@ -29,7 +57,7 @@ module DryRun
     end
 
     # ./gradlew clean installDebug
-    def clean_install
+    def install
 
       Dir.chdir @base_path
 
@@ -42,17 +70,26 @@ module DryRun
 
       builder = "gradle"
 
-      if File.exist?("gradlew")
-        system("chmod +x gradlew")
-        builder = "./gradlew"
+      if File.exist?('gradlew')
+        system('chmod +x gradlew')
+
+        builder = 'sh gradlew'
+      end
+
+
+      # Generate the gradle/ folder
+      if File.exist?('gradlew') and !File.directory?('gradle/')
+        system('gradle wrap')
       end
 
       self.uninstall
+      self.remove_application_id
+      self.remove_local_properties
 
       system("#{builder} clean assembleDebug installDebug")
 
       puts "Installing #{@package.green}...\n"
-      puts "executing: #{execute_line}"
+      puts "executing: #{execute_line.green}\n\n"
       system(execute_line)
 
     end
@@ -61,6 +98,7 @@ module DryRun
 
       @modules.each do |child|
         full_path = "#{@base_path}#{child.first}"
+        @path_to_sample = full_path
 
         execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
         return full_path, execute_line if execute_line
@@ -96,10 +134,14 @@ module DryRun
 
       f.close
 
-      "adb shell am start -n #{@package}/#{@launcher_activity}"
+      "adb shell am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
 
     end
 
+    def get_launchable_activity
+      full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package,'')}"
+      "#{@package}/#{full_path_to_launcher}"
+    end
 
     def get_package(doc)
        doc.xpath("//manifest").attr('package').value
