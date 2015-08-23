@@ -74,9 +74,8 @@ module DryRun
         builder = 'sh gradlew'
       end
 
-
       # Generate the gradle/ folder
-      if File.exist?('gradlew') and !File.directory?('gradle/')
+      if File.exist?('gradlew') and !is_gradle_wrapped
         system('gradle wrap')
       end
 
@@ -90,6 +89,15 @@ module DryRun
       puts "executing: #{execute_line.green}\n\n"
       system(execute_line)
 
+    end
+
+    def is_gradle_wrapped
+
+      if !File.directory?('gradle/')
+        return false
+      end
+      #binding.pry
+      File.exist?('gradle/wrapper/gradle-wrapper.properties') and File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
     def sample_project
