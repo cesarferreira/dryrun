@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'fileutils'
 require 'tempfile'
-require 'pry'
 
 module DryRun
 
@@ -97,7 +96,7 @@ module DryRun
       if !File.directory?('gradle/')
         return false
       end
-      #binding.pry
+
       File.exist?('gradle/wrapper/gradle-wrapper.properties') and File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
