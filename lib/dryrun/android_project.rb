@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'fileutils'
 require 'tempfile'
+require 'pry'
 
 module DryRun
 
@@ -103,8 +104,9 @@ module DryRun
     def sample_project
 
       @modules.each do |child|
-        full_path = "#{@base_path}#{child.first}"
+        full_path = "#{@base_path}/#{child.first}"
         @path_to_sample = full_path
+        # binding.pry
 
         execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
         return full_path, execute_line if execute_line
