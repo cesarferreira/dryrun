@@ -19,6 +19,8 @@ module DryRun
       if File.exist?(file_name)
         File.remove(file_name)
       end
+
+      system("touch #{file_name}")
     end
 
     def remove_application_id
@@ -54,7 +56,6 @@ module DryRun
       end
     end
 
-    # ./gradlew clean installDebug
     def install
 
       Dir.chdir @base_path
@@ -62,7 +63,7 @@ module DryRun
       path, execute_line = self.sample_project
 
       if path == false and execute_line==false
-        puts "Couldn't open, sorry!".red
+        puts "Couldn't open the sample project, sorry!".red
         exit 1
       end
 
@@ -105,7 +106,6 @@ module DryRun
       @modules.each do |child|
         full_path = "#{@base_path}/#{child.first}"
         @path_to_sample = full_path
-        # binding.pry
 
         execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
         return full_path, execute_line if execute_line
