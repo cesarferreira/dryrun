@@ -84,7 +84,7 @@ module DryRun
       self.remove_application_id
       self.remove_local_properties
 
-      system("#{builder} clean assembleDebug installDebug")
+      system("#{builder} clean installDebug")
 
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n\n"
