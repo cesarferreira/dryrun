@@ -11,7 +11,12 @@
 
 
 ## Usage
-> dryrun https://github.com/cesarferreira/android-helloworld
+```shell
+dryrun https://github.com/cesarferreira/android-helloworld
+dryrun repository_url -p custom/path/to/gradle_application
+dryrun repository_url -m custom_application_module
+dryrun -h
+```
 
 
 Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
@@ -57,3 +62,11 @@ Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/cesarferreira/dryrun.
+
+To install gem as local you can use this:
+```shell
+# In the project folder:
+rake install
+# Next in the any gemset or place:
+gem install --local path_to_dryrun/pkg/dryrun-<builded_version>.gem
+```
