@@ -3,22 +3,34 @@ require 'fileutils'
 require 'tempfile'
 
 module DryRun
-
   class AndroidProject
-
-    def initialize(path)
+    def initialize(path, custom_app_path, custom_module)
+      @custom_app_path = custom_app_path
+      @custom_module = custom_module
       @base_path = path
-      @settings_gradle_path = settings_gradle
+      @settings_gradle_path = settings_gradle_file
+
+      check_custom_app_path
+
       @modules = find_modules
+    end
+
+    def check_custom_app_path
+      return unless @custom_app_path
+
+      full_custom_path = File.join(@base_path, @custom_app_path)
+      settings_path = settings_gradle_file(full_custom_path)
+      return unless is_valid(settings_path)
+
+      @settings_gradle_path = settings_path
+      @base_path = full_custom_path
     end
 
     def remove_local_properties
       Dir.chdir @base_path
       file_name = 'local.properties'
 
-      if File.exist?(file_name)
-        File.remove(file_name)
-      end
+      File.delete(file_name) if File.exist?(file_name)
 
       system("touch #{file_name}")
     end
@@ -35,34 +47,30 @@ module DryRun
 
       # Move temp file to origin
       FileUtils.mv(tmp.path, file)
-
     end
 
-    def settings_gradle
-      "#{@base_path}/settings.gradle"
+    def settings_gradle_file(path = @base_path)
+      File.join(path, 'settings.gradle')
     end
 
-    def is_valid
-      File.exist?(@settings_gradle_path)
+    def is_valid(settings_path = @settings_gradle_path)
+      File.exist?(settings_path)
     end
 
     def find_modules
-      if self.is_valid
-        content = File.open(@settings_gradle_path, "rb").read
-        modules = content.scan(/'([^']*)'/)
-        modules.each {|replacement| replacement.first.gsub!(':', '/')}
-      else
-        return []
-      end
+      return [] unless is_valid
+
+      content = File.open(@settings_gradle_path, "rb").read
+      modules = content.scan(/'([^']*)'/)
+      modules.each {|replacement| replacement.first.gsub!(':', '/')}
     end
 
     def install
-
       Dir.chdir @base_path
 
-      path, execute_line = self.sample_project
+      path, execute_line = sample_project
 
-      if path == false and execute_line==false
+      if path == false and execute_line == false
         puts "Couldn't open the sample project, sorry!".red
         exit 1
       end
@@ -76,15 +84,17 @@ module DryRun
       end
 
       # Generate the gradle/ folder
-      if File.exist?('gradlew') and !is_gradle_wrapped
-        system('gradle wrap')
+      system('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
+
+      uninstall_application
+      remove_application_id
+      remove_local_properties
+
+      if @custom_module
+        system("#{builder} clean :#{@custom_module}:installDebug")
+      else
+        system("#{builder} clean assembleDebug installDebug")
       end
-
-      self.uninstall
-      self.remove_application_id
-      self.remove_local_properties
-
-      system("#{builder} clean installDebug")
 
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n\n"
@@ -93,43 +103,43 @@ module DryRun
     end
 
     def is_gradle_wrapped
-
-      if !File.directory?('gradle/')
-        return false
-      end
+      return false if !File.directory?('gradle/')
 
       File.exist?('gradle/wrapper/gradle-wrapper.properties') and File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
     def sample_project
+      if @custom_module && @modules.any? { |m| m.first == "/#{@custom_module}" }
+        @path_to_sample = File.join(@base_path, "/#{@custom_module}")
+        return @path_to_sample, get_execute_line(@path_to_sample)
+      else
+        @modules.each do |child|
+          full_path = File.join(@base_path, child.first)
+          @path_to_sample = full_path
 
-      @modules.each do |child|
-        full_path = "#{@base_path}/#{child.first}"
-        @path_to_sample = full_path
-
-        execute_line = get_execute_line("#{full_path}/src/main/AndroidManifest.xml")
-        return full_path, execute_line if execute_line
-
+          execute_line = get_execute_line(full_path)
+          return full_path, execute_line if execute_line
+        end
       end
-      return false, false
+      [false, false]
     end
 
     def get_uninstall_command
       "adb uninstall #{@package}"
     end
 
-    def uninstall
-      system("#{self.get_uninstall_command}") # > /dev/null 2>&1")
+    def uninstall_application
+      system(get_uninstall_command) # > /dev/null 2>&1")
     end
 
-
     def get_execute_line(path_to_sample)
+      path_to_manifest = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
 
-      if !File.exist?(path_to_sample)
+      if !File.exist?(path_to_manifest)
         return false
       end
 
-      f = File.open(path_to_sample)
+      f = File.open(path_to_manifest)
       doc = Nokogiri::XML(f)
 
       @package = get_package(doc)
@@ -142,7 +152,6 @@ module DryRun
       f.close
 
       "adb shell am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
-
     end
 
     def get_launchable_activity
@@ -164,7 +173,5 @@ module DryRun
       end
       false
     end
-
   end
-
 end

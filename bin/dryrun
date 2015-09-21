@@ -2,10 +2,4 @@
 require 'bundler/setup'
 require 'dryrun'
 
-# ARGUMENTS validation
-if ARGV.length != 1
-  puts "You need to provide the github URL"
-  exit 1
-end
-
-DryRun::MainApp.initialize(ARGV[0])
+DryRun::MainApp.new(ARGV).call
