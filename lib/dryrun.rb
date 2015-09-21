@@ -29,7 +29,7 @@ module DryRun
         opts.on('-m MODULE_NAME', '--module MODULE_NAME', 'Custom module to run') do |custom_module|
           @custom_module = custom_module
         end
-        opts.on('-p PATH', '--path PATH', 'Custom custom to android project') do |app_path|
+        opts.on('-p PATH', '--path PATH', 'Custom path to android project') do |app_path|
           @app_path = app_path
         end
         opts.on('-h', '--help', 'Displays help') do

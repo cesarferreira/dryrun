@@ -13,13 +13,26 @@
 ## Usage
 ```shell
 dryrun https://github.com/cesarferreira/android-helloworld
+```
+
+Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
+
+
+#### From a custom repository folder:
+```shell
 dryrun repository_url -p custom/path/to/gradle_application
+```
+
+#### A custom module
+```shell
 dryrun repository_url -m custom_application_module
+```
+
+#### Help at any time:
+```shell
 dryrun -h
 ```
 
-
-Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
 
 ### Goodies
 

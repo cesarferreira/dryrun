@@ -86,18 +86,20 @@ module DryRun
       # Generate the gradle/ folder
       system('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
 
-      uninstall_application
       remove_application_id
       remove_local_properties
 
       if @custom_module
         system("#{builder} clean :#{@custom_module}:installDebug")
       else
-        system("#{builder} clean assembleDebug installDebug")
+        system("#{builder} clean installDebug")
       end
+
+      clear_app_data
 
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n\n"
+
       system(execute_line)
 
     end
@@ -111,28 +113,36 @@ module DryRun
     def sample_project
       if @custom_module && @modules.any? { |m| m.first == "/#{@custom_module}" }
         @path_to_sample = File.join(@base_path, "/#{@custom_module}")
-        return @path_to_sample, get_execute_line(@path_to_sample)
+        return @path_to_sample, get_execution_line_command(@path_to_sample)
       else
         @modules.each do |child|
           full_path = File.join(@base_path, child.first)
           @path_to_sample = full_path
 
-          execute_line = get_execute_line(full_path)
-          return full_path, execute_line if execute_line
+          execution_line_command = get_execution_line_command(full_path)
+          return full_path, execution_line_command if execution_line_command
         end
       end
       [false, false]
+    end
+
+    def get_clear_app_command
+      "adb shell pm clear #{@package}"
     end
 
     def get_uninstall_command
       "adb uninstall #{@package}"
     end
 
+    def clear_app_data
+      system(get_clear_app_command)
+    end
+
     def uninstall_application
       system(get_uninstall_command) # > /dev/null 2>&1")
     end
 
-    def get_execute_line(path_to_sample)
+    def get_execution_line_command(path_to_sample)
       path_to_manifest = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
 
       if !File.exist?(path_to_manifest)
