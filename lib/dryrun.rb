@@ -3,13 +3,14 @@ require 'colorize'
 require 'tmpdir'
 require 'fileutils'
 require 'dryrun/github'
+require 'dryrun/version'
 require 'dryrun/android_project'
 
 module DryRun
   class MainApp
     def initialize(arguments)
       create_options_parser
-      @url = ['-h', '--help'].include?(arguments.first) ? nil : arguments.shift
+      @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
       @app_path = nil
       @custom_module = nil
       @opt_parser.parse!(arguments)
@@ -34,6 +35,10 @@ module DryRun
         end
         opts.on('-h', '--help', 'Displays help') do
           puts opts.help
+          exit
+        end
+        opts.on('-v', '--version', 'Displays version') do
+          puts DryRun::VERSION
           exit
         end
       end
