@@ -6,7 +6,7 @@
 > A dry run is a testing process where the effects of a possible failure are intentionally mitigated. For example, an aerospace company may conduct a "dry run" test of a jet's new pilot ejection seat while the jet is parked on the ground, rather than while it is in flight.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage.gif" width="100%" />
+<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v2.gif" width="100%" />
 </p>
 
 
@@ -23,13 +23,13 @@ Wait a few seconds... and `voilà`! The app is opened on your phone :smiley:
 - From a custom repository folder:
 
 ```shell
-dryrun repository_url -p custom/path/to/gradle_application
+dryrun REPOSITORY_URL -p CUSTOM/PATH/TO/GRADLE_APPLICATION
 ```
 
 - A custom module:
 
 ```shell
-dryrun repository_url -m custom_application_module
+dryrun REPOSITORY_URL -m CUSTOM_APPLICATION_MODULE
 ```
 
 - Help at any time:
@@ -80,11 +80,3 @@ dryrun -h
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/cesarferreira/dryrun.
-
-To install gem as local you can use this:
-```shell
-# In the project folder:
-rake install
-# Next in the any gemset or place:
-gem install --local path_to_dryrun/pkg/dryrun-<builded_version>.gem
-```
