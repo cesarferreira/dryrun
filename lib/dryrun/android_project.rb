@@ -1,4 +1,4 @@
-require 'nokogiri'
+require 'oga'
 require 'fileutils'
 require 'tempfile'
 

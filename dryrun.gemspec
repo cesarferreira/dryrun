@@ -26,12 +26,13 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'pry-byebug', '~> 3.1'
+  spec.add_development_dependency 'pry-byebug', '~> 3.2'
   spec.add_development_dependency 'rspec'
 
   spec.add_dependency 'bundler', '~> 1.7'
   spec.add_dependency 'colorize',  '~> 0.7'
-  spec.add_dependency 'nokogiri',  '~> 1.6.6.2'
+  spec.add_dependency 'oga',  '~> 1.3.1'
+
 
 
 end

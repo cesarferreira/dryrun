@@ -6,7 +6,7 @@
 > A dry run is a testing process where the effects of a possible failure are intentionally mitigated. For example, an aerospace company may conduct a "dry run" test of a jet's new pilot ejection seat while the jet is parked on the ground, rather than while it is in flight.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v3.gif" width="100%" />
+<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v2.gif" width="100%" />
 </p>
 
 ## Usage
