@@ -1,6 +1,7 @@
-require 'oga'
+require 'nokogiri'
 require 'fileutils'
 require 'tempfile'
+require_relative 'dryrun_utils'
 
 module DryRun
   class AndroidProject
@@ -32,7 +33,7 @@ module DryRun
 
       File.delete(file_name) if File.exist?(file_name)
 
-      system("touch #{file_name}")
+      DryrunUtils.execute("touch #{file_name}")
     end
 
     def remove_application_id
@@ -78,21 +79,21 @@ module DryRun
       builder = "gradle"
 
       if File.exist?('gradlew')
-        system('chmod +x gradlew')
+        DryrunUtils.execute('chmod +x gradlew')
 
         builder = 'sh gradlew'
       end
 
       # Generate the gradle/ folder
-      system('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
+      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
 
       remove_application_id
       remove_local_properties
 
       if @custom_module
-        system("#{builder} clean :#{@custom_module}:installDebug")
+        DryrunUtils.execute("#{builder} clean :#{@custom_module}:installDebug")
       else
-        system("#{builder} clean installDebug")
+        DryrunUtils.execute("#{builder} clean installDebug")
       end
 
       clear_app_data
@@ -100,7 +101,7 @@ module DryRun
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n\n"
 
-      system(execute_line)
+      DryrunUtils.execute(execute_line)
 
     end
 
@@ -135,11 +136,11 @@ module DryRun
     end
 
     def clear_app_data
-      system(get_clear_app_command)
+      DryrunUtils.execute(get_clear_app_command)
     end
 
     def uninstall_application
-      system(get_uninstall_command) # > /dev/null 2>&1")
+      DryrunUtils.execute(get_uninstall_command) # > /dev/null 2>&1")
     end
 
     def get_execution_line_command(path_to_sample)

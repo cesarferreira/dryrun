@@ -1,6 +1,7 @@
 require 'tmpdir'
 require 'fileutils'
 require 'uri'
+require_relative 'dryrun_utils'
 
 module DryRun
 
@@ -54,7 +55,7 @@ module DryRun
       tmpdir = Dir.tmpdir+"/dryrun/#{@destination}"
       FileUtils.rm_rf(tmpdir)
 
-      system("git clone #{clonable} #{tmpdir}")
+      DryrunUtils.execute("git clone #{clonable} #{tmpdir}")
 
       tmpdir
     end
