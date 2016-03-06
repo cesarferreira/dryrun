@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["cesar ferreira"]
   spec.email         = ["cesar.manuel.ferreira@gmail.com"]
 
-  spec.summary       = %q{Tool which allows to quickly try the demo project of any Android Library}
-  spec.description   = %q{Tool which allows to quickly try the demo project of any Android Library}
+  spec.summary       = %q{Tool to try any android library hosted online directly from the command line}
+  spec.description   = %q{Tool to try any android library hosted online directly from the command line}
   spec.homepage      = "https://github.com/cesarferreira/dryrun"
   spec.license       = 'MIT'
 

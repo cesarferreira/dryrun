@@ -38,29 +38,29 @@ describe '#github' do
   end
 
 
-  context 'when needing a destination to clone the project' do
-    it 'is a regular url' do
-      url = 'https://github.com/cesarferreira/android-helloworld'
-      github = DryRun::Github.new(url)
-      expected = 'cesarferreira/android-helloworld'
-      expect(github.get_destination == expected).to be true
-    end
+  # context 'when needing a destination to clone the project' do
+  #   it 'is a regular url' do
+  #     url = 'https://github.com/cesarferreira/android-helloworld'
+  #     github = DryRun::Github.new(url)
+  #     expected = 'cesarferreira/android-helloworld'
+  #     expect(github.get_destination == expected).to be true
+  #   end
 
-    it 'ends in .git' do
-      url = 'https://github.com/googlesamples/google-services.git'
-      github = DryRun::Github.new(url)
-      expected = 'googlesamples/google-services'
-      expect(github.get_destination == expected).to be true
-    end
+  #   it 'ends in .git' do
+  #     url = 'https://github.com/googlesamples/google-services.git'
+  #     github = DryRun::Github.new(url)
+  #     expected = 'googlesamples/google-services'
+  #     expect(github.get_destination == expected).to be true
+  #   end
 
-    it 'is from ssh' do
-      url = 'git@github.com:cesarferreira/android-helloworld.git'
-      github = DryRun::Github.new(url)
-      expected = 'cesarferreira/android-helloworld'
-      expect(github.get_destination == expected).to be true
-    end
+  #   it 'is from ssh' do
+  #     url = 'git@github.com:cesarferreira/android-helloworld.git'
+  #     github = DryRun::Github.new(url)
+  #     expected = 'cesarferreira/android-helloworld'
+  #     expect(github.get_destination == expected).to be true
+  #   end
 
-  end
+  # end
 
 
 end
