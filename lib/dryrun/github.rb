@@ -12,11 +12,7 @@ module DryRun
     end
 
     def get_destination
-      destiny = @base_url.gsub('.git','')
-      destiny = destiny.split('/')
-      destiny = destiny.last(2).join('/')
-      destiny = destiny.gsub('git@github.com:','')
-      destiny
+      Digest::MD5.hexdigest(@base_url)
     end
 
     def is_valid

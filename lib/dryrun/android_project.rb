@@ -1,4 +1,4 @@
-require 'nokogiri'
+require 'oga'
 require 'fileutils'
 require 'tempfile'
 require_relative 'dryrun_utils'
@@ -151,7 +151,8 @@ module DryRun
       end
 
       f = File.open(path_to_manifest)
-      doc = Nokogiri::XML(f)
+
+      doc = Oga.parse_xml(f)
 
       @package = get_package(doc)
       @launcher_activity = get_launcher_activity(doc)
@@ -171,15 +172,16 @@ module DryRun
     end
 
     def get_package(doc)
-       doc.xpath("//manifest").attr('package').value
+       doc.xpath("//manifest").attr('package').first.value
     end
 
     def get_launcher_activity(doc)
       activities = doc.css('activity')
       activities.each do |child|
         intent_filter = child.css('intent-filter')
+
         if intent_filter != nil and intent_filter.length != 0
-          return child.attr('android:name')
+          return child.xpath("//activity").attr("android:name").last.value
         end
       end
       false

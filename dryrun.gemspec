@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Tool which allows to quickly try the demo project of any Android Library}
   spec.description   = %q{Tool which allows to quickly try the demo project of any Android Library}
   spec.homepage      = "https://github.com/cesarferreira/dryrun"
+  spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "bin"
@@ -31,9 +32,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'bundler', '~> 1.7'
   spec.add_dependency 'colorize',  '~> 0.7'
-  #spec.add_dependency 'oga',  '~> 1.3.1'
-  spec.add_dependency 'nokogiri',  '~> 1.6.6.2'
-
-
+  spec.add_dependency 'oga',  '~> 1.3.1'
 
 end
