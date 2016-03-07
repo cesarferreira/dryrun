@@ -2,13 +2,16 @@ require 'oga'
 require 'fileutils'
 require 'tempfile'
 require_relative 'dryrun_utils'
+require 'pry'
 
 module DryRun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module)
+    def initialize(path, custom_app_path, custom_module, flavour)
+
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = path
+      @flavour = flavour
       @settings_gradle_path = settings_gradle_file
 
       check_custom_app_path
@@ -81,7 +84,7 @@ module DryRun
       if File.exist?('gradlew')
         DryrunUtils.execute('chmod +x gradlew')
 
-        builder = 'sh gradlew'
+        builder = './gradlew'
       end
 
       # Generate the gradle/ folder
@@ -91,9 +94,12 @@ module DryRun
       remove_local_properties
 
       if @custom_module
-        DryrunUtils.execute("#{builder} clean :#{@custom_module}:installDebug")
+        DryrunUtils.execute("#{builder} clean")
+        DryrunUtils.execute("#{builder} :#{@custom_module}:install#{@flavour}Debug")
       else
-        DryrunUtils.execute("#{builder} clean installDebug")
+        DryrunUtils.execute("#{builder} clean")
+        puts "#{builder} install#{@flavour}Debug"
+        DryrunUtils.execute("#{builder} install#{@flavour}Debug")
       end
 
       clear_app_data
@@ -136,7 +142,7 @@ module DryRun
     end
 
     def clear_app_data
-      DryrunUtils.execute(get_clear_app_command)
+      system(get_clear_app_command)
     end
 
     def uninstall_application

@@ -23,6 +23,7 @@ Usage: dryrun GITHUB_URL [OPTIONS]
 
 Options
     -m, --module MODULE_NAME         Custom module to run
+    -f, --flavour FLAVOUR            Specifies the flavour (e.g. dev, qa, prod)
     -p, --path PATH                  Custom path to android project
     -h, --help                       Displays help
     -v, --version                    Displays version

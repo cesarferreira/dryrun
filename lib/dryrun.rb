@@ -5,24 +5,39 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
+require 'pry'
 
 module DryRun
   class MainApp
     def initialize(arguments)
-      create_options_parser
+
       @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
+      
+      # defaults
       @app_path = nil
       @custom_module = nil
-      @opt_parser.parse!(arguments)
+      @flavour = ''
+
+      # Parse Options
+      # arguments.push "-h" if arguments.length == 0
 
       unless @url
         puts @opt_parser.help
         exit
       end
+
+      create_options_parser(arguments)
+
+
+      # @opt_parser.parse!(arguments)
+
+      # create_options_parser
+
+      
     end
 
-    def create_options_parser
-      @opt_parser = OptionParser.new do |opts|
+    def create_options_parser(args)
+      args.options do |opts|
         opts.banner = "Usage: dryrun GITHUB_URL [OPTIONS]"
         opts.separator  ''
         opts.separator  "Options"
@@ -30,17 +45,27 @@ module DryRun
         opts.on('-m MODULE_NAME', '--module MODULE_NAME', 'Custom module to run') do |custom_module|
           @custom_module = custom_module
         end
+
+         opts.on('-f', '--flavour FLAVOUR', 'Specifies the flavour (e.g. dev, qa, prod)') do |flavour|
+          @flavour = flavour.capitalize
+          puts "im on the flavour: #{@flavour}"
+        end
+
         opts.on('-p PATH', '--path PATH', 'Custom path to android project') do |app_path|
           @app_path = app_path
         end
+
         opts.on('-h', '--help', 'Displays help') do
           puts opts.help
           exit
         end
+
         opts.on('-v', '--version', 'Displays version') do
           puts DryRun::VERSION
           exit
         end
+        opts.parse!
+
       end
     end
 
@@ -67,7 +92,7 @@ module DryRun
       # clone the repository
       repository_path = github.clone
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 
       # is a valid android project?
       unless android_project.is_valid
