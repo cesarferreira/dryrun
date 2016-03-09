@@ -2,6 +2,7 @@ require 'tmpdir'
 require 'fileutils'
 require 'uri'
 require_relative 'dryrun_utils'
+require 'digest'
 
 module DryRun
 
@@ -12,7 +13,7 @@ module DryRun
     end
 
     def get_destination
-      Digest::MD5.hexdigest(@base_url)
+      Digest::SHA256.hexdigest @base_url
     end
 
     def is_valid

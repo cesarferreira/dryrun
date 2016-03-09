@@ -2,7 +2,6 @@ require 'oga'
 require 'fileutils'
 require 'tempfile'
 require_relative 'dryrun_utils'
-require 'pry'
 
 module DryRun
   class AndroidProject

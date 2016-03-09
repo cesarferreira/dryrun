@@ -5,7 +5,6 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
-require 'pry'
 
 module DryRun
   class MainApp
@@ -18,9 +17,6 @@ module DryRun
       @custom_module = nil
       @flavour = ''
 
-      # Parse Options
-      # arguments.push "-h" if arguments.length == 0
-
       unless @url
         puts @opt_parser.help
         exit
@@ -28,12 +24,6 @@ module DryRun
 
       create_options_parser(arguments)
 
-
-      # @opt_parser.parse!(arguments)
-
-      # create_options_parser
-
-      
     end
 
     def create_options_parser(args)
