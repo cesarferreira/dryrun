@@ -17,13 +17,9 @@ module DryRun
       @custom_module = nil
       @flavour = ''
 
-      unless @url
-        puts @opt_parser.help
-        exit
-      end
-
+      # Parse Options
+      arguments.push "-h" unless @url
       create_options_parser(arguments)
-
     end
 
     def create_options_parser(args)
@@ -38,7 +34,6 @@ module DryRun
 
          opts.on('-f', '--flavour FLAVOUR', 'Specifies the flavour (e.g. dev, qa, prod)') do |flavour|
           @flavour = flavour.capitalize
-          puts "im on the flavour: #{@flavour}"
         end
 
         opts.on('-p PATH', '--path PATH', 'Custom path to android project') do |app_path|
@@ -54,6 +49,7 @@ module DryRun
           puts DryRun::VERSION
           exit
         end
+
         opts.parse!
 
       end
