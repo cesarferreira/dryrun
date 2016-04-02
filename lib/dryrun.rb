@@ -16,6 +16,7 @@ module DryRun
       @app_path = nil
       @custom_module = nil
       @flavour = ''
+      @tag = nil
 
       # Parse Options
       arguments.push "-h" unless @url
@@ -24,7 +25,7 @@ module DryRun
 
     def create_options_parser(args)
       args.options do |opts|
-        opts.banner = "Usage: dryrun GITHUB_URL [OPTIONS]"
+        opts.banner = "Usage: dryrun GIT_URL [OPTIONS]"
         opts.separator  ''
         opts.separator  "Options"
 
@@ -40,12 +41,16 @@ module DryRun
           @app_path = app_path
         end
 
+        opts.on('-t TAG', '--tag TAG', 'Specifies a custom tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")') do |tag|
+          @tag = tag
+        end
+
         opts.on('-h', '--help', 'Displays help') do
           puts opts.help
           exit
         end
 
-        opts.on('-v', '--version', 'Displays version') do
+        opts.on('-v', '--version', 'Displays the version') do
           puts DryRun::VERSION
           exit
         end
@@ -71,12 +76,12 @@ module DryRun
       github = Github.new(@url)
 
       unless github.is_valid
-        puts "#{@url.red} is not a valid github @url"
+        puts "#{@url.red} is not a valid git @url"
         exit 1
       end
 
       # clone the repository
-      repository_path = github.clone
+      repository_path = github.clone @tag
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 

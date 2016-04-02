@@ -46,13 +46,18 @@ module DryRun
     ##
     ## CLONE THE REPOSITORY
     ##
-    def clone
+    def clone(tag)
       clonable = self.clonable_url
 
       tmpdir = Dir.tmpdir+"/dryrun/#{@destination}"
       FileUtils.rm_rf(tmpdir)
 
       DryrunUtils.execute("git clone #{clonable} #{tmpdir}")
+
+      if tag
+        Dir.chdir tmpdir
+        DryrunUtils.execute("git checkout #{tag} -b #{tag}")
+      end
 
       tmpdir
     end
