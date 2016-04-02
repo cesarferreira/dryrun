@@ -4,7 +4,7 @@
 **Try** any **android library** hosted online **directly** from the **command line**
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v3.gif" width="100%" />
+<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v4.gif" width="100%" />
 </p>
 
 ## Usage
