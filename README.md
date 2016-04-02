@@ -3,10 +3,8 @@
 
 **Try** any **android library** hosted online **directly** from the **command line**
 
-> A dry run is a testing process where the effects of a possible failure are intentionally mitigated. For example, an aerospace company may conduct a "dry run" test of a jet's new pilot ejection seat while the jet is parked on the ground, rather than while it is in flight.
-
 <p align="center">
-<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v2.gif" width="100%" />
+<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v3.gif" width="100%" />
 </p>
 
 ## Usage
@@ -25,7 +23,7 @@ Options
     -m, --module MODULE_NAME         Custom module to run
     -f, --flavour FLAVOUR            Specifies the flavour (e.g. dev, qa, prod)
     -p, --path PATH                  Custom path to android project
-    -t, --tag TAG                    Specifies a custom tag to clone (e.g. "v0.4.5", "6f7dd4b")
+    -t, --tag TAG                    Specifies a custom tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")
     -h, --help                       Displays help
     -v, --version                    Displays version
 ```
