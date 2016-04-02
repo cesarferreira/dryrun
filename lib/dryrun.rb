@@ -97,7 +97,7 @@ module DryRun
       # clean and install the apk
       android_project.install
 
-      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.yellow}\n\n"
+      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.red}\n\n"
     end
   end
 end

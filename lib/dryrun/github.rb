@@ -50,13 +50,28 @@ module DryRun
       clonable = self.clonable_url
 
       tmpdir = Dir.tmpdir+"/dryrun/#{@destination}"
-      FileUtils.rm_rf(tmpdir)
+      folder_exists = File.directory?(tmpdir)
+      
+      if folder_exists
+        Dir.chdir tmpdir
+        is_git_repo = system("git rev-parse")
+        
+        if !is_git_repo
+          FileUtils.rm_rf(tmpdir)  
+          DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
+        else
+          DryrunUtils.execute("git reset --hard HEAD")
+          DryrunUtils.execute("git checkout master")
+          DryrunUtils.execute("git pull origin master")
+        end
 
-      DryrunUtils.execute("git clone #{clonable} #{tmpdir}")
+      else
+        DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
+      end
 
       if tag
         Dir.chdir tmpdir
-        DryrunUtils.execute("git checkout #{tag} -b #{tag}")
+        DryrunUtils.execute("git checkout #{tag}")
       end
 
       tmpdir
