@@ -61,6 +61,7 @@ module DryRun
           DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
         else
           DryrunUtils.execute("git reset --hard HEAD")
+          DryrunUtils.execute("git fetch --all")
           DryrunUtils.execute("git checkout master")
           DryrunUtils.execute("git pull origin master")
         end
