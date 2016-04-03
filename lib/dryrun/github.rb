@@ -60,6 +60,7 @@ module DryRun
           FileUtils.rm_rf(tmpdir)  
           DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
         else
+          puts "Found project in #{tmpdir.green}..."
           DryrunUtils.execute("git reset --hard HEAD")
           DryrunUtils.execute("git fetch --all")
           DryrunUtils.execute("git checkout master")

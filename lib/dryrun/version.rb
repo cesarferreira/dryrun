@@ -1,3 +1,3 @@
 module DryRun
-  VERSION = '0.5.9'
+  VERSION = '0.6.1'
 end
