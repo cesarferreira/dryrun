@@ -46,7 +46,7 @@ module DryRun
     ##
     ## CLONE THE REPOSITORY
     ##
-    def clone(tag)
+    def clone(branch, tag)
       clonable = self.clonable_url
 
       tmpdir = Dir.tmpdir+"/dryrun/#{@destination}"
@@ -59,12 +59,13 @@ module DryRun
         if !is_git_repo
           FileUtils.rm_rf(tmpdir)  
           DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
+          DryrunUtils.execute("git checkout #{branch}")
         else
           puts "Found project in #{tmpdir.green}..."
           DryrunUtils.execute("git reset --hard HEAD")
           DryrunUtils.execute("git fetch --all")
-          DryrunUtils.execute("git checkout master")
-          DryrunUtils.execute("git pull origin master")
+          DryrunUtils.execute("git checkout #{branch}")
+          DryrunUtils.execute("git pull origin #{branch}")
         end
 
       else

@@ -21,11 +21,12 @@ Usage: dryrun GIT_URL [OPTIONS]
 
 Options
     -m, --module MODULE_NAME         Custom module to run
-    -f, --flavour FLAVOUR            Specifies the flavour (e.g. dev, qa, prod)
+    -b, --branch BRANCH_NAME         Checkout custom branch to run
+    -f, --flavour FLAVOUR            Custom flavour (e.g. dev, qa, prod)
     -p, --path PATH                  Custom path to android project
-    -t, --tag TAG                    Specifies a custom tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")
+    -t, --tag TAG                    Checkout tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")
     -h, --help                       Displays help
-    -v, --version                    Displays version
+    -v, --version                    Displays the version
 ```
 
 ## Installation

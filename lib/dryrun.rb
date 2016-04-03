@@ -17,6 +17,7 @@ module DryRun
       @custom_module = nil
       @flavour = ''
       @tag = nil
+      @branch = "master"
 
       # Parse Options
       arguments.push "-h" unless @url
@@ -33,7 +34,11 @@ module DryRun
           @custom_module = custom_module
         end
 
-         opts.on('-f', '--flavour FLAVOUR', 'Specifies the flavour (e.g. dev, qa, prod)') do |flavour|
+        opts.on('-b BRANCH_NAME', '--branch BRANCH_NAME', 'Checkout custom branch to run') do |branch|
+          @branch = branch
+        end
+
+        opts.on('-f', '--flavour FLAVOUR', 'Custom flavour (e.g. dev, qa, prod)') do |flavour|
           @flavour = flavour.capitalize
         end
 
@@ -41,7 +46,7 @@ module DryRun
           @app_path = app_path
         end
 
-        opts.on('-t TAG', '--tag TAG', 'Specifies a custom tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")') do |tag|
+        opts.on('-t TAG', '--tag TAG', 'Checkout tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")') do |tag|
           @tag = tag
         end
 
@@ -68,7 +73,7 @@ module DryRun
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
@@ -81,7 +86,7 @@ module DryRun
       end
 
       # clone the repository
-      repository_path = github.clone @tag
+      repository_path = github.clone(@branch, @tag)
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 
