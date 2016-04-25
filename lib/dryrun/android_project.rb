@@ -11,7 +11,7 @@ module DryRun
       @custom_module = custom_module
       @base_path = path
       @flavour = flavour
-      
+
       @settings_gradle_path = settings_gradle_file
 
       check_custom_app_path
@@ -82,7 +82,9 @@ module DryRun
       builder = "gradle"
 
       if File.exist?('gradlew')
-        DryrunUtils.execute('chmod +x gradlew')
+        if !Gem.win_platform?
+          DryrunUtils.execute('chmod +x gradlew')
+        end
 
         builder = './gradlew'
       end
