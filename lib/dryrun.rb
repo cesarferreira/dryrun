@@ -11,7 +11,7 @@ module DryRun
     def initialize(arguments)
 
       @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
-      
+
       # defaults
       @app_path = nil
       @custom_module = nil
@@ -102,7 +102,7 @@ module DryRun
       # clean and install the apk
       android_project.install
 
-      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.red}\n\n"
+      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.yellow}\n\n"
     end
   end
 end
