@@ -189,7 +189,7 @@ module DryRun
         intent_filter = child.css('intent-filter')
 
         if intent_filter != nil and intent_filter.length != 0
-          return child.xpath("//activity").attr("android:name").last.value
+          return child.attr("android:name").value
         end
       end
       false
