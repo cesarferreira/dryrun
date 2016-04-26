@@ -1,6 +1,7 @@
 require 'oga'
 require 'fileutils'
 require 'tempfile'
+require 'find'
 require_relative 'dryrun_utils'
 
 module DryRun
@@ -152,15 +153,13 @@ module DryRun
     end
 
     def get_execution_line_command(path_to_sample)
-      path_to_manifest = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
+      manifest_file = get_manifest(path_to_sample) 
 
-      if !File.exist?(path_to_manifest)
+      if manifest_file.nil?
         return false
       end
 
-      f = File.open(path_to_manifest)
-
-      doc = Oga.parse_xml(f)
+      doc = Oga.parse_xml(manifest_file)
 
       @package = get_package(doc)
       @launcher_activity = get_launcher_activity(doc)
@@ -169,9 +168,20 @@ module DryRun
         return false
       end
 
-      f.close
+      manifest_file.close
 
       "adb shell am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+    end
+
+    def get_manifest(path_to_sample)
+      default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
+      if File.exist?(default_path)
+        return File.open(default_path)
+      else
+        Find.find(path_to_sample) do |path|
+          return File.open(path) if path =~ /.*AndroidManifest.xml$/
+        end
+      end
     end
 
     def get_launchable_activity
