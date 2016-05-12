@@ -5,11 +5,12 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
+require "highline/import"
 
 module DryRun
   class MainApp
     def initialize(arguments)
-
+      outdated_verification
       @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
@@ -63,6 +64,25 @@ module DryRun
         opts.parse!
 
       end
+    end
+
+    def outdated_verification
+      is_up_to_date = DryrunUtils.is_up_to_date
+
+      if is_up_to_date
+        return
+      end
+
+      input = nil
+
+      begin
+          input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'Y/n/s:'.green}"
+      end while !['y', 'n', 's'].include?(input.downcase)
+
+      if input.downcase.eql? 'y'
+        DryrunUtils.execute('gem update dryrun')
+      end
+
     end
 
     def android_home_is_defined

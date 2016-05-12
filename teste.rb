@@ -17,4 +17,4 @@ def am_I_updated
   latest.eql? DryRun::VERSION
 end
 
-puts am_I_updated
+# puts am_I_updated
