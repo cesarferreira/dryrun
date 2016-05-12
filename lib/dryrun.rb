@@ -66,7 +66,11 @@ module DryRun
     end
 
     def android_home_is_defined
-      sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+      if !Gem.win_platform?
+        sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+      else
+        sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
+      end
       !sdk.empty?
     end
 
