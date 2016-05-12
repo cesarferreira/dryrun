@@ -36,8 +36,9 @@ module DryRun
       file_name = 'local.properties'
 
       File.delete(file_name) if File.exist?(file_name)
-
-      DryrunUtils.execute("touch #{file_name}")
+      if !Gem.win_platform?
+        DryrunUtils.execute("touch #{file_name}")
+      end
     end
 
     def remove_application_id
@@ -47,7 +48,10 @@ module DryRun
       file = "#{@path_to_sample}/build.gradle"
 
       # Write good lines to temporary file
-      open(file, 'r').each { |l| tmp << l unless l.include? 'applicationId' }
+      File.open(file, 'r') do |file|
+        file.each do |l| tmp << l unless l.include? 'applicationId'
+        end
+      end
       tmp.close
 
       # Move temp file to origin
@@ -85,8 +89,9 @@ module DryRun
       if File.exist?('gradlew')
         if !Gem.win_platform?
           DryrunUtils.execute('chmod +x gradlew')
+        else
+          DryrunUtils.execute("icacls gradlew /T")
         end
-
         builder = './gradlew'
       end
 
@@ -153,7 +158,7 @@ module DryRun
     end
 
     def get_execution_line_command(path_to_sample)
-      manifest_file = get_manifest(path_to_sample) 
+      manifest_file = get_manifest(path_to_sample)
 
       if manifest_file.nil?
         return false
@@ -190,19 +195,19 @@ module DryRun
     end
 
     def get_package(doc)
-       doc.xpath("//manifest").attr('package').first.value
-    end
+     doc.xpath("//manifest").attr('package').first.value
+   end
 
-    def get_launcher_activity(doc)
-      activities = doc.css('activity')
-      activities.each do |child|
-        intent_filter = child.css('intent-filter')
+   def get_launcher_activity(doc)
+    activities = doc.css('activity')
+    activities.each do |child|
+      intent_filter = child.css('intent-filter')
 
-        if intent_filter != nil and intent_filter.length != 0
-          return child.attr("android:name").value
-        end
+      if intent_filter != nil and intent_filter.length != 0
+        return child.attr("android:name").value
       end
-      false
     end
+    false
   end
+end
 end
