@@ -95,6 +95,7 @@ module DryRun
         sdk = sdk + "/platform-tools/adb.exe"
       end
 
+      puts "Searching for devices..."
       adb = AdbSdkLib::Adb.new(sdk)
       devices = adb.devices;
 

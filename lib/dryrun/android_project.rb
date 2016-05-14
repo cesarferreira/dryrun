@@ -115,10 +115,9 @@ module DryRun
       clear_app_data
 
       puts "Installing #{@package.green}...\n"
-      puts "executing: #{execute_line.green}\n\n"
+      puts "executing: #{execute_line.green}\n"
 
-      execute_line
-
+      @device.shell("#{execute_line}")
     end
 
     def is_gradle_wrapped
@@ -143,20 +142,16 @@ module DryRun
       [false, false]
     end
 
-    def get_clear_app_command
-      @device.shell("pm clear #{@package}")
-    end
-
     def get_uninstall_command
-       @device.shell("pm uninstall #{@package}")
+       "adb uninstall \"#{@package}\""
     end
 
     def clear_app_data
-      get_clear_app_command
+       @device.shell("pm clear #{@package}")
     end
 
     def uninstall_application
-      get_uninstall_command # > /dev/null 2>&1")
+      @device.shell("pm uninstall #{@package}")
     end
 
     def get_execution_line_command(path_to_sample)
@@ -177,7 +172,7 @@ module DryRun
 
       manifest_file.close
 
-      @device.shell("am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER")
+      return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
     def get_manifest(path_to_sample)
