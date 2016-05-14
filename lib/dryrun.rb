@@ -95,19 +95,20 @@ module DryRun
         sdk = sdk + "/platform-tools/adb.exe"
       end
 
-      puts "Searching for devices..."
+      puts "Searching for devices...".yellow
       adb = AdbSdkLib::Adb.new(sdk)
       devices = adb.devices;
 
       if devices.empty?
-        puts "No devices attached, please attach a device and run again."
-        exit
+        puts "No devices attached, but I'll run anyway"
       end
+
+      @device = nil
 
       if devices.size >= 2
         puts "Pick your device (1,2,3...):"
 
-        devices.each_with_index.map {|key, index| puts " #{index} -  #{key} \n"}
+        devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key} \n"}
 
         a = gets.chomp
 
@@ -120,7 +121,7 @@ module DryRun
         @device = devices.first
       end
 
-      puts "Device picked is #{@device}"
+      puts "Picked #{@device.to_s.green}" if @device
     end
 
 
