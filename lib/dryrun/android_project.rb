@@ -1,3 +1,4 @@
+require 'adb-sdklib'
 require 'oga'
 require 'fileutils'
 require 'tempfile'
@@ -6,12 +7,13 @@ require_relative 'dryrun_utils'
 
 module DryRun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour)
+    def initialize(path, custom_app_path, custom_module, flavour, device)
 
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = path
       @flavour = flavour
+      @device = device
 
       @settings_gradle_path = settings_gradle_file
 
@@ -113,10 +115,9 @@ module DryRun
       clear_app_data
 
       puts "Installing #{@package.green}...\n"
-      puts "executing: #{execute_line.green}\n\n"
+      puts "executing: #{execute_line.green}\n"
 
-      DryrunUtils.execute(execute_line)
-
+      @device.shell("#{execute_line}")
     end
 
     def is_gradle_wrapped
@@ -141,20 +142,16 @@ module DryRun
       [false, false]
     end
 
-    def get_clear_app_command
-      "adb shell pm clear #{@package}"
-    end
-
     def get_uninstall_command
-      "adb uninstall #{@package}"
+       "adb uninstall \"#{@package}\""
     end
 
     def clear_app_data
-      system(get_clear_app_command)
+       @device.shell("pm clear #{@package}")
     end
 
     def uninstall_application
-      DryrunUtils.execute(get_uninstall_command) # > /dev/null 2>&1")
+      @device.shell("pm uninstall #{@package}")
     end
 
     def get_execution_line_command(path_to_sample)
@@ -175,7 +172,7 @@ module DryRun
 
       manifest_file.close
 
-      "adb shell am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+      return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
     def get_manifest(path_to_sample)

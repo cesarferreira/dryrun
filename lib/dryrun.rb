@@ -1,3 +1,4 @@
+require 'adb-sdklib'
 require 'optparse'
 require 'colorize'
 require 'tmpdir'
@@ -76,7 +77,7 @@ module DryRun
       input = nil
 
       begin
-          input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'Y/n/s:'.green}"
+        input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'Y/n/s:'.green}"
       end while !['y', 'n', 's'].include?(input.downcase)
 
       if input.downcase.eql? 'y'
@@ -84,6 +85,45 @@ module DryRun
       end
 
     end
+
+    def pick_device()
+      if !Gem.win_platform?
+        sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+        sdk = sdk + "/platform-tools/adb";
+      else
+        sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
+        sdk = sdk + "/platform-tools/adb.exe"
+      end
+
+      puts "Searching for devices...".yellow
+      adb = AdbSdkLib::Adb.new(sdk)
+      devices = adb.devices;
+
+      if devices.empty?
+        puts "No devices attached, but I'll run anyway"
+      end
+
+      @device = nil
+
+      if devices.size >= 2
+        puts "Pick your device (1,2,3...):"
+
+        devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key} \n"}
+
+        a = gets.chomp
+
+        if a.match(/^\d+$/) && a.to_i <= (devices.length - 1) && a.to_i >= 0
+          @device = devices.to_a.at((a.to_i))[1]
+        else
+          @device = devices.first
+        end
+      else
+        @device = devices.first
+      end
+
+      puts "Picked #{@device.to_s.green}" if @device
+    end
+
 
     def android_home_is_defined
       if !Gem.win_platform?
@@ -102,6 +142,8 @@ module DryRun
         exit 1
       end
 
+      pick_device()
+
       github = Github.new(@url)
 
       unless github.is_valid
@@ -112,7 +154,7 @@ module DryRun
       # clone the repository
       repository_path = github.clone(@branch, @tag)
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
       # is a valid android project?
       unless android_project.is_valid
