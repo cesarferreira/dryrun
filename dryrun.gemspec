@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'colorize',  '~> 0.7'
   spec.add_dependency 'oga',  '~> 1.3.1'
   spec.add_dependency 'highline', '~> 1.7'
-  spec.add_dependency 'adb-sdklib'
+  spec.add_dependency 'adb-sdklib', '~> 0.0.3'
+  spec.add_dependency 'rjb', '>= 1.5.4'
 
 end
