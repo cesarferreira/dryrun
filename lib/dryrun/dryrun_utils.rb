@@ -19,9 +19,16 @@ module DryRun
 		  url = 'https://raw.githubusercontent.com/cesarferreira/dryrun/master/lib/dryrun/version.rb'
 		  page_string = nil
 
-		  open(url) do |f|
-		    page_string = f.read
-		  end
+      if Gem.win_platform?
+				open(url, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) do |f|
+			    page_string = f.read
+			  end
+			else
+				open(url) do |f|
+			    page_string = f.read
+			  end
+      end
+
 
 		  page_string[/#{Regexp.escape('\'')}(.*?)#{Regexp.escape('\'')}/m, 1]
 		end
