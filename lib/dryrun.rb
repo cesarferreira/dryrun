@@ -77,7 +77,7 @@ module DryRun
       input = nil
 
       begin
-        input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'Y/n/s:'.green}"
+        input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
       end while !['y', 'n', 's'].include?(input.downcase)
 
       if input.downcase.eql? 'y'
