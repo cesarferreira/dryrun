@@ -7,6 +7,7 @@ require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
 require "highline/import"
+require 'openssl'
 
 module DryRun
   class MainApp
