@@ -16,6 +16,7 @@ module DryRun
       @device = device
 
       @settings_gradle_path = settings_gradle_file
+      @main_gradle_file = main_gradle_file
 
       check_custom_app_path
 
@@ -64,8 +65,12 @@ module DryRun
       File.join(path, 'settings.gradle')
     end
 
-    def is_valid(settings_path = @settings_gradle_path)
-      File.exist?(settings_path)
+    def main_gradle_file(path = @base_path)
+      File.join(path, 'build.gradle')
+    end
+
+    def is_valid(main_gradle_file = @main_gradle_file)
+      File.exist?(main_gradle_file)
     end
 
     def find_modules
