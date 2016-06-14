@@ -11,7 +11,7 @@ module DryRun
 
       @custom_app_path = custom_app_path
       @custom_module = custom_module
-      @base_path = path
+      @base_path = @custom_app_path? File.join(path, @custom_app_path) : path
       @flavour = flavour
       @device = device
 
@@ -26,11 +26,14 @@ module DryRun
     def check_custom_app_path
       return unless @custom_app_path
 
-      full_custom_path = File.join(@base_path, @custom_app_path)
+      full_custom_path = @base_path
       settings_path = settings_gradle_file(full_custom_path)
-      return unless is_valid(settings_path)
+      main_gradle_path = main_gradle_file(full_custom_path)
+      return unless is_valid(main_gradle_path)
 
       @settings_gradle_path = settings_path
+      @main_gradle_file = main_gradle_file
+
       @base_path = full_custom_path
     end
 

@@ -29,13 +29,12 @@ module DryRun
 			  end
       end
 
-
 		  page_string[/#{Regexp.escape('\'')}(.*?)#{Regexp.escape('\'')}/m, 1]
 		end
 
 		def self.is_up_to_date
 		  latest = get_latest_version
-		  latest.eql? DryRun::VERSION
+		  latest.to_s <= DryRun::VERSION.to_s
 		end
 	end
 end

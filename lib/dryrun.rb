@@ -83,6 +83,7 @@ module DryRun
 
       if input.downcase.eql? 'y'
         DryrunUtils.execute('gem update dryrun')
+
       end
 
     end
@@ -142,6 +143,8 @@ module DryRun
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
+
+      @url = @url.split("?").first
 
       pick_device()
 
