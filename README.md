@@ -69,5 +69,13 @@ Options
 10. Delete the `project folder` and the `zip file` when you don't want it anymore
 
 ## Contributing
+I welcome and encourage all pull requests. It usually will take me within 24-48 hours to respond to any issue or request. Here are some basic rules to follow to ensure timely addition of your request:
+  1. Match coding style (braces, spacing, etc.) This is best achieved using `CMD`+`Option`+`L` (Reformat code) on Mac (not sure for Windows) with Android Studio defaults.
+  2. If its a feature, bugfix, or anything please only change code to what you specify.
+  3. Please keep PR titles easy to read and descriptive of changes, this will make them easier to merge :)
+  4. Pull requests _must_ be made against `develop` branch. Any other branch (unless specified by the maintainers) will get rejected.
+  5. Check for existing [issues](https://github.com/cesarferreira/dryrun/issues) first, before filing an issue.  
+  6. Have fun!
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/cesarferreira/dryrun.
+### Created & Maintained By
+[Cesar Ferreira](https://github.com/cesarferreira) ([@cesarmcferreira](https://www.twitter.com/cesarmcferreira))
