@@ -1,6 +1,6 @@
-**Try** any **android library** hosted online **directly** from the **command line**
-
 ![Image](extras/logo.png)
+
+**Try** any **android library** hosted online **directly** from the **command line**
 
 
 ### Specs
