@@ -1,10 +1,23 @@
-# dryrun 
+![Image](extras/logo.png)
+
+
+### Specs
 [![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
+
+### Featured in
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dryrun-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2361)
+ [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23200-blue.svg)](http://androidweekly.net/issues/issue-200)
+
+### Show some :heart:
+[![GitHub stars](https://img.shields.io/github/stars/cesarferreira/dryrun.svg?style=social&label=Star)](https://github.com/cesarferreira/dryrun) [![GitHub forks](https://img.shields.io/github/forks/cesarferreira/dryrun.svg?style=social&label=Fork)](https://github.com/cesarferreira/dryrun/fork) [![GitHub watchers](https://img.shields.io/github/watchers/cesarferreira/dryrun.svg?style=social&label=Watch)](https://github.com/cesarferreira/dryrun) [![GitHub followers](https://img.shields.io/github/followers/cesarferreira.svg?style=social&label=Follow)](https://github.com/cesarferreira/dryrun)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/cesarmcferreira.svg?style=social)](https://twitter.com/cesarmcferreira)
+
+
 
 **Try** any **android library** hosted online **directly** from the **command line**
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/usage_v4.gif" width="100%" />
+<img src="extras/usage_v4.gif" width="100%" />
 </p>
 
 ## Usage
