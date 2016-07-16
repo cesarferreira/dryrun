@@ -1,5 +1,7 @@
 ![Image](extras/logo.png)
 
+**Try** any **android library** hosted online **directly** from the **command line**
+
 
 ### Specs
 [![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun) [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
@@ -13,17 +15,13 @@
 [![Twitter Follow](https://img.shields.io/twitter/follow/cesarmcferreira.svg?style=social)](https://twitter.com/cesarmcferreira)
 
 
-
-**Try** any **android library** hosted online **directly** from the **command line**
-
-<p align="center">
-<img src="extras/usage_v4.gif" width="100%" />
-</p>
-
 ## Usage
 ```bash
 dryrun https://github.com/cesarferreira/android-helloworld
 ```
+<p align="center">
+<img src="extras/usage_v4.gif" width="100%" />
+</p>
 
 Wait a few seconds and the app is now opened on your phone :smiley:
 
