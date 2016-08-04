@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'dryrun/version'
 
-module DryRun
+module Dryrun
 	class DryrunUtils
 
 		def self.execute(command)
@@ -34,7 +34,7 @@ module DryRun
 
 		def self.is_up_to_date
 		  latest = get_latest_version
-		  latest.to_s <= DryRun::VERSION.to_s
+		  latest.to_s <= Dryrun::VERSION.to_s
 		end
 	end
 end

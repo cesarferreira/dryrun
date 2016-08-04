@@ -4,10 +4,13 @@ require 'uri'
 require_relative 'dryrun_utils'
 require 'digest'
 
-module DryRun
+module Dryrun
 
   class Github
     def initialize(url)
+      url = url.split("?").first
+      url.chop! if url.end_with? '/'
+
       @base_url = url
       @destination = get_destination
     end

@@ -5,7 +5,7 @@ require 'tempfile'
 require 'find'
 require_relative 'dryrun_utils'
 
-module DryRun
+module Dryrun
   class AndroidProject
     def initialize(path, custom_app_path, custom_module, flavour, device)
 

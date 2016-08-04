@@ -10,7 +10,7 @@ require 'dryrun/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "dryrun"
-  spec.version       = DryRun::VERSION
+  spec.version       = Dryrun::VERSION
   spec.authors       = ["cesar ferreira"]
   spec.email         = ["cesar.manuel.ferreira@gmail.com"]
 

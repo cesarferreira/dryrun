@@ -9,10 +9,12 @@ require 'dryrun/android_project'
 require "highline/import"
 require 'openssl'
 
-module DryRun
+module Dryrun
   class MainApp
     def initialize(arguments)
+      
       outdated_verification
+      
       @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
@@ -59,7 +61,7 @@ module DryRun
         end
 
         opts.on('-v', '--version', 'Displays the version') do
-          puts DryRun::VERSION
+          puts Dryrun::VERSION
           exit
         end
 
@@ -145,6 +147,8 @@ module DryRun
       end
 
       @url = @url.split("?").first
+      @url.chop! if @url.end_with? '/'
+
 
       pick_device()
 
