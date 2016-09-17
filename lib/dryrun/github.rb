@@ -77,6 +77,7 @@ module Dryrun
 
       if tag
         Dir.chdir tmpdir
+        DryrunUtils.execute("git fetch --depth=10000")
         DryrunUtils.execute("git checkout #{tag}")
       end
 
