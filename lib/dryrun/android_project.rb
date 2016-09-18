@@ -7,13 +7,12 @@ require_relative 'dryrun_utils'
 
 module Dryrun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour, device)
+    def initialize(path, custom_app_path, custom_module, flavour)
 
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = @custom_app_path? File.join(path, @custom_app_path) : path
       @flavour = flavour
-      @device = device
 
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
@@ -125,7 +124,7 @@ module Dryrun
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n"
 
-      @device.shell("#{execute_line}")
+      DryrunUtils.run_adb("#{execute_line}")
     end
 
     def is_gradle_wrapped
@@ -155,11 +154,11 @@ module Dryrun
     end
 
     def clear_app_data
-       @device.shell("pm clear #{@package}")
+       DryrunUtils.run_adb("shell pm clear #{@package}")
     end
 
     def uninstall_application
-      @device.shell("pm uninstall #{@package}")
+        DryrunUtils.run_adb("shell pm uninstall #{@package}")
     end
 
     def get_execution_line_command(path_to_sample)

@@ -1,4 +1,3 @@
-require 'adb-sdklib'
 require 'optparse'
 require 'colorize'
 require 'tmpdir'
@@ -8,13 +7,15 @@ require 'dryrun/version'
 require 'dryrun/android_project'
 require "highline/import"
 require 'openssl'
+require 'open3'
+require_relative 'dryrun/device'
 
 module Dryrun
   class MainApp
     def initialize(arguments)
-      
+
       outdated_verification
-      
+
       @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
@@ -23,6 +24,7 @@ module Dryrun
       @flavour = ''
       @tag = nil
       @branch = "master"
+      @devices = Array.new
 
       # Parse Options
       arguments.push "-h" unless @url
@@ -92,77 +94,105 @@ module Dryrun
 
     def pick_device()
       if !Gem.win_platform?
-        sdk = `echo $ANDROID_HOME`.gsub("\n",'')
-        sdk = sdk + "/platform-tools/adb";
+        @@sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+        @@sdk = @@sdk + "/platform-tools/adb";
       else
-        sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
-        sdk = sdk + "/platform-tools/adb.exe"
+        @@sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
+        @@sdk = @@sdk + "/platform-tools/adb.exe"
       end
 
       puts "Searching for devices...".yellow
-      adb = AdbSdkLib::Adb.new(sdk)
-      devices = adb.devices;
 
-      if devices.empty?
+      run_adb("devices")
+
+      if @devices.empty?
         puts "No devices attached, but I'll run anyway"
       end
 
-      @device = nil
+      @@device = nil
 
-      if devices.size >= 2
+      if @devices.size >= 2
         puts "Pick your device (1,2,3...):"
 
-        devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key} \n"}
+        @devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key.name} \n"}
 
         a = gets.chomp
 
-        if a.match(/^\d+$/) && a.to_i <= (devices.length - 1) && a.to_i >= 0
-          @device = devices.to_a.at((a.to_i))[1]
+        if a.match(/^\d+$/) && a.to_i <= (@devices.length - 1) && a.to_i >= 0
+          @@device = @devices[(a.to_i)]
         else
-          @device = devices.first
+          @@device = @devices.first
         end
       else
-        @device = devices.first
+        @@device = @devices.first
       end
 
-      puts "Picked #{@device.to_s.green}" if @device
+      puts "Picked #{@@device.name.to_s.green}" if @@device != nil
     end
 
-
-    def android_home_is_defined
-      if !Gem.win_platform?
-        sdk = `echo $ANDROID_HOME`.gsub("\n",'')
-      else
-        sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
-      end
-      !sdk.empty?
+    def run_adb(args, adb_opts = {}, &block) # :yields: stdout
+      adb_arg = ""
+      path = "#{@@sdk} #{adb_arg} #{args} "
+      last_command = path
+      run(path, &block)
     end
 
-    def call
-      unless android_home_is_defined
-        puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
-        puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
-        exit 1
+    def run(path, &block)
+      @last_command = path
+      Open3.popen3(path) do |stdin, stdout, stderr, wait_thr|
+       stdout.each do |line|
+        line = line.strip
+        if (!line.empty? && line !~ /^List of devices/)
+          parts = line.split
+          device = AdbDevice::Device.new(parts[0], parts[1])
+          @devices << device
+        end
       end
+    end
+  end
 
-      @url = @url.split("?").first
-      @url.chop! if @url.end_with? '/'
+  def self.getSDK # :yields: stdout
+      @@sdk
+  end
+
+  def self.getDevice # :yields: stdout
+      @@device
+  end
+
+  def android_home_is_defined
+    if !Gem.win_platform?
+      sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+    else
+      sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
+    end
+    !sdk.empty?
+  end
+
+  def call
+    unless android_home_is_defined
+      puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
+      puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+      puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
+      exit 1
+    end
+
+    @url = @url.split("?").first
+    @url.chop! if @url.end_with? '/'
 
 
-      pick_device()
+    pick_device()
 
-      github = Github.new(@url)
+    github = Github.new(@url)
 
-      unless github.is_valid
-        puts "#{@url.red} is not a valid git @url"
-        exit 1
-      end
+    unless github.is_valid
+      puts "#{@url.red} is not a valid git @url"
+      exit 1
+    end
 
       # clone the repository
       repository_path = github.clone(@branch, @tag)
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 
       # is a valid android project?
       unless android_project.is_valid
