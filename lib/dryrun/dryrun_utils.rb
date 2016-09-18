@@ -37,20 +37,19 @@ module Dryrun
 			latest = get_latest_version
 			latest.to_s <= Dryrun::VERSION.to_s
 		end
-	end
 
-	 def run_adb(args, adb_opts = {}, &block) # :yields: stdout
-      adb_arg = ""
-      adb_arg += " -d #{Dryrun.getDevice.id}"
-      path = "#{Dryrun.getSDK} #{adb_arg} #{args} "
-      last_command = path
-      run(path, &block)
-    end
+		def self.run_adb(args, adb_opts = {}, &block) # :yields: stdout
+	      adb_arg = ""
+	      adb_arg += " -d #{Dryrun.getDevice.id}"
+	      path = "#{Dryrun.getSDK} #{adb_arg} #{args} "
+	      last_command = path
+	      run(path, &block)
+	    end
 
-	def run(path, &block)
-		@last_command = path
-		Open3.popen3(path) do |stdin, stdout, stderr, wait_thr|
-
+		def self.run(path, &block)
+			@last_command = path
+			Open3.popen3(path) do |stdin, stdout, stderr, wait_thr|
+			end
 		end
 	end
 end
