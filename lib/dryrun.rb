@@ -131,8 +131,7 @@ module Dryrun
     end
 
     def run_adb(args, adb_opts = {}, &block) # :yields: stdout
-      adb_arg = ""
-      path = "#{@@sdk} #{adb_arg} #{args} "
+      path = "#{@@sdk} #{args}"
       last_command = path
       run(path, &block)
     end

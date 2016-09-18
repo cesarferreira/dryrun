@@ -124,7 +124,7 @@ module Dryrun
       puts "Installing #{@package.green}...\n"
       puts "executing: #{execute_line.green}\n"
 
-      DryrunUtils.run_adb("#{execute_line}")
+      DryrunUtils.run_adb("shell #{execute_line}")
     end
 
     def is_gradle_wrapped
