@@ -61,7 +61,7 @@ module Dryrun
         
         if !is_git_repo
           FileUtils.rm_rf(tmpdir)  
-          DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
+          DryrunUtils.execute("git clone --depth 1 #{clonable} #{tmpdir}")  
           DryrunUtils.execute("git checkout #{branch}")
         else
           puts "Found project in #{tmpdir.green}..."
@@ -72,11 +72,12 @@ module Dryrun
         end
 
       else
-        DryrunUtils.execute("git clone #{clonable} #{tmpdir}")  
+        DryrunUtils.execute("git clone --depth 1 #{clonable} #{tmpdir}")  
       end
 
       if tag
         Dir.chdir tmpdir
+        DryrunUtils.execute("git fetch --depth=10000")
         DryrunUtils.execute("git checkout #{tag}")
       end
 
