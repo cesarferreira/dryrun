@@ -68,7 +68,6 @@ module Dryrun
         end
 
         opts.parse!
-
       end
     end
 
@@ -87,38 +86,37 @@ module Dryrun
 
       if input.downcase.eql? 'y'
         DryrunUtils.execute('gem update dryrun')
-
       end
 
     end
 
-    def pick_device()
+    def pick_device
       @@device = nil
 
       if !Gem.win_platform?
         @@sdk = `echo $ANDROID_HOME`.gsub("\n",'')
-        @@sdk = @@sdk + "/platform-tools/adb";
+        @@sdk = @@sdk + '/platform-tools/adb';
       else
-        @@sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
-        @@sdk = @@sdk + "/platform-tools/adb.exe"
+        @@sdk = `echo %ANDROID_HOME%`.gsub('\n','')
+        @@sdk = @@sdk + '/platform-tools/adb.exe'
       end
 
-      puts "Searching for devices...".yellow
+      puts 'Searching for devices...'.yellow
 
-      @devices = DryrunUtils.run_adb("devices")
+      @devices = DryrunUtils.run_adb('devices')
 
       if @devices == nil || @devices.empty?
-         puts "Killing adb, there might be an issue with it..."
-         DryrunUtils.run_adb("kill-server")
-         @devices = DryrunUtils.run_adb("devices")
+         puts 'Killing adb, there might be an issue with it...'
+         DryrunUtils.run_adb('kill-server')
+         @devices = DryrunUtils.run_adb('devices')
       end
 
       if @devices.empty?
-        puts "No devices attached, but I'll run anyway"
+        puts 'No devices attached, but I\'ll run anyway'
       end
 
       if @devices.size >= 2
-        puts "Pick your device (1,2,3...):"
+        puts 'Pick your device (1,2,3...):'
 
         @devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key.name} \n"}
 

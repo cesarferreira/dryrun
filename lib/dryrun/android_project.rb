@@ -119,7 +119,7 @@ module Dryrun
           puts "#{builder} install#{@flavour}Debug"
           DryrunUtils.execute("#{builder} install#{@flavour}Debug")
         else
-          puts 'No devices picked, proceeding to assemble instead'
+          puts 'No devices picked/available, proceeding with assemble instead'.green
           puts "#{builder} assemble#{@flavour}Debug"
           DryrunUtils.execute("#{builder} assemble#{@flavour}Debug")
         end
