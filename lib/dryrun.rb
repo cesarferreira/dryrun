@@ -93,6 +93,8 @@ module Dryrun
     end
 
     def pick_device()
+      @@device = nil
+
       if !Gem.win_platform?
         @@sdk = `echo $ANDROID_HOME`.gsub("\n",'')
         @@sdk = @@sdk + "/platform-tools/adb";
@@ -103,13 +105,17 @@ module Dryrun
 
       puts "Searching for devices...".yellow
 
-      run_adb("devices")
+      @devices = DryrunUtils.run_adb("devices")
+
+      if @devices == nil || @devices.empty?
+         puts "Killing adb, there might be an issue with it..."
+         DryrunUtils.run_adb("kill-server")
+         @devices = DryrunUtils.run_adb("devices")
+      end
 
       if @devices.empty?
         puts "No devices attached, but I'll run anyway"
       end
-
-      @@device = nil
 
       if @devices.size >= 2
         puts "Pick your device (1,2,3...):"
@@ -130,32 +136,12 @@ module Dryrun
       puts "Picked #{@@device.name.to_s.green}" if @@device != nil
     end
 
-    def run_adb(args, adb_opts = {}, &block) # :yields: stdout
-      path = "#{@@sdk} #{args}"
-      last_command = path
-      run(path, &block)
-    end
-
-    def run(path, &block)
-      @last_command = path
-      Open3.popen3(path) do |stdin, stdout, stderr, wait_thr|
-       stdout.each do |line|
-        line = line.strip
-        if (!line.empty? && line !~ /^List of devices/)
-          parts = line.split
-          device = AdbDevice::Device.new(parts[0], parts[1])
-          @devices << device
-        end
-      end
-    end
-  end
-
   def self.getSDK # :yields: stdout
-      @@sdk
+    @@sdk
   end
 
   def self.getDevice # :yields: stdout
-      @@device
+    @@device
   end
 
   def android_home_is_defined

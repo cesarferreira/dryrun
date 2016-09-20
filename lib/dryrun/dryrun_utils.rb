@@ -39,16 +39,25 @@ module Dryrun
 		end
 
 		def self.run_adb(args, adb_opts = {}, &block) # :yields: stdout
-	      adb_arg = ""
-	      adb_arg += " -s #{Dryrun::MainApp.getDevice.name}"
-	      path = "#{Dryrun::MainApp.getSDK} #{adb_arg} #{args} "
-	      last_command = path
-	      run(path, &block)
-	    end
+			adb_arg = ""
+			if Dryrun::MainApp.getDevice != nil
+				adb_arg += " -s #{Dryrun::MainApp.getDevice.name}"
+			end
+			path = "#{Dryrun::MainApp.getSDK} #{adb_arg} #{args} "
+			return run(path, &block)
+		end
 
 		def self.run(path, &block)
-			@last_command = path
 			Open3.popen3(path) do |stdin, stdout, stderr, wait_thr|
+				devices = Array.new()
+				stdout.each do |line|
+					line = line.strip
+					if (!line.empty? && line !~ /^List of devices/ && !line.start_with?('adb') && !line.start_with?('*'))
+						parts = line.split
+						devices << AdbDevice::Device.new(parts[0], parts[1])
+					end
+				end
+				return devices
 			end
 		end
 	end
