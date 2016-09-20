@@ -52,7 +52,7 @@ module Dryrun
 				devices = Array.new()
 				stdout.each do |line|
 					line = line.strip
-					if (!line.empty? && line !~ /^List of devices/)
+					if (!line.empty? && line !~ /^List of devices/ && !line.start_with?('adb') && !line.start_with?('*'))
 						parts = line.split
 						devices << AdbDevice::Device.new(parts[0], parts[1])
 					end

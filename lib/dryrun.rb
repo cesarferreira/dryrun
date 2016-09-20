@@ -107,6 +107,12 @@ module Dryrun
 
       @devices = DryrunUtils.run_adb("devices")
 
+      if @devices == nil || @devices.empty?
+         puts "Killing adb, there might be an issue with it..."
+         DryrunUtils.run_adb("kill-server")
+         @devices = DryrunUtils.run_adb("devices")
+      end
+
       if @devices.empty?
         puts "No devices attached, but I'll run anyway"
       end
