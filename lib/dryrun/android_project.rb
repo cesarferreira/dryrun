@@ -1,4 +1,3 @@
-require 'adb-sdklib'
 require 'oga'
 require 'fileutils'
 require 'tempfile'
