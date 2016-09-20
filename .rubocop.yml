@@ -2,4 +2,12 @@ Style/Encoding:
   Enabled: false
 
 Metrics/LineLength:
-  Max: 250
+  Enabled: false
+
+
+Metrics/MethodLength:
+  Enabled: false
+
+
+AllCops:
+  TargetRubyVersion: 2.0

@@ -5,7 +5,7 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
-require "highline/import"
+require 'highline/import'
 require 'openssl'
 require 'open3'
 require_relative 'dryrun/device'
@@ -23,19 +23,19 @@ module Dryrun
       @custom_module = nil
       @flavour = ''
       @tag = nil
-      @branch = "master"
+      @branch = 'master'
       @devices = Array.new
 
       # Parse Options
-      arguments.push "-h" unless @url
+      arguments.push '-h' unless @url
       create_options_parser(arguments)
     end
 
     def create_options_parser(args)
       args.options do |opts|
-        opts.banner = "Usage: dryrun GIT_URL [OPTIONS]"
+        opts.banner = 'Usage: dryrun GIT_URL [OPTIONS]'
         opts.separator  ''
-        opts.separator  "Options"
+        opts.separator  'Options'
 
         opts.on('-m MODULE_NAME', '--module MODULE_NAME', 'Custom module to run') do |custom_module|
           @custom_module = custom_module
@@ -94,10 +94,10 @@ module Dryrun
       @@device = nil
 
       if !Gem.win_platform?
-        @@sdk = `echo $ANDROID_HOME`.gsub("\n",'')
+        @@sdk = `echo $ANDROID_HOME`.delete("\n")
         @@sdk = @@sdk + '/platform-tools/adb';
       else
-        @@sdk = `echo %ANDROID_HOME%`.gsub('\n','')
+        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
         @@sdk = @@sdk + '/platform-tools/adb.exe'
       end
 
@@ -120,10 +120,10 @@ module Dryrun
 
         @devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key.name} \n"}
 
-        a = gets.chomp
+        input = gets.chomp
 
-        if a.match(/^\d+$/) && a.to_i <= (@devices.length - 1) && a.to_i >= 0
-          @@device = @devices[(a.to_i)]
+        if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
+          @@device = @devices[(input.to_i)]
         else
           @@device = @devices.first
         end
@@ -134,43 +134,42 @@ module Dryrun
       puts "Picked #{@@device.name.to_s.green}" if @@device != nil
     end
 
-  def self.getSDK # :yields: stdout
-    @@sdk
-  end
-
-  def self.getDevice # :yields: stdout
-    @@device
-  end
-
-  def android_home_is_defined
-    if !Gem.win_platform?
-      sdk = `echo $ANDROID_HOME`.gsub("\n",'')
-    else
-      sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
-    end
-    !sdk.empty?
-  end
-
-  def call
-    unless android_home_is_defined
-      puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-      puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
-      puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
-      exit 1
+    def self.retrieve_SDK # :yields: stdout
+      @@sdk
     end
 
-    @url = @url.split("?").first
-    @url.chop! if @url.end_with? '/'
-
-
-    pick_device()
-
-    github = Github.new(@url)
-
-    unless github.is_valid
-      puts "#{@url.red} is not a valid git @url"
-      exit 1
+    def self.retrieve_device # :yields: stdout
+      @@device
     end
+
+    def android_home_is_defined
+      if !Gem.win_platform?
+        sdk = `echo $ANDROID_HOME`.delete('\n')
+      else
+        sdk = `echo %ANDROID_HOME%`.delete('\n')
+      end
+      !sdk.empty?
+    end
+
+    def call
+      unless android_home_is_defined
+        puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+        puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
+        exit 1
+      end
+
+      @url = @url.split('?').first
+      @url.chop! if @url.end_with? '/'
+
+      pick_device
+
+      github = Github.new(@url)
+
+      unless github.is_valid
+        puts "#{@url.red} is not a valid git @url"
+        exit 1
+      end
 
       # clone the repository
       repository_path = github.clone(@branch, @tag)

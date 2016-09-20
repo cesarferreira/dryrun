@@ -115,7 +115,7 @@ module Dryrun
       else
         DryrunUtils.execute("#{builder} clean")
 
-        if Dryrun::MainApp.getDevice != nil
+        if Dryrun::MainApp.retrieve_device != nil
           puts "#{builder} install#{@flavour}Debug"
           DryrunUtils.execute("#{builder} install#{@flavour}Debug")
         else
@@ -125,7 +125,7 @@ module Dryrun
         end
       end
 
-      if Dryrun::MainApp.getDevice != nil
+      if Dryrun::MainApp.retrieve_device != nil
         clear_app_data
         puts "Installing #{@package.green}...\n"
         puts "executing: #{execute_line.green}\n"

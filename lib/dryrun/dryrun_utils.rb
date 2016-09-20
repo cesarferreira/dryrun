@@ -40,10 +40,10 @@ module Dryrun
 
 		def self.run_adb(args, adb_opts = {}, &block) # :yields: stdout
 			adb_arg = ""
-			if Dryrun::MainApp.getDevice != nil
-				adb_arg += " -s #{Dryrun::MainApp.getDevice.name}"
+			if Dryrun::MainApp.retrieve_device != nil
+				adb_arg += " -s #{Dryrun::MainApp.retrieve_device.name}"
 			end
-			path = "#{Dryrun::MainApp.getSDK} #{adb_arg} #{args} "
+			path = "#{Dryrun::MainApp.retrieve_SDK} #{adb_arg} #{args} "
 			return run(path, &block)
 		end
 
