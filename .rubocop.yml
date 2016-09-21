@@ -4,10 +4,11 @@ Style/Encoding:
 Metrics/LineLength:
   Enabled: false
 
-
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
 
 AllCops:
   TargetRubyVersion: 2.0
