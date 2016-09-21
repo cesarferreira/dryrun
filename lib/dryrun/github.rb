@@ -23,7 +23,7 @@ module Dryrun
        starts_with_http = @base_url.split(//).first(7).join.eql? 'http://'
        starts_with_https = @base_url.split(//).first(8).join.eql? 'https://'
 
-      return (starts_with_git or starts_with_https or starts_with_http)
+      return (starts_with_git || starts_with_https || starts_with_http)
     end
 
     def clonable_url
@@ -31,12 +31,12 @@ module Dryrun
       ends_with_git = @base_url.split(//).last(4).join.eql? '.git'
 
       # ends with git but doesnt start with git
-      if ends_with_git and !starts_with_git
+      if ends_with_git && !starts_with_git
         return @base_url
       end
 
       # ends with git but doesnt start with git
-      if !ends_with_git and !starts_with_git
+      if !ends_with_git && !starts_with_git
         return "#{@base_url}.git"
       end
 
