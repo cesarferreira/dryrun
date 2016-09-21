@@ -27,7 +27,7 @@ describe '#github' do
     it 'is not an url' do
       url = 'asdasdas'
       github = Dryrun::Github.new(url)
-      expect(github.is_valid).to be false
+      expect(github.valid).to be false
     end
   end
 end
