@@ -16,7 +16,7 @@ module Dryrun
 
       outdated_verification
 
-      @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
+      @url = %w(-h --help -v --version).include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
@@ -84,7 +84,7 @@ module Dryrun
         input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
       end until %w(y n s).include?(input.downcase)
 
-      if input.downcase.eql? 'y'
+      if input.casecmp 'y'
         DryrunUtils.execute('gem update dryrun')
       end
     end
