@@ -24,7 +24,7 @@ module Dryrun
       @flavour = ''
       @tag = nil
       @branch = 'master'
-      @devices = Array.new
+      @devices = []
 
       # Parse Options
       arguments.push '-h' unless @url
@@ -82,23 +82,22 @@ module Dryrun
 
       begin
         input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
-      end while !['y', 'n', 's'].include?(input.downcase)
+      end until %w(y n s).include?(input.downcase)
 
       if input.downcase.eql? 'y'
         DryrunUtils.execute('gem update dryrun')
       end
-
     end
 
     def pick_device
-      @@device = nil
+      @device = nil
 
       if !Gem.win_platform?
-        @@sdk = `echo $ANDROID_HOME`.delete("\n")
-        @@sdk += '/platform-tools/adb'
+        @sdk = `echo $ANDROID_HOME`.delete("\n")
+        @sdk += '/platform-tools/adb'
       else
-        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
-        @@sdk += '/platform-tools/adb.exe'
+        @sdk = `echo %ANDROID_HOME%`.delete('\n')
+        @sdk += '/platform-tools/adb.exe'
       end
 
       puts 'Searching for devices...'.yellow
@@ -123,23 +122,23 @@ module Dryrun
         input = gets.chomp
 
         if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
-          @@device = @devices[input.to_i]
+          @device = @devices[input.to_i]
         else
-          @@device = @devices.first
+          @device = @devices.first
         end
       else
-        @@device = @devices.first
+        @device = @devices.first
       end
 
-      puts "Picked #{@@device.name.to_s.green}" unless @@device.nil?
+      puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 
-    def self.retrieve_SDK # :yields: stdout
-      @@sdk
+    def self.retrieve_sdk # :yields: stdout
+      @sdk
     end
 
     def self.retrieve_device # :yields: stdout
-      @@device
+      @device
     end
 
     def android_home_is_defined

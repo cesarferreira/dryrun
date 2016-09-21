@@ -7,6 +7,12 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Enabled: false
 
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodComplexityLength:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 
@@ -15,3 +21,6 @@ Metrics/CyclomaticComplexity:
 
 AllCops:
   TargetRubyVersion: 2.0
+
+Documentation:
+  Enabled: false

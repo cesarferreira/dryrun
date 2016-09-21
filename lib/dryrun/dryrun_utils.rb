@@ -43,7 +43,7 @@ module Dryrun
 			if Dryrun::MainApp.retrieve_device != nil
 				adb_arg += " -s #{Dryrun::MainApp.retrieve_device.name}"
 			end
-			path = "#{Dryrun::MainApp.retrieve_SDK} #{adb_arg} #{args} "
+			path = "#{Dryrun::MainApp.retrieve_sdk} #{adb_arg} #{args} "
 			return run(path, &block)
 		end
 
