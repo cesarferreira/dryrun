@@ -10,5 +10,8 @@ Metrics/MethodLength:
 Metrics/AbcSize:
   Enabled: false
 
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
 AllCops:
   TargetRubyVersion: 2.0

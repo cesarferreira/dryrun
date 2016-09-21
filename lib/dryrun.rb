@@ -95,20 +95,20 @@ module Dryrun
 
       if !Gem.win_platform?
         @@sdk = `echo $ANDROID_HOME`.delete("\n")
-        @@sdk = @@sdk + '/platform-tools/adb';
+        @@sdk += '/platform-tools/adb'
       else
         @@sdk = `echo %ANDROID_HOME%`.delete('\n')
-        @@sdk = @@sdk + '/platform-tools/adb.exe'
+        @@sdk += '/platform-tools/adb.exe'
       end
 
       puts 'Searching for devices...'.yellow
 
       @devices = DryrunUtils.run_adb('devices')
 
-      if @devices == nil || @devices.empty?
-         puts 'Killing adb, there might be an issue with it...'
-         DryrunUtils.run_adb('kill-server')
-         @devices = DryrunUtils.run_adb('devices')
+      if @devices.nil? || @devices.empty?
+        puts 'Killing adb, there might be an issue with it...'
+        DryrunUtils.run_adb('kill-server')
+        @devices = DryrunUtils.run_adb('devices')
       end
 
       if @devices.empty?
@@ -118,12 +118,12 @@ module Dryrun
       if @devices.size >= 2
         puts 'Pick your device (1,2,3...):'
 
-        @devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key.name} \n"}
+        @devices.each_with_index.map { |key, index| puts "#{index.to_s.green} -  #{key.name} \n" }
 
         input = gets.chomp
 
         if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
-          @@device = @devices[(input.to_i)]
+          @@device = @devices[input.to_i]
         else
           @@device = @devices.first
         end
@@ -131,7 +131,7 @@ module Dryrun
         @@device = @devices.first
       end
 
-      puts "Picked #{@@device.name.to_s.green}" if @@device != nil
+      puts "Picked #{@@device.name.to_s.green}" unless @@device.nil?
     end
 
     def self.retrieve_SDK # :yields: stdout
