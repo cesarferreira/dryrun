@@ -25,6 +25,7 @@ module Dryrun
       @tag = nil
       @branch = "master"
       @devices = Array.new
+      @cleanup = false
 
       # Parse Options
       arguments.push "-h" unless @url
@@ -55,6 +56,10 @@ module Dryrun
 
         opts.on('-t TAG', '--tag TAG', 'Checkout tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")') do |tag|
           @tag = tag
+        end
+
+        opts.on('-c', '--cleanup', 'Wipe the temporary folder before cloning the project') do |cleanup|
+          @cleanup = true
         end
 
         opts.on('-h', '--help', 'Displays help') do
@@ -175,7 +180,7 @@ module Dryrun
     end
 
       # clone the repository
-      repository_path = github.clone(@branch, @tag)
+      repository_path = github.clone(@branch, @tag, @cleanup)
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 
