@@ -11,17 +11,17 @@ module Dryrun
       url.chop! if url.end_with? '/'
 
       @base_url = url
-      @destination = get_destination
+      @destination = destination
     end
 
-    def get_destination
+    def destination
       Digest::SHA256.hexdigest @base_url
     end
 
-    def is_valid
-       starts_with_git = @base_url.split(//).first(4).join.eql? 'git@'
-       starts_with_http = @base_url.split(//).first(7).join.eql? 'http://'
-       starts_with_https = @base_url.split(//).first(8).join.eql? 'https://'
+    def valid?
+      starts_with_git = @base_url.split(//).first(4).join.eql? 'git@'
+      starts_with_http = @base_url.split(//).first(7).join.eql? 'http://'
+      starts_with_https = @base_url.split(//).first(8).join.eql? 'https://'
 
       return (starts_with_git || starts_with_https || starts_with_http)
     end
