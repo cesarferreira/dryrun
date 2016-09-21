@@ -157,68 +157,68 @@ module Dryrun
     end
 
     def get_uninstall_command
-     "adb uninstall \"#{@package}\""
-   end
-
-   def clear_app_data
-     DryrunUtils.run_adb("shell pm clear #{@package}")
-   end
-
-   def uninstall_application
-    DryrunUtils.run_adb("shell pm uninstall #{@package}")
-  end
-
-  def get_execution_line_command(path_to_sample)
-    manifest_file = get_manifest(path_to_sample)
-
-    if manifest_file.nil?
-      return false
+      "adb uninstall \"#{@package}\""
     end
 
-    doc = Oga.parse_xml(manifest_file)
-
-    @package = get_package(doc)
-    @launcher_activity = get_launcher_activity(doc)
-
-    if !@launcher_activity
-      return false
+    def clear_app_data
+      DryrunUtils.run_adb("shell pm clear #{@package}")
     end
 
-    manifest_file.close
+    def uninstall_application
+      DryrunUtils.run_adb("shell pm uninstall #{@package}")
+    end
 
-    return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
-  end
+    def get_execution_line_command(path_to_sample)
+      manifest_file = get_manifest(path_to_sample)
 
-  def get_manifest(path_to_sample)
-    default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
-    if File.exist?(default_path)
-      return File.open(default_path)
-    else
-      Find.find(path_to_sample) do |path|
-        return File.open(path) if path =~ /.*AndroidManifest.xml$/
+      if manifest_file.nil?
+        return false
+      end
+
+      doc = Oga.parse_xml(manifest_file)
+
+      @package = get_package(doc)
+      @launcher_activity = get_launcher_activity(doc)
+
+      if !@launcher_activity
+        return false
+      end
+
+      manifest_file.close
+
+      return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+    end
+
+    def get_manifest(path_to_sample)
+      default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
+      if File.exist?(default_path)
+        return File.open(default_path)
+      else
+        Find.find(path_to_sample) do |path|
+          return File.open(path) if path =~ /.*AndroidManifest.xml$/
+        end
       end
     end
-  end
 
-  def get_launchable_activity
-    full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package,'')}"
-    "#{@package}/#{full_path_to_launcher}"
-  end
+    def get_launchable_activity
+      full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package,'')}"
+      "#{@package}/#{full_path_to_launcher}"
+    end
 
-  def get_package(doc)
-   doc.xpath("//manifest").attr('package').first.value
- end
+    def get_package(doc)
+      doc.xpath("//manifest").attr('package').first.value
+    end
 
- def get_launcher_activity(doc)
-  activities = doc.css('activity')
-  activities.each do |child|
-    intent_filter = child.css('intent-filter')
+    def get_launcher_activity(doc)
+      activities = doc.css('activity')
+      activities.each do |child|
+        intent_filter = child.css('intent-filter')
 
-    if intent_filter != nil and intent_filter.length != 0
-      return child.attr("android:name").value
+        if intent_filter != nil and intent_filter.length != 0
+          return child.attr("android:name").value
+        end
+      end
+      false
     end
   end
-  false
-end
-end
 end

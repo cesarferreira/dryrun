@@ -8,4 +8,3 @@ module AdbDevice
     end
   end
 end
-

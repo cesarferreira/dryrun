@@ -93,11 +93,11 @@ module Dryrun
       @device = nil
 
       if !Gem.win_platform?
-        @sdk = `echo $ANDROID_HOME`.delete("\n")
-        @sdk += '/platform-tools/adb'
+        @@sdk = `echo $ANDROID_HOME`.delete("\n")
+        @@sdk += '/platform-tools/adb'
       else
-        @sdk = `echo %ANDROID_HOME%`.delete('\n')
-        @sdk += '/platform-tools/adb.exe'
+        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
+        @@sdk += '/platform-tools/adb.exe'
       end
 
       puts 'Searching for devices...'.yellow
@@ -134,7 +134,7 @@ module Dryrun
     end
 
     def self.retrieve_sdk # :yields: stdout
-      @sdk
+      @@sdk
     end
 
     def self.retrieve_device # :yields: stdout
@@ -143,11 +143,11 @@ module Dryrun
 
     def android_home_is_defined
       if !Gem.win_platform?
-        sdk = `echo $ANDROID_HOME`.delete('\n')
+        @@sdk = `echo $ANDROID_HOME`.delete('\n')
       else
-        sdk = `echo %ANDROID_HOME%`.delete('\n')
+        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
       end
-      !sdk.empty?
+      !@@sdk.empty?
     end
 
     def call
@@ -165,7 +165,7 @@ module Dryrun
 
       github = Github.new(@url)
 
-      unless github.is_valid
+      unless github.valid?
         puts "#{@url.red} is not a valid git @url"
         exit 1
       end
