@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'dryrun/github'
-
 describe '#github' do
   context 'when given github url\'s' do
     it 'is a regular url' do

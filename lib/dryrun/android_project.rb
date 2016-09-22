@@ -1,16 +1,14 @@
-require 'oga'
+﻿require 'oga'
 require 'fileutils'
 require 'tempfile'
 require 'find'
 require_relative 'dryrun_utils'
-
 module Dryrun
   class AndroidProject
     def initialize(path, custom_app_path, custom_module, flavour)
-
       @custom_app_path = custom_app_path
       @custom_module = custom_module
-      @base_path = @custom_app_path? File.join(path, @custom_app_path) : path
+      @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
 
       @settings_gradle_path = settings_gradle_file

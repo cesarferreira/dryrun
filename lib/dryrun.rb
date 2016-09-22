@@ -1,4 +1,4 @@
-require 'optparse'
+﻿require 'optparse'
 require 'colorize'
 require 'tmpdir'
 require 'fileutils'
@@ -13,7 +13,6 @@ require_relative 'dryrun/device'
 module Dryrun
   class MainApp
     def initialize(arguments)
-
       outdated_verification
 
       @url = %w(-h --help -v --version).include?(arguments.first) ? nil : arguments.shift
@@ -72,9 +71,7 @@ module Dryrun
     end
 
     def outdated_verification
-      if DryrunUtils.up_to_date
-        return
-      end
+      return if DryrunUtils.up_to_date
 
       input = nil
 
