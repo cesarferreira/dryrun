@@ -22,7 +22,7 @@ module Dryrun
     def initialize(arguments)
       outdated_verification
 
-      @url = %w(-h --help -v --version -w --wipe).include?(arguments.first) ? nil : arguments.shift=======
+      @url = %w(-h --help -v --version -w --wipe).include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
