@@ -16,7 +16,7 @@ module Dryrun
 
       outdated_verification
 
-      @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
+      @url = ['-h', '--help', '-v', '--version', '-w'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
@@ -28,7 +28,7 @@ module Dryrun
       @cleanup = false
 
       # Parse Options
-      arguments.push "-h" unless @url
+      # arguments.push "-h" unless @url
       create_options_parser(arguments)
     end
 
@@ -58,8 +58,12 @@ module Dryrun
           @tag = tag
         end
 
-        opts.on('-c', '--cleanup', 'Wipe the temporary folder before cloning the project') do |cleanup|
+        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do |cleanup|
           @cleanup = true
+        end
+
+        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do |irrelevant|
+          wipe_temporary_folder
         end
 
         opts.on('-h', '--help', 'Displays help') do
@@ -156,6 +160,13 @@ module Dryrun
       sdk = `echo %ANDROID_HOME%`.gsub("\n",'')
     end
     !sdk.empty?
+  end
+
+  def wipe_temporary_folder
+    tmpdir = Dir.tmpdir + '/dryrun/'
+    puts 'Wiping ' + tmpdir.red
+    FileUtils.rm_rf tmpdir
+    puts 'Folder totally removed!'.green
   end
 
   def call
