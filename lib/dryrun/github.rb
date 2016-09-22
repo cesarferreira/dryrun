@@ -42,14 +42,22 @@ module Dryrun
     ##
     ## CLONE THE REPOSITORY
     ##
-    def clone(branch, tag)
-      clonable = clonable_url
+    def clone(branch, tag, cleanup)
+      clonable = self.clonable_url
 
       tmpdir = Dir.tmpdir + "/dryrun/#{@destination}"
+
+      if cleanup
+        puts 'Wiping the folder: ' + tmpdir.green
+        FileUtils.rm_rf tmpdir
+        # FileUtils.mkdir_p tmpdir
+      end
+
       folder_exists = File.directory?(tmpdir)
 
       if folder_exists
         Dir.chdir tmpdir
+
         is_git_repo = system('git rev-parse')
 
         if !is_git_repo
@@ -63,7 +71,6 @@ module Dryrun
           DryrunUtils.execute("git checkout #{branch}")
           DryrunUtils.execute("git pull origin #{branch}")
         end
-
       else
         DryrunUtils.execute("git clone --depth 1 #{clonable} #{tmpdir}")
       end
