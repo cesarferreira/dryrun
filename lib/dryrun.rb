@@ -16,7 +16,7 @@ module Dryrun
 
       outdated_verification
 
-      @url = ['-h', '--help', '-v', '--version'].include?(arguments.first) ? nil : arguments.shift
+      @url = ['-h', '--help', '-v', '--version', '-w', '--wipe'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
@@ -28,7 +28,7 @@ module Dryrun
       @cleanup = false
 
       # Parse Options
-      arguments.push "-h" unless @url
+      # arguments.push "-h" unless @url
       create_options_parser(arguments)
     end
 
@@ -58,8 +58,12 @@ module Dryrun
           @tag = tag
         end
 
-        opts.on('-c', '--cleanup', 'Wipe the temporary folder before cloning the project') do |cleanup|
+        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do |cleanup|
           @cleanup = true
+        end
+
+        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do |irrelevant|
+          wipe_temporary_folder
         end
 
         opts.on('-h', '--help', 'Displays help') do
@@ -158,11 +162,24 @@ module Dryrun
     !sdk.empty?
   end
 
+  def wipe_temporary_folder
+    tmpdir = Dir.tmpdir + '/dryrun/'
+    puts 'Wiping ' + tmpdir.red
+    FileUtils.rm_rf tmpdir
+    puts 'Folder totally removed!'.green
+    exit 1
+  end
+
   def call
     unless android_home_is_defined
       puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
       puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
       puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
+      exit 1
+    end
+
+    if @url.nil?
+      puts 'You need to insert a valid GIT URL'
       exit 1
     end
 
