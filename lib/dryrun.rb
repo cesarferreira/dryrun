@@ -16,7 +16,7 @@ module Dryrun
 
       outdated_verification
 
-      @url = ['-h', '--help', '-v', '--version', '-w'].include?(arguments.first) ? nil : arguments.shift
+      @url = ['-h', '--help', '-v', '--version', '-w', '--wipe'].include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
@@ -167,6 +167,7 @@ module Dryrun
     puts 'Wiping ' + tmpdir.red
     FileUtils.rm_rf tmpdir
     puts 'Folder totally removed!'.green
+    exit 1
   end
 
   def call
@@ -174,6 +175,11 @@ module Dryrun
       puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
       puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
       puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
+      exit 1
+    end
+
+    if @url.nil?
+      puts 'You need to insert a valid GIT URL'
       exit 1
     end
 
