@@ -63,11 +63,11 @@ module Dryrun
           @tag = tag
         end
 
-        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do |cleanup|
+        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do
           @cleanup = true
         end
 
-        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do |irrelevant|
+        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do
           wipe_temporary_folder
         end
 
@@ -167,7 +167,7 @@ module Dryrun
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
@@ -206,7 +206,7 @@ module Dryrun
       # clean and install the apk
       android_project.install
 
-      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.yellow}\n\n"
+      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.uninstall_command.yellow}\n\n"
     end
   end
 end

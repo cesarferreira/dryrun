@@ -43,7 +43,7 @@ module Dryrun
     ## CLONE THE REPOSITORY
     ##
     def clone(branch, tag, cleanup)
-      clonable = self.clonable_url
+      clonable = clonable_url
 
       tmpdir = Dir.tmpdir + "/dryrun/#{@destination}"
 
