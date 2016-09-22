@@ -1,4 +1,4 @@
-require 'open-uri'
+﻿require 'open-uri'
 require 'dryrun/version'
 require 'open3'
 module Dryrun
@@ -38,10 +38,10 @@ module Dryrun
 
     def self.run_adb(args) # :yields: stdout
       adb_arg = ''
-      if !Dryrun::MainApp.retrieve_device.nil?
-        adb_arg += " -s #{Dryrun::MainApp.retrieve_device.name}"
+      unless Dryrun::MainApp.device.nil?
+        adb_arg += " -s #{Dryrun::MainApp.device.name}"
       end
-      path = "#{Dryrun::MainApp.retrieve_sdk} #{adb_arg} #{args} "
+      path = "#{Dryrun::MainApp.sdk} #{adb_arg} #{args} "
       run(path)
     end
 

@@ -85,24 +85,24 @@ module Dryrun
 
       path, execute_line = sample_project
 
-      if path == false and execute_line == false
+      if path == false && execute_line == false
         puts "Couldn't open the sample project, sorry!".red
         exit 1
       end
 
-      builder = "gradle"
+      builder = 'gradle'
 
       if File.exist?('gradlew')
         if !Gem.win_platform?
           DryrunUtils.execute('chmod +x gradlew')
         else
-          DryrunUtils.execute("icacls gradlew /T")
+          DryrunUtils.execute('icacls gradlew /T')
         end
         builder = './gradlew'
       end
 
       # Generate the gradle/ folder
-      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
+      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') && !is_gradle_wrapped
 
       remove_application_id
       remove_local_properties
@@ -113,7 +113,7 @@ module Dryrun
       else
         DryrunUtils.execute("#{builder} clean")
 
-        if Dryrun::MainApp.retrieve_device != nil
+        if !Dryrun::MainApp.device.nil?
           puts "#{builder} install#{@flavour}Debug"
           DryrunUtils.execute("#{builder} install#{@flavour}Debug")
         else
@@ -123,7 +123,7 @@ module Dryrun
         end
       end
 
-      if Dryrun::MainApp.retrieve_device != nil
+      unless Dryrun::MainApp.device.nil?
         clear_app_data
         puts "Installing #{@package.green}...\n"
         puts "executing: #{execute_line.green}\n"
@@ -133,9 +133,9 @@ module Dryrun
     end
 
     def is_gradle_wrapped
-      return false if !File.directory?('gradle/')
+      return false unless File.directory?('gradle/')
 
-      File.exist?('gradle/wrapper/gradle-wrapper.properties') and File.exist?('gradle/wrapper/gradle-wrapper.jar')
+      File.exist?('gradle/wrapper/gradle-wrapper.properties') && File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
     def sample_project
@@ -169,22 +169,18 @@ module Dryrun
     def get_execution_line_command(path_to_sample)
       manifest_file = get_manifest(path_to_sample)
 
-      if manifest_file.nil?
-        return false
-      end
+      return false if manifest_file.nil?
 
       doc = Oga.parse_xml(manifest_file)
 
       @package = get_package(doc)
       @launcher_activity = get_launcher_activity(doc)
 
-      if !@launcher_activity
-        return false
-      end
+      return false unless @launcher_activity
 
       manifest_file.close
 
-      return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+      "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
     def get_manifest(path_to_sample)
@@ -199,12 +195,12 @@ module Dryrun
     end
 
     def get_launchable_activity
-      full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package,'')}"
+      full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package, '')}"
       "#{@package}/#{full_path_to_launcher}"
     end
 
     def get_package(doc)
-      doc.xpath("//manifest").attr('package').first.value
+      doc.xpath('//manifest').attr('package').first.value
     end
 
     def get_launcher_activity(doc)
@@ -212,8 +208,8 @@ module Dryrun
       activities.each do |child|
         intent_filter = child.css('intent-filter')
 
-        if intent_filter != nil and intent_filter.length != 0
-          return child.attr("android:name").value
+        if !intent_filter.nil? && !intent_filter.empty?
+          return child.attr('android:name').value
         end
       end
       false

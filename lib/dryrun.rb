@@ -12,6 +12,13 @@ require_relative 'dryrun/device'
 
 module Dryrun
   class MainApp
+    attr_accessor :sdk
+    attr_accessor :device
+
+    class << self
+      attr_accessor :sdk
+    end
+
     def initialize(arguments)
       outdated_verification
 
@@ -79,19 +86,17 @@ module Dryrun
         input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
       end until %w(y n s).include?(input.downcase)
 
-      if input.casecmp 'y'
-        DryrunUtils.execute('gem update dryrun')
-      end
+      DryrunUtils.execute('gem update dryrun') if input.casecmp 'y'
     end
 
     def pick_device
-      @device = nil
+      @@device = nil
 
       if !Gem.win_platform?
         @@sdk = `echo $ANDROID_HOME`.delete("\n")
         @@sdk += '/platform-tools/adb'
       else
-        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
+        @@sdk = `echo %ANDROID_HOME%`.delete("\n")
         @@sdk += '/platform-tools/adb.exe'
       end
 
@@ -105,9 +110,7 @@ module Dryrun
         @devices = DryrunUtils.run_adb('devices')
       end
 
-      if @devices.empty?
-        puts 'No devices attached, but I\'ll run anyway'
-      end
+      puts 'No devices attached, but I\'ll run anyway' if @devices.empty?
 
       if @devices.size >= 2
         puts 'Pick your device (1,2,3...):'
@@ -116,39 +119,39 @@ module Dryrun
 
         input = gets.chomp
 
-        if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
-          @device = @devices[input.to_i]
-        else
-          @device = @devices.first
-        end
+        @@device = if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
+                     @devices[input.to_i]
+                   else
+                     @devices.first
+                   end
       else
-        @device = @devices.first
+        @@device = @devices.first
       end
 
-      puts "Picked #{@device.name.to_s.green}" unless @device.nil?
+      puts "Picked #{@@device.name.to_s.green}" unless @@device.nil?
     end
 
-    def self.retrieve_sdk # :yields: stdout
+    def self.sdk # :yields: stdout
       @@sdk
     end
 
-    def self.retrieve_device # :yields: stdout
-      @device
+    def self.device # :yields: stdout
+      @@device
     end
 
     def android_home_is_defined
-      if !Gem.win_platform?
-        @@sdk = `echo $ANDROID_HOME`.delete('\n')
-      else
-        @@sdk = `echo %ANDROID_HOME%`.delete('\n')
-      end
+      @@sdk = if !Gem.win_platform?
+                `echo $ANDROID_HOME`.delete('\n')
+              else
+                `echo %ANDROID_HOME%`.delete('\n')
+              end
       !@@sdk.empty?
     end
 
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{'export ANDROID_HOME="/Users/cesarferreira/Library/Android/sdk/"'.yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
