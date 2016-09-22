@@ -72,9 +72,7 @@ module Dryrun
     end
 
     def outdated_verification
-      is_up_to_date = DryrunUtils.is_up_to_date
-
-      if is_up_to_date
+      if DryrunUtils.up_to_date
         return
       end
 
