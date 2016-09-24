@@ -77,7 +77,7 @@ module Dryrun
     def find_modules
       return [] unless is_valid
 
-      content = File.open(@settings_gradle_path, "rb").read
+      content = File.open(@settings_gradle_path, 'rb').read
       modules = content.scan(/'([^']*)'/)
       modules.each { |replacement| replacement.first.tr!(':', '/') }
     end
