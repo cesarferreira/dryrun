@@ -36,12 +36,20 @@ module Dryrun
       latest.to_s <= Dryrun::VERSION.to_s
     end
 
+    def self.device(device)
+      @device = device
+    end
+
+    def self.sdk(sdk)
+      @sdk = sdk
+    end
+
     def self.run_adb(args) # :yields: stdout
       adb_arg = ''
-      unless Dryrun::MainApp.device.nil?
-        adb_arg += " -s #{Dryrun::MainApp.device.name}"
+      unless @device.nil?
+        adb_arg += " -s #{@device.name}"
       end
-      path = "#{Dryrun::MainApp.sdk} #{adb_arg} #{args} "
+      path = "#{@sdk} #{adb_arg} #{args} "
       run(path)
     end
 

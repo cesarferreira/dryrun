@@ -5,11 +5,12 @@ require 'find'
 require_relative 'dryrun_utils'
 module Dryrun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour)
+    def initialize(path, custom_app_path, custom_module, flavour, device)
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
+      @device = device
 
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
@@ -113,7 +114,7 @@ module Dryrun
       else
         DryrunUtils.execute("#{builder} clean")
 
-        if !Dryrun::MainApp.device.nil?
+        if !@device.nil?
           puts "#{builder} install#{@flavour}Debug"
           DryrunUtils.execute("#{builder} install#{@flavour}Debug")
         else
@@ -123,7 +124,7 @@ module Dryrun
         end
       end
 
-      unless Dryrun::MainApp.device.nil?
+      unless @device.nil?
         clear_app_data
         puts "Installing #{@package.green}...\n"
         puts "executing: #{execute_line.green}\n"

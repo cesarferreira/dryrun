@@ -90,15 +90,17 @@ module Dryrun
     end
 
     def pick_device
-      @@device = nil
+      @device = nil
 
       if !Gem.win_platform?
-        @@sdk = `echo $ANDROID_HOME`.delete("\n")
-        @@sdk += '/platform-tools/adb'
+        @sdk = `echo $ANDROID_HOME`.delete("\n")
+        @sdk += '/platform-tools/adb'
       else
-        @@sdk = `echo %ANDROID_HOME%`.delete("\n")
-        @@sdk += '/platform-tools/adb.exe'
+        @sdk = `echo %ANDROID_HOME%`.delete("\n")
+        @sdk += '/platform-tools/adb.exe'
       end
+
+      DryrunUtils.sdk(@sdk)
 
       puts 'Searching for devices...'.yellow
 
@@ -119,33 +121,26 @@ module Dryrun
 
         input = gets.chomp
 
-        @@device = if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
-                     @devices[input.to_i]
-                   else
-                     @devices.first
-                   end
+        @device = if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
+                    @devices[input.to_i]
+                  else
+                    @devices.first
+                  end
       else
-        @@device = @devices.first
+        @device = @devices.first
       end
 
-      puts "Picked #{@@device.name.to_s.green}" unless @@device.nil?
-    end
-
-    def self.sdk # :yields: stdout
-      @@sdk
-    end
-
-    def self.device # :yields: stdout
-      @@device
+      DryrunUtils.device(@device)
+      puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 
     def android_home_is_defined
-      @@sdk = if !Gem.win_platform?
-                `echo $ANDROID_HOME`.delete('\n')
-              else
-                `echo %ANDROID_HOME%`.delete('\n')
-              end
-      !@@sdk.empty?
+      @sdk = if !Gem.win_platform?
+               `echo $ANDROID_HOME`.delete('\n')
+             else
+               `echo %ANDROID_HOME%`.delete('\n')
+             end
+      !@sdk.empty?
     end
 
     def call
@@ -171,7 +166,7 @@ module Dryrun
       # clone the repository
       repository_path = github.clone(@branch, @tag)
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
       # is a valid android project?
       unless android_project.is_valid
