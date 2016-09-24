@@ -1,5 +1,4 @@
-﻿require 'optparse'
-require 'colorize'
+﻿require 'colorize'
 require 'tmpdir'
 require 'fileutils'
 require 'dryrun/github'
@@ -9,16 +8,10 @@ require 'highline/import'
 require 'openssl'
 require 'open3'
 require_relative 'dryrun/device'
+require 'optparse'
 
 module Dryrun
   class MainApp
-    attr_accessor :sdk
-    attr_accessor :device
-
-    class << self
-      attr_accessor :sdk
-    end
-
     def initialize(arguments)
       outdated_verification
 

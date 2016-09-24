@@ -3,6 +3,7 @@ require 'fileutils'
 require 'tempfile'
 require 'find'
 require_relative 'dryrun_utils'
+
 module Dryrun
   class AndroidProject
     def initialize(path, custom_app_path, custom_module, flavour, device)
@@ -39,14 +40,14 @@ module Dryrun
       file_name = 'local.properties'
 
       File.delete(file_name) if File.exist?(file_name)
-      if !Gem.win_platform?
+      unless Gem.win_platform?
         DryrunUtils.execute("touch #{file_name}")
       end
     end
 
     def remove_application_id
       # Open temporary file
-      tmp = Tempfile.new("extract")
+      tmp = Tempfile.new('extract')
 
       file = "#{@path_to_sample}/build.gradle"
 
@@ -78,7 +79,7 @@ module Dryrun
 
       content = File.open(@settings_gradle_path, "rb").read
       modules = content.scan(/'([^']*)'/)
-      modules.each {|replacement| replacement.first.gsub!(':', '/')}
+      modules.each { |replacement| replacement.first.tr!(':', '/') }
     end
 
     def install

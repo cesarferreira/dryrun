@@ -1,8 +1,8 @@
-﻿require_relative 'dryrun_utils'
-require 'tmpdir'
+﻿require 'tmpdir'
 require 'fileutils'
 require 'uri'
 require 'digest'
+require_relative 'dryrun_utils'
 
 module Dryrun
   class Github

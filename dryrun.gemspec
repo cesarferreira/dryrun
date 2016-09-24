@@ -1,12 +1,12 @@
-# coding: utf-8
+﻿# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'dryrun/version'
 
-#rake build    # Build dryrun-0.0.1.gem into the pkg directory
-#rake install  # Build and install dryrun-0.0.1.gem into system gems
-#rake release  # Create tag v0.0.1 and build and push dryrun-0.0.1.gem t...
-#rake spec     # Run RSpec code examples
+# rake build    # Build dryrun-0.0.1.gem into the pkg directory
+# rake install  # Build and install dryrun-0.0.1.gem into system gems
+# rake release  # Create tag v0.0.1 and build and push dryrun-0.0.1.gem t...
+# rake spec     # Run RSpec code examples
 
 Gem::Specification.new do |spec|
   spec.name          = 'dryrun'
@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['cesar ferreira']
   spec.email         = ['cesar.manuel.ferreira@gmail.com']
 
-  spec.summary       = %q{Tool to try any android library hosted online directly from the command line}
-  spec.description   = %q{Tool to try any android library hosted online directly from the command line}
+  spec.summary       = 'Tool to try any android library hosted online directly from the command line'
+  spec.description   = 'Tool to try any android library hosted online directly from the command line'
   spec.homepage      = 'https://github.com/cesarferreira/dryrun'
   spec.license       = 'MIT'
 
@@ -31,9 +31,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
 
   spec.add_dependency 'bundler', '~> 1.7'
-  spec.add_dependency 'colorize',  '~> 0.7'
-  spec.add_dependency 'oga',  '~> 1.3.1'
+  spec.add_dependency 'colorize', '~> 0.7'
+  spec.add_dependency 'oga', '~> 1.3.1'
   spec.add_dependency 'highline', '~> 1.7'
   spec.add_dependency 'rjb', '>= 1.5.4'
-
 end
