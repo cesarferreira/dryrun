@@ -10,9 +10,6 @@ Metrics/MethodLength:
 Metrics/ClassLength:
   Enabled: false
 
-Metrics/MethodComplexityLength:
-  Enabled: false
-
 Metrics/PerceivedComplexity:
   Enabled: false
 
