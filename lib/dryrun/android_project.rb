@@ -52,8 +52,8 @@ module Dryrun
       file = "#{@path_to_sample}/build.gradle"
 
       # Write good lines to temporary file
-      File.open(file, 'r') do |file|
-        file.each do |l| tmp << l unless l.include? 'applicationId'
+      File.open(file, 'r') do |f|
+        f.each do |l| tmp << l unless l.include? 'applicationId'
         end
       end
       tmp.close
