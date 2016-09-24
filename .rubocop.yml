@@ -13,6 +13,9 @@ Metrics/ClassLength:
 Metrics/MethodComplexityLength:
   Enabled: false
 
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 Metrics/AbcSize:
   Enabled: false
 
