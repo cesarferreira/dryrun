@@ -22,7 +22,7 @@ module Dryrun
     def initialize(arguments)
       outdated_verification
 
-      @url = %w(-h --help -v --version).include?(arguments.first) ? nil : arguments.shift
+      @url = %w(-h --help -v --version -w --wipe).include?(arguments.first) ? nil : arguments.shift
 
       # defaults
       @app_path = nil
@@ -31,9 +31,9 @@ module Dryrun
       @tag = nil
       @branch = 'master'
       @devices = []
+      @cleanup = false
 
       # Parse Options
-      arguments.push '-h' unless @url
       create_options_parser(arguments)
     end
 
@@ -61,6 +61,14 @@ module Dryrun
 
         opts.on('-t TAG', '--tag TAG', 'Checkout tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")') do |tag|
           @tag = tag
+        end
+
+        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do
+          @cleanup = true
+        end
+
+        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do
+          wipe_temporary_folder
         end
 
         opts.on('-h', '--help', 'Displays help') do
@@ -143,11 +151,24 @@ module Dryrun
       !@sdk.empty?
     end
 
+    def wipe_temporary_folder
+      tmpdir = Dir.tmpdir + '/dryrun/'
+      puts 'Wiping ' + tmpdir.red
+      FileUtils.rm_rf tmpdir
+      puts 'Folder totally removed!'.green
+      exit 1
+    end
+
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{'export ANDROID_HOME="/Users/cesarferreira/Library/Android/sdk/"'.yellow}"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
+        exit 1
+      end
+
+      if @url.nil?
+        puts 'You need to insert a valid GIT URL'
         exit 1
       end
 
@@ -164,7 +185,7 @@ module Dryrun
       end
 
       # clone the repository
-      repository_path = github.clone(@branch, @tag)
+      repository_path = github.clone(@branch, @tag, @cleanup)
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
@@ -180,7 +201,7 @@ module Dryrun
       # clean and install the apk
       android_project.install
 
-      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.yellow}\n\n"
+      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.uninstall_command.yellow}\n\n"
     end
   end
 end

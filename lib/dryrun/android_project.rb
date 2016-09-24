@@ -103,7 +103,7 @@ module Dryrun
       end
 
       # Generate the gradle/ folder
-      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') && !is_gradle_wrapped
+      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') && !gradle_wrapped?
 
       remove_application_id
       remove_local_properties
@@ -133,7 +133,7 @@ module Dryrun
       end
     end
 
-    def is_gradle_wrapped
+    def gradle_wrapped?
       return false unless File.directory?('gradle/')
 
       File.exist?('gradle/wrapper/gradle-wrapper.properties') && File.exist?('gradle/wrapper/gradle-wrapper.jar')
@@ -155,7 +155,7 @@ module Dryrun
       [false, false]
     end
 
-    def get_uninstall_command
+    def uninstall_command
       "adb uninstall \"#{@package}\""
     end
 
@@ -181,7 +181,7 @@ module Dryrun
 
       manifest_file.close
 
-      "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+      "am start -n \"#{launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
     def get_manifest(path_to_sample)
@@ -195,7 +195,7 @@ module Dryrun
       end
     end
 
-    def get_launchable_activity
+    def launchable_activity
       full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package, '')}"
       "#{@package}/#{full_path_to_launcher}"
     end
