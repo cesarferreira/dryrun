@@ -36,7 +36,8 @@ Options
     -f, --flavour FLAVOUR            Custom flavour (e.g. dev, qa, prod)
     -p, --path PATH                  Custom path to android project
     -t, --tag TAG                    Checkout tag/commit hash to clone (e.g. "v0.4.5", "6f7dd4b")
-    -c, --cleanup                    Wipe the temporary folder before cloning the project
+    -c, --cleanup                    Clean the temporary folder before cloning the project
+    -w, --wipe                       Wipe the temporary dryrun folder
     -h, --help                       Displays help
     -v, --version                    Displays the version
 ```
