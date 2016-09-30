@@ -183,7 +183,7 @@ module Dryrun
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
       # is a valid android project?
-      unless android_project.is_valid
+      unless android_project.valid?
         puts "#{@url.red} is not a valid android project"
         exit 1
       end

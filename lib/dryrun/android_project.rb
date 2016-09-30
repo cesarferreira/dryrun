@@ -27,7 +27,7 @@ module Dryrun
       full_custom_path = @base_path
       settings_path = settings_gradle_file(full_custom_path)
       main_gradle_path = main_gradle_file(full_custom_path)
-      return unless is_valid(main_gradle_path)
+      return unless valid?(main_gradle_path)
 
       @settings_gradle_path = settings_path
       @main_gradle_file = main_gradle_file
@@ -40,9 +40,8 @@ module Dryrun
       file_name = 'local.properties'
 
       File.delete(file_name) if File.exist?(file_name)
-      unless Gem.win_platform?
-        DryrunUtils.execute("touch #{file_name}")
-      end
+
+      DryrunUtils.execute("touch #{file_name}") unless Gem.win_platform?
     end
 
     def remove_application_id
@@ -70,12 +69,12 @@ module Dryrun
       File.join(path, 'build.gradle')
     end
 
-    def is_valid(main_gradle_file = @main_gradle_file)
+    def valid?(main_gradle_file = @main_gradle_file)
       File.exist?(main_gradle_file)
     end
 
     def find_modules
-      return [] unless is_valid
+      return [] unless valid?
 
       content = File.open(@settings_gradle_path, 'rb').read
       modules = content.scan(/'([^']*)'/)
@@ -115,13 +114,13 @@ module Dryrun
       else
         DryrunUtils.execute("#{builder} clean")
 
-        if !@device.nil?
-          puts "#{builder} install#{@flavour}Debug"
-          DryrunUtils.execute("#{builder} install#{@flavour}Debug")
-        else
+        if @device.nil?
           puts 'No devices picked/available, proceeding with assemble instead'.green
           puts "#{builder} assemble#{@flavour}Debug"
           DryrunUtils.execute("#{builder} assemble#{@flavour}Debug")
+        else
+          puts "#{builder} install#{@flavour}Debug"
+          DryrunUtils.execute("#{builder} install#{@flavour}Debug")
         end
       end
 

@@ -1,6 +1,7 @@
 ﻿require 'open-uri'
 require 'dryrun/version'
 require 'open3'
+
 module Dryrun
   class DryrunUtils
     attr_accessor :sdk
