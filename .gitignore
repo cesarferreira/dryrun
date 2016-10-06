@@ -9,4 +9,5 @@
 /tmp/
 /vendor/*
 *.iml
+*.xml
 .idea
