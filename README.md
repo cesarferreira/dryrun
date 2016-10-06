@@ -40,8 +40,8 @@ Options
     -w, --wipe                       Wipe the temporary dryrun folder
     -h, --help                       Displays help
     -v, --version                    Displays the version
-    -c, --build_type BUILD_TYPE      Custom buildType (e.g. srv1, srv2)
     -k, --keystore KEYSTORE          Custom keystore path
+    --build_type BUILD_TYPE      Custom buildType (e.g. srv1, srv2)
 ```
 
 ## Installation
