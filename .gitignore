@@ -7,7 +7,8 @@
 /pkg/
 /spec/reports/
 /tmp/
-/vendor/*
+extras/*
+vendor/*
 *.iml
 *.xml
 .idea
