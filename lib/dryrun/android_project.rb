@@ -6,12 +6,16 @@ require_relative 'dryrun_utils'
 
 module Dryrun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour)
+    def initialize(path, custom_app_path, custom_module, flavour, build_type, device)
 
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = @custom_app_path? File.join(path, @custom_app_path) : path
       @flavour = flavour
+      @build_type = build_type
+      @device = device
+      @application_id = ''
+      @root_module = ''
 
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
@@ -35,6 +39,24 @@ module Dryrun
       @base_path = full_custom_path
     end
 
+    def extract_application_id
+      # Open temporary file
+      tmp = Tempfile.new('extract')
+
+      file = "#{@path_to_sample}/build.gradle"
+
+      # Write good lines to temporary file
+      File.open(file, 'r') { |file|
+        file.each do |l|
+          if l.include? 'applicationId'
+            @application_id = l.split(' ')[1].gsub('"', '')
+            break
+          end
+        end
+      }
+      tmp.close
+    end
+
     def remove_local_properties
       Dir.chdir @base_path
       file_name = 'local.properties'
@@ -47,13 +69,14 @@ module Dryrun
 
     def remove_application_id
       # Open temporary file
-      tmp = Tempfile.new("extract")
+      tmp = Tempfile.new('extract')
 
       file = "#{@path_to_sample}/build.gradle"
 
       # Write good lines to temporary file
       File.open(file, 'r') do |file|
-        file.each do |l| tmp << l unless l.include? 'applicationId'
+        file.each do |l|
+          tmp << l unless l.include? 'applicationId'
         end
       end
       tmp.close
@@ -77,7 +100,7 @@ module Dryrun
     def find_modules
       return [] unless is_valid
 
-      content = File.open(@settings_gradle_path, "rb").read
+      content = File.open(@settings_gradle_path, 'rb').read
       modules = content.scan(/'([^']*)'/)
       modules.each {|replacement| replacement.first.gsub!(':', '/')}
     end
@@ -92,13 +115,13 @@ module Dryrun
         exit 1
       end
 
-      builder = "gradle"
+      builder = 'gradle'
 
       if File.exist?('gradlew')
         if !Gem.win_platform?
           DryrunUtils.execute('chmod +x gradlew')
         else
-          DryrunUtils.execute("icacls gradlew /T")
+          DryrunUtils.execute('icacls gradlew /T')
         end
         builder = './gradlew'
       end
@@ -106,24 +129,18 @@ module Dryrun
       # Generate the gradle/ folder
       DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
 
-      remove_application_id
       remove_local_properties
 
-      if @custom_module
-        DryrunUtils.execute("#{builder} clean")
-        DryrunUtils.execute("#{builder} :#{@custom_module}:install#{@flavour}Debug")
-      else
-        DryrunUtils.execute("#{builder} clean")
+      root_module_builder = if @custom_module == nil
+                              ''
+                            else
+                              ":#{@custom_module}:"
+                            end
 
-        if Dryrun::MainApp.getDevice != nil
-          puts "#{builder} install#{@flavour}Debug"
-          DryrunUtils.execute("#{builder} install#{@flavour}Debug")
-        else
-          puts 'No devices picked, proceeding to assemble instead'
-          puts "#{builder} assemble#{@flavour}Debug"
-          DryrunUtils.execute("#{builder} assemble#{@flavour}Debug")
-        end
-      end
+      pre_execute_builder = root_module_builder + "install#{@flavour || ''}#{@build_type || 'Debug'}"
+
+      DryrunUtils.execute("#{builder} clean")
+      DryrunUtils.execute("#{builder} #{pre_execute_builder}")
 
       if Dryrun::MainApp.getDevice != nil
         clear_app_data
@@ -145,6 +162,9 @@ module Dryrun
         @path_to_sample = File.join(@base_path, "/#{@custom_module}")
         return @path_to_sample, get_execution_line_command(@path_to_sample)
       else
+
+        @root_module = 'app'  if @modules.first.first.gsub('/','') == 'app'
+
         @modules.each do |child|
           full_path = File.join(@base_path, child.first)
           @path_to_sample = full_path
@@ -177,8 +197,10 @@ module Dryrun
 
     doc = Oga.parse_xml(manifest_file)
 
-    @package = get_package(doc)
-    @launcher_activity = get_launcher_activity(doc)
+      extract_application_id
+
+      @package = @application_id + '.' + @build_type.downcase
+      @launcher_activity = get_launcher_activity(doc)
 
     if !@launcher_activity
       return false
@@ -205,20 +227,20 @@ module Dryrun
     "#{@package}/#{full_path_to_launcher}"
   end
 
-  def get_package(doc)
-   doc.xpath("//manifest").attr('package').first.value
- end
+    def get_package(doc)
+     doc.xpath('//manifest').attr('package').first.value
+   end
 
  def get_launcher_activity(doc)
   activities = doc.css('activity')
   activities.each do |child|
     intent_filter = child.css('intent-filter')
 
-    if intent_filter != nil and intent_filter.length != 0
-      return child.attr("android:name").value
+      if intent_filter != nil and intent_filter.length != 0
+        return child.attr('android:name').value
+      end
     end
+    false
   end
-  false
-end
 end
 end

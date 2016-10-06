@@ -11,17 +11,20 @@ require 'dryrun/version'
 Gem::Specification.new do |spec|
   spec.name          = 'dryrun'
   spec.version       = Dryrun::VERSION
-  spec.authors       = ['cesar ferreira']
-  spec.email         = ['cesar.manuel.ferreira@gmail.com']
+  spec.authors       = ['cesar ferreira','pavlos-petros tournaris']
+  spec.email         = ['cesar.manuel.ferreira@gmail.com', 'p.tournaris@gmail.com']
 
   spec.summary       = %q{Tool to try any android library hosted online directly from the command line}
   spec.description   = %q{Tool to try any android library hosted online directly from the command line}
   spec.homepage      = 'https://github.com/cesarferreira/dryrun'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|gem)/}) }
   spec.bindir        = 'bin'
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.require_paths = ['lib']
+  spec.bindir        = 'bin'
+  spec.executables   = 'dryrun'
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.0.0'
@@ -34,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'colorize',  '~> 0.7'
   spec.add_dependency 'oga',  '~> 1.3.1'
   spec.add_dependency 'highline', '~> 1.7'
+  spec.add_dependency 'adb-sdklib', '~> 0.0.3'
   spec.add_dependency 'rjb', '>= 1.5.4'
 
 end
