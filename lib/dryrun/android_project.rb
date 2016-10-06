@@ -1,5 +1,5 @@
-﻿require 'oga'
-require 'fileutils'
+﻿require 'fileutils'
+require 'oga'
 require 'tempfile'
 require 'find'
 require_relative 'dryrun_utils'
