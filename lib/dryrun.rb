@@ -1,11 +1,13 @@
 ﻿require 'colorize'
 require 'tmpdir'
 require 'fileutils'
+require 'open-uri'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
 require 'highline/import'
 require 'openssl'
+require 'uri'
 require 'open3'
 require_relative 'dryrun/device'
 require 'optparse'
@@ -21,6 +23,8 @@ module Dryrun
       @app_path = nil
       @custom_module = nil
       @flavour = ''
+      @build_type = ''
+      @keystore_path = nil
       @tag = nil
       @branch = 'master'
       @devices = []
@@ -46,6 +50,14 @@ module Dryrun
 
         opts.on('-f', '--flavour FLAVOUR', 'Custom flavour (e.g. dev, qa, prod)') do |flavour|
           @flavour = flavour.capitalize
+        end
+
+        opts.on('--build_type BUILD_TYPE', 'Custom buildType (e.g. srv1, srv2)') do |build_type|
+          @build_type = build_type.capitalize
+        end
+
+        opts.on('-k', '--keystore KEYSTORE', 'Custom keystore path') do |keystore|
+          @keystore_path = keystore
         end
 
         opts.on('-p PATH', '--path PATH', 'Custom path to android project') do |app_path|
@@ -113,8 +125,6 @@ module Dryrun
         @devices = DryrunUtils.run_adb('devices')
       end
 
-      puts 'No devices attached, but I\'ll run anyway' if @devices.empty?
-
       if @devices.size >= 2
         puts 'Pick your device (1,2,3...):'
 
@@ -152,6 +162,43 @@ module Dryrun
       exit 1
     end
 
+    def check_keystore_path(repository_path)
+      # Clone the debug.keystore file
+      scan_result = @keystore_path.scan(URI.regexp).to_a
+      load_debug_keystore(scan_result, repository_path)
+    end
+
+    def load_debug_keystore(scan_result, repository_path)
+      if !scan_result.empty?
+        load_keystore_from_url(repository_path)
+      else
+        copy_to_app_folder(repository_path)
+      end
+    end
+
+    def load_keystore_from_url(repository_path)
+      begin
+        open(@keystore_path, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) do |f|
+          debug_keystore = f.read
+          File.open(repository_path + '/app/debug.keystore', 'wb') do |new_file|
+            new_file.write(debug_keystore)
+          end
+        end
+      rescue Exception => network_error
+        puts "Error occurred while loading keystore from url: #{@keystore_path} => #{network_error}"
+        exit 1
+      end
+    end
+
+    def copy_to_app_folder(repository_path)
+      begin
+        FileUtils.cp(@keystore_path, repository_path + '/app/')
+      rescue Exception => file_error
+        puts "Error occurred while loading keystore from local path: #{@keystore_path} => #{file_error}"
+        exit 1
+      end
+    end
+
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
@@ -181,6 +228,11 @@ module Dryrun
       repository_path = github.clone(@branch, @tag, @cleanup)
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
+      if @keystore_path
+        check_keystore_path(repository_path)
+      end
+
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @build_type, @device)
 
       # is a valid android project?
       unless android_project.valid?
