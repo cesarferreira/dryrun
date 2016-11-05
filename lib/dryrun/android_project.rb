@@ -77,6 +77,7 @@ module Dryrun
 
     def find_modules
       return [] unless is_valid
+      return [] unless File.exist?(@settings_gradle_path)
 
       content = File.open(@settings_gradle_path, "rb").read
       modules = content.scan(/'([^']*)'/)
