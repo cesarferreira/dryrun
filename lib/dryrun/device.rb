@@ -1,4 +1,4 @@
-module AdbDevice
+﻿module AdbDevice
   class Device
     attr_accessor :name, :id
 
@@ -8,4 +8,3 @@ module AdbDevice
     end
   end
 end
-
