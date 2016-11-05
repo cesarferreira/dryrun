@@ -101,7 +101,7 @@ module Dryrun
         @sdk += '/platform-tools/adb.exe'
       end
 
-      DryrunUtils.sdk(@sdk)
+      $sdk = @sdk
 
       puts 'Searching for devices...'.yellow
 
@@ -131,7 +131,7 @@ module Dryrun
         @device = @devices.first
       end
 
-      DryrunUtils.device(@device)
+      $device = @device
       puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 

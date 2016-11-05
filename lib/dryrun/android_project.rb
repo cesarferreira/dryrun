@@ -136,7 +136,8 @@ module Dryrun
     def gradle_wrapped?
       return false unless File.directory?('gradle/')
 
-      File.exist?('gradle/wrapper/gradle-wrapper.properties') && File.exist?('gradle/wrapper/gradle-wrapper.jar')
+      File.exist?('gradle/wrapper/gradle-wrapper.properties') &&
+        File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
     def sample_project

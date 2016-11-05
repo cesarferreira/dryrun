@@ -41,8 +41,8 @@ module Dryrun
     end
 
     def self.run_adb(args) # :yields: stdout
-      adb_arg = " -s #{@device.name} " unless @device.nil?
-      path = "#{@sdk} #{adb_arg} #{args} "
+      adb_arg = " -s #{$device.name} " unless $device.nil?
+      path = "#{$sdk} #{adb_arg} #{args} "
       run(path)
     end
 
