@@ -57,6 +57,16 @@ Options
 
 - No need to wait for **Android Studio** to load.
 
+
+## Notes
+
+Behaware that ANDROID_HOME needs to be set with the adb path:
+ - MAC -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
+ - Linux -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
+ - Windows -> ```ANDROID_HOME="...sdk\platform-tools"```
+In windows this ANDROID_HOME is not automatically created, see more in [here](https://facebook.github.io/react-native/releases/0.21/docs/android-setup.html#define-the-android-home-environment-variable)
+
+
 ## Alternative scenario (if you don't use `dryrun`)
 
 1. Find the github's repository url
