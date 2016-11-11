@@ -1,21 +1,31 @@
 ﻿require 'tmpdir'
 require 'fileutils'
 require 'uri'
-require 'digest'
 require_relative 'dryrun_utils'
 
 module Dryrun
   class Github
     def initialize(url)
-      url = url.split('?').first
-      url.chop! if url.end_with? '/'
-
-      @base_url = url
+      @base_url = sanitize_url(url)
       @destination = destination
     end
 
+    def sanitize_url(url)
+      url = url.split('?').first
+      url.chop! if url.end_with? '/'
+      return url
+    end
+
     def destination
-      Digest::SHA256.hexdigest @base_url
+      unless @base_url.include? 'github.com'
+        return Digest::SHA256.hexdigest @base_url
+      end
+
+      stripped_url = @base_url.gsub('.git', '')
+      stripped_url = stripped_url.gsub('.git', '')
+      stripped_url = stripped_url.gsub('git@github.com:', '')
+      stripped_url = stripped_url.gsub('https://github.com/', '')
+      stripped_url = stripped_url.gsub('http://github.com/', '')
     end
 
     def valid?
