@@ -1,21 +1,18 @@
-require 'optparse'
-require 'colorize'
+﻿require 'colorize'
 require 'tmpdir'
 require 'fileutils'
-require 'open-uri'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
 require 'highline/import'
 require 'openssl'
-require 'uri'
 require 'open3'
 require_relative 'dryrun/device'
+require 'optparse'
 
 module Dryrun
   class MainApp
     def initialize(arguments)
-
       outdated_verification
 
       @url = %w(-h --help -v --version -w --wipe).include?(arguments.first) ? nil : arguments.shift
@@ -24,23 +21,20 @@ module Dryrun
       @app_path = nil
       @custom_module = nil
       @flavour = ''
-      @build_type = ''
-      @keystore_path = nil
       @tag = nil
       @branch = 'master'
-      @devices = Array.new
+      @devices = []
       @cleanup = false
 
       # Parse Options
-      # arguments.push "-h" unless @url
       create_options_parser(arguments)
     end
 
     def create_options_parser(args)
       args.options do |opts|
         opts.banner = 'Usage: dryrun GIT_URL [OPTIONS]'
-        opts.separator ''
-        opts.separator 'Options'
+        opts.separator  ''
+        opts.separator  'Options'
 
         opts.on('-m MODULE_NAME', '--module MODULE_NAME', 'Custom module to run') do |custom_module|
           @custom_module = custom_module
@@ -54,14 +48,6 @@ module Dryrun
           @flavour = flavour.capitalize
         end
 
-        opts.on('--build_type BUILD_TYPE', 'Custom buildType (e.g. srv1, srv2)') do |build_type|
-          @build_type = build_type.capitalize
-        end
-
-        opts.on('-k', '--keystore KEYSTORE', 'Custom keystore path') do |keystore|
-          @keystore_path = keystore
-        end
-
         opts.on('-p PATH', '--path PATH', 'Custom path to android project') do |app_path|
           @app_path = app_path
         end
@@ -70,11 +56,11 @@ module Dryrun
           @tag = tag
         end
 
-        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do |cleanup|
+        opts.on('-c', '--cleanup', 'Clean the temporary folder before cloning the project') do
           @cleanup = true
         end
 
-        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do |irrelevant|
+        opts.on('-w', '--wipe', 'Wipe the temporary dryrun folder') do
           wipe_temporary_folder
         end
 
@@ -89,16 +75,11 @@ module Dryrun
         end
 
         opts.parse!
-
       end
     end
 
     def outdated_verification
-      is_up_to_date = DryrunUtils.is_up_to_date
-
-      if is_up_to_date
-        return
-      end
+      return if DryrunUtils.up_to_date
 
       input = nil
 
@@ -106,111 +87,62 @@ module Dryrun
         input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
       end until %w(y n s).include?(input.downcase)
 
-      if input.downcase.eql? 'y'
-        DryrunUtils.execute('gem update dryrun')
-
-      end
-
+      DryrunUtils.execute('gem update dryrun') if input.casecmp 'y'
     end
 
     def pick_device
-      @@device = nil
+      @device = nil
 
       if !Gem.win_platform?
-        @@sdk = `echo $ANDROID_HOME`.gsub("\n", '')
-        @@sdk = @@sdk + '/platform-tools/adb'
+        @sdk = `echo $ANDROID_HOME`.delete("\n")
+        @sdk += '/platform-tools/adb'
       else
-        @@sdk = `echo %ANDROID_HOME%`.gsub("\n", '')
-        @@sdk = @@sdk + '/platform-tools/adb.exe'
+        @sdk = `echo %ANDROID_HOME%`.delete("\n")
+        @sdk += '/platform-tools/adb.exe'
       end
+
+      $sdk = @sdk
 
       puts 'Searching for devices...'.yellow
 
       @devices = DryrunUtils.run_adb('devices')
 
-      if @devices == nil || @devices.empty?
+      if @devices.nil? || @devices.empty?
         puts 'Killing adb, there might be an issue with it...'
         DryrunUtils.run_adb('kill-server')
         @devices = DryrunUtils.run_adb('devices')
       end
 
-      if @devices.empty?
-        puts "No devices attached, but I'll run anyway"
-      end
+      puts 'No devices attached, but I\'ll run anyway' if @devices.empty?
 
       if @devices.size >= 2
         puts 'Pick your device (1,2,3...):'
 
         @devices.each_with_index.map { |key, index| puts "#{index.to_s.green} -  #{key.name} \n" }
 
-        a = gets.chomp
+        input = gets.chomp
 
-        if a.match(/^\d+$/) && a.to_i <= (@devices.length - 1) && a.to_i >= 0
-          @@device = @devices[(a.to_i)]
-        else
-          @@device = @devices.first
-        end
+        @device = if input.match(/^\d+$/) && input.to_i <= (@devices.length - 1) && input.to_i >= 0
+                    @devices[input.to_i]
+                  else
+                    @devices.first
+                  end
       else
-        @@device = @devices.first
+        @device = @devices.first
       end
 
-      puts "Picked #{@@device.name.to_s.green}" if @@device != nil
-    end
-
-    def self.getSDK # :yields: stdout
-      @@sdk
-    end
-
-    def self.getDevice # :yields: stdout
-      @@device
+      $device = @device
+      puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 
     def android_home_is_defined
-      if !Gem.win_platform?
-        sdk = `echo $ANDROID_HOME`.gsub("\n", '')
-      else
-        sdk = `echo %ANDROID_HOME%`.gsub("\n", '')
-      end
-      !sdk.empty?
+      @sdk = if !Gem.win_platform?
+               `echo $ANDROID_HOME`.delete('\n')
+             else
+               `echo %ANDROID_HOME%`.delete('\n')
+             end
+      !@sdk.empty?
     end
-
-    def check_keystore_path(repository_path)
-      # Clone the debug.keystore file
-      scan_result = @keystore_path.scan(URI.regexp).to_a
-      load_debug_keystore(scan_result, repository_path)
-    end
-
-    def load_debug_keystore(scan_result, repository_path)
-      if !scan_result.empty?
-        load_keystore_from_url(repository_path)
-      else
-        copy_to_app_folder(repository_path)
-      end
-    end
-
-    def load_keystore_from_url(repository_path)
-      begin
-        open(@keystore_path, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) do |f|
-          debug_keystore = f.read
-          File.open(repository_path + '/app/debug.keystore', 'wb') do |new_file|
-            new_file.write(debug_keystore)
-          end
-        end
-      rescue Exception => network_error
-        puts "Error occurred while loading keystore from url: #{@keystore_path} => #{network_error}"
-        exit 1
-      end
-    end
-
-    def copy_to_app_folder(repository_path)
-      begin
-        FileUtils.cp(@keystore_path, repository_path + '/app/')
-      rescue Exception => file_error
-        puts "Error occurred while loading keystore from local path: #{@keystore_path} => #{file_error}"
-        exit 1
-      end
-    end
-
 
     def wipe_temporary_folder
       tmpdir = Dir.tmpdir + '/dryrun/'
@@ -223,7 +155,7 @@ module Dryrun
     def call
       unless android_home_is_defined
         puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME=\"/Users/cesarferreira/Library/Android/sdk/\"".yellow}"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
@@ -233,15 +165,14 @@ module Dryrun
         exit 1
       end
 
-      @url = @url.split("?").first
+      @url = @url.split('?').first
       @url.chop! if @url.end_with? '/'
-
 
       pick_device
 
       github = Github.new(@url)
 
-      unless github.is_valid
+      unless github.valid?
         puts "#{@url.red} is not a valid git @url"
         exit 1
       end
@@ -249,14 +180,10 @@ module Dryrun
       # clone the repository
       repository_path = github.clone(@branch, @tag, @cleanup)
 
-      if @keystore_path
-        check_keystore_path(repository_path)
-      end
-
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @build_type, @device)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
       # is a valid android project?
-      unless android_project.is_valid
+      unless android_project.valid?
         puts "#{@url.red} is not a valid android project"
         exit 1
       end
@@ -267,7 +194,7 @@ module Dryrun
       # clean and install the apk
       android_project.install
 
-      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.get_uninstall_command.yellow}\n\n"
+      puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.uninstall_command.yellow}\n\n"
     end
   end
 end
