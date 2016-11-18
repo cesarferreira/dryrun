@@ -11,7 +11,7 @@
 
 ### Show some :heart:
 [![GitHub stars](https://img.shields.io/github/stars/cesarferreira/dryrun.svg?style=social&label=Star)](https://github.com/cesarferreira/dryrun)
-[![GitHub forks](https://img.shields.io/github/forks/cesarferreira/dryrun.svg?style=social&label=Fork)](https://github.com/cesarferreira/dryrun/fork) [![GitHub watchers](https://img.shields.io/github/watchers/cesarferreira/dryrun.svg?style=social&label=Watch)](https://github.com/cesarferreira/dryrun) [![GitHub followers](https://img.shields.io/github/followers/cesarferreira.svg?style=social&label=Follow)](https://github.com/cesarferreira/dryrun)  
+[![GitHub forks](https://img.shields.io/github/forks/cesarferreira/dryrun.svg?style=social&label=Fork)](https://github.com/cesarferreira/dryrun/fork) [![GitHub watchers](https://img.shields.io/github/watchers/cesarferreira/dryrun.svg?style=social&label=Watch)](https://github.com/cesarferreira/dryrun) [![GitHub followers](https://img.shields.io/github/followers/cesarferreira.svg?style=social&label=Follow)](https://github.com/cesarferreira/dryrun)
 [![Twitter Follow](https://img.shields.io/twitter/follow/cesarmcferreira.svg?style=social)](https://twitter.com/cesarmcferreira)
 
 
@@ -27,7 +27,7 @@ Wait a few seconds and the app is now opened on your phone :smiley:
 
 ### Advanced usage
 ```bash
-$ dryrun -h                                                                                       
+$ dryrun -h
 Usage: dryrun GIT_URL [OPTIONS]
 
 Options
@@ -59,6 +59,18 @@ Options
 
 - No need to wait for **Android Studio** to load.
 
+
+## Notes
+
+Behaware that ANDROID_HOME needs to be set with the adb path:
+ - MAC -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
+ - Linux -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
+ - Windows -> ```ANDROID_HOME="...sdk"```
+In windows this ANDROID_HOME is not automatically created, see more in [here](https://facebook.github.io/react-native/releases/0.21/docs/android-setup.html#define-the-android-home-environment-variable)
+
+Additionally, on windows in order to use git commands, the following path should be on the environment variable
+  - ```...\Git\cmd ```
+
 ## Alternative scenario (if you don't use `dryrun`)
 
 1. Find the github's repository url
@@ -78,7 +90,7 @@ I welcome and encourage all pull requests. It usually will take me within 24-48 
   2. If its a feature, bugfix, or anything please only change code to what you specify.
   3. Please keep PR titles easy to read and descriptive of changes, this will make them easier to merge :)
   4. Pull requests _must_ be made against `develop` branch. Any other branch (unless specified by the maintainers) will get rejected.
-  5. Check for existing [issues](https://github.com/cesarferreira/dryrun/issues) first, before filing an issue.  
+  5. Check for existing [issues](https://github.com/cesarferreira/dryrun/issues) first, before filing an issue.
   6. Have fun!
 
 ### Created & Maintained By

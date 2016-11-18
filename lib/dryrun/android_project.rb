@@ -1,4 +1,4 @@
-require 'oga'
+﻿require 'oga'
 require 'fileutils'
 require 'tempfile'
 require 'find'
@@ -10,7 +10,7 @@ module Dryrun
 
       @custom_app_path = custom_app_path
       @custom_module = custom_module
-      @base_path = @custom_app_path? File.join(path, @custom_app_path) : path
+      @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
       @build_type = build_type
       @device = device
@@ -31,7 +31,7 @@ module Dryrun
       full_custom_path = @base_path
       settings_path = settings_gradle_file(full_custom_path)
       main_gradle_path = main_gradle_file(full_custom_path)
-      return unless is_valid(main_gradle_path)
+      return unless valid?(main_gradle_path)
 
       @settings_gradle_path = settings_path
       @main_gradle_file = main_gradle_file
@@ -62,9 +62,8 @@ module Dryrun
       file_name = 'local.properties'
 
       File.delete(file_name) if File.exist?(file_name)
-      if !Gem.win_platform?
-        DryrunUtils.execute("touch #{file_name}")
-      end
+
+      DryrunUtils.execute("touch #{file_name}") unless Gem.win_platform?
     end
 
     def remove_application_id
@@ -93,16 +92,17 @@ module Dryrun
       File.join(path, 'build.gradle')
     end
 
-    def is_valid(main_gradle_file = @main_gradle_file)
-      File.exist?(main_gradle_file)
+    def valid?(main_gradle_file = @main_gradle_file)
+      File.exist?(main_gradle_file) &&
+      File.exist?(@settings_gradle_path)
     end
 
     def find_modules
-      return [] unless is_valid
+      return [] unless valid?
 
       content = File.open(@settings_gradle_path, 'rb').read
       modules = content.scan(/'([^']*)'/)
-      modules.each {|replacement| replacement.first.gsub!(':', '/')}
+      modules.each { |replacement| replacement.first.tr!(':', '/') }
     end
 
     def install
@@ -110,7 +110,7 @@ module Dryrun
 
       path, execute_line = sample_project
 
-      if path == false and execute_line == false
+      if path == false && execute_line == false
         puts "Couldn't open the sample project, sorry!".red
         exit 1
       end
@@ -127,7 +127,7 @@ module Dryrun
       end
 
       # Generate the gradle/ folder
-      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') and !is_gradle_wrapped
+      DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') && !gradle_wrapped?
 
       remove_local_properties
 
@@ -151,10 +151,11 @@ module Dryrun
       end
     end
 
-    def is_gradle_wrapped
-      return false if !File.directory?('gradle/')
+    def gradle_wrapped?
+      return false unless File.directory?('gradle/')
 
-      File.exist?('gradle/wrapper/gradle-wrapper.properties') and File.exist?('gradle/wrapper/gradle-wrapper.jar')
+      File.exist?('gradle/wrapper/gradle-wrapper.properties') &&
+        File.exist?('gradle/wrapper/gradle-wrapper.jar')
     end
 
     def sample_project
@@ -176,65 +177,61 @@ module Dryrun
       [false, false]
     end
 
-    def get_uninstall_command
-     "adb uninstall \"#{@package}\""
-   end
-
-   def clear_app_data
-     DryrunUtils.run_adb("shell pm clear #{@package}")
-   end
-
-   def uninstall_application
-    DryrunUtils.run_adb("shell pm uninstall #{@package}")
-  end
-
-  def get_execution_line_command(path_to_sample)
-    manifest_file = get_manifest(path_to_sample)
-
-    if manifest_file.nil?
-      return false
+    def uninstall_command
+      "adb uninstall \"#{@package}\""
     end
 
-    doc = Oga.parse_xml(manifest_file)
+    def clear_app_data
+      DryrunUtils.run_adb("shell pm clear #{@package}")
+    end
+
+    def uninstall_application
+      DryrunUtils.run_adb("shell pm uninstall #{@package}")
+    end
+
+    def get_execution_line_command(path_to_sample)
+      manifest_file = get_manifest(path_to_sample)
+
+      return false if manifest_file.nil?
+
+      doc = Oga.parse_xml(manifest_file)
 
       extract_application_id
 
       @package = @application_id + '.' + @build_type.downcase
       @launcher_activity = get_launcher_activity(doc)
 
-    if !@launcher_activity
-      return false
+      return false unless @launcher_activity
+
+      manifest_file.close
+
+      "am start -n \"#{launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
-    manifest_file.close
-
-    return "am start -n \"#{get_launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
-  end
-
-  def get_manifest(path_to_sample)
-    default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
-    if File.exist?(default_path)
-      return File.open(default_path)
-    else
-      Find.find(path_to_sample) do |path|
-        return File.open(path) if path =~ /.*AndroidManifest.xml$/
+    def get_manifest(path_to_sample)
+      default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
+      if File.exist?(default_path)
+        return File.open(default_path)
+      else
+        Find.find(path_to_sample) do |path|
+          return File.open(path) if path =~ /.*AndroidManifest.xml$/
+        end
       end
     end
-  end
 
-  def get_launchable_activity
-    full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package,'')}"
-    "#{@package}/#{full_path_to_launcher}"
-  end
+    def launchable_activity
+      full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package, '')}"
+      "#{@package}/#{full_path_to_launcher}"
+    end
 
     def get_package(doc)
      doc.xpath('//manifest').attr('package').first.value
    end
 
- def get_launcher_activity(doc)
-  activities = doc.css('activity')
-  activities.each do |child|
-    intent_filter = child.css('intent-filter')
+    def get_launcher_activity(doc)
+      activities = doc.css('activity')
+      activities.each do |child|
+        intent_filter = child.css('intent-filter')
 
       if intent_filter != nil and intent_filter.length != 0
         return child.attr('android:name').value
