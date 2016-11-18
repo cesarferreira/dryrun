@@ -2,8 +2,53 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8160cc77-5299-4a58-88fd-d61d6ef89af4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dryrun-0.7.9.gem" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dryrun.iml" afterPath="$PROJECT_DIR$/.idea/dryrun.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dryrun-0.7.9.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/adb-sdklib-0.0.3.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/ansi-1.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/ast-2.3.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/byebug-9.0.5.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/coderay-1.1.1.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/colorize-0.8.1.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/diff-lcs-1.2.5.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/highline-1.7.8.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/method_source-0.8.2.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/oga-1.3.1.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/pry-0.10.4.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/pry-byebug-3.4.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rake-10.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rjb-1.5.4.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rspec-3.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rspec-core-3.5.3.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rspec-expectations-3.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rspec-mocks-3.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/rspec-support-3.5.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/ruby-ll-2.1.2.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vendor/cache/slop-3.6.0.gem" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/.rakeTasks" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/pavlostournaris.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dryrun.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/logo.png" afterPath="$PROJECT_DIR$/extras/logo.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/thumb.png" afterPath="$PROJECT_DIR$/extras/thumb.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/usage.gif" afterPath="$PROJECT_DIR$/extras/usage.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/usage_v2.gif" afterPath="$PROJECT_DIR$/extras/usage_v2.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/usage_v3.gif" afterPath="$PROJECT_DIR$/extras/usage_v3.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extras/usage_v4.gif" afterPath="$PROJECT_DIR$/extras/usage_v4.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LICENSE" afterPath="$PROJECT_DIR$/LICENSE" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Rakefile" afterPath="$PROJECT_DIR$/Rakefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dryrun.gemspec" afterPath="$PROJECT_DIR$/dryrun.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/dryrun.rb" afterPath="$PROJECT_DIR$/lib/dryrun.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/dryrun/android_project.rb" afterPath="$PROJECT_DIR$/lib/dryrun/android_project.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/dryrun/dryrun_utils.rb" afterPath="$PROJECT_DIR$/lib/dryrun/dryrun_utils.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/dryrun/github.rb" afterPath="$PROJECT_DIR$/lib/dryrun/github.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/dryrun/version.rb" afterPath="$PROJECT_DIR$/lib/dryrun/version.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/dryrun_spec.rb" afterPath="$PROJECT_DIR$/spec/dryrun_spec.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/github_spec.rb" afterPath="$PROJECT_DIR$/spec/github_spec.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/spec_helper.rb" afterPath="$PROJECT_DIR$/spec/spec_helper.rb" />
     </list>
     <ignored path="dryrun.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,9 +75,13 @@
       <file leaf-file-name="dryrun.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/dryrun.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3895">
-              <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="2595">
+              <caret line="210" column="46" selection-start-line="210" selection-start-column="46" selection-end-line="210" selection-end-column="46" />
+              <folding>
+                <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+                <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+                <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -40,8 +89,8 @@
       <file leaf-file-name="android_project.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/dryrun/android_project.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+            <state relative-caret-position="-259">
+              <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -50,7 +99,7 @@
       <file leaf-file-name="dryrun.gemspec" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dryrun.gemspec">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
+            <state relative-caret-position="210">
               <caret line="14" column="81" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
               <folding />
             </state>
@@ -79,9 +128,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1280" />
-    <option name="y" value="-153" />
+    <option name="y" value="-618" />
     <option name="width" value="2492" />
-    <option name="height" value="1417" />
+    <option name="height" value="1418" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -108,6 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -117,19 +167,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dryrun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dryrun" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -141,7 +180,7 @@
       <recent name="$PROJECT_DIR$/gem" />
     </key>
   </component>
-  <component name="RunManager" selected="Gem Command.DryRun tests">
+  <component name="RunManager">
     <configuration default="true" type="CommandRunConfigurationType" factoryName="Gem Command">
       <module name="" />
       <COMMAND_RUN_CONFIGURATION NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -259,6 +298,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -268,9 +313,6 @@
       <envs />
       <method />
     </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Gem Command.DryRun tests" />
-    </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -288,33 +330,34 @@
       <workItem from="1475751965749" duration="2022000" />
       <workItem from="1475756621778" duration="94000" />
       <workItem from="1475756718118" duration="643000" />
+      <workItem from="1479475730003" duration="544000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3897000" />
+    <option name="totallyTimeSpent" value="4441000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="-153" width="2492" height="1417" extended-state="6" />
+    <frame x="1280" y="-618" width="2492" height="1418" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25963083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938564" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39970392" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938564" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39970392" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -333,12 +376,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="ruby-line">
           <url>file://$PROJECT_DIR$/lib/dryrun/android_project.rb</url>
-          <line>139</line>
+          <line>126</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="ruby-line">
           <url>file://$PROJECT_DIR$/lib/dryrun/android_project.rb</url>
-          <line>140</line>
+          <line>127</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
@@ -349,9 +392,41 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lib/dryrun.rb">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3510">
+          <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/dryrun/android_project.rb">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dryrun.gemspec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="81" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/dryrun.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -375,7 +450,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -399,7 +478,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -407,7 +490,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1083">
           <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="66" />
-          <folding />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -415,7 +502,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1083">
           <caret line="57" column="46" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="66" />
-          <folding />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -431,13 +522,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dryrun.gemspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
+        <state relative-caret-position="210">
           <caret line="14" column="81" selection-start-line="14" selection-start-column="81" selection-end-line="14" selection-end-column="81" />
           <folding />
         </state>
@@ -445,16 +540,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/dryrun.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3895">
-          <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="2595">
+          <caret line="210" column="46" selection-start-line="210" selection-start-column="46" selection-end-line="210" selection-end-column="46" />
+          <folding>
+            <marker date="1479476256000" expanded="true" signature="7182:7220" ph="unless ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7226" ph=" ... end" />
+            <marker date="1479476256000" expanded="true" signature="7182:7230" ph=" ... end" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/dryrun/android_project.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+        <state relative-caret-position="-259">
+          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
           <folding />
         </state>
       </provider>
