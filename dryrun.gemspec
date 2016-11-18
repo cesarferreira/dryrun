@@ -11,8 +11,8 @@ require 'dryrun/version'
 Gem::Specification.new do |spec|
   spec.name          = 'dryrun'
   spec.version       = Dryrun::VERSION
-  spec.authors       = ['cesar ferreira','pavlos-petros tournaris']
-  spec.email         = ['cesar.manuel.ferreira@gmail.com', 'p.tournaris@gmail.com']
+  spec.authors       = ['cesar ferreira']
+  spec.email         = ['cesar.manuel.ferreira@gmail.com']
 
   spec.summary       = 'Tool to try any android library hosted online directly from the command line'
   spec.description   = 'Tool to try any android library hosted online directly from the command line'
