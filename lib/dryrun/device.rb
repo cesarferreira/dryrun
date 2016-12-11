@@ -1,4 +1,4 @@
-﻿module AdbDevice
+﻿module Dryrun
   class Device
     attr_accessor :name, :id
 

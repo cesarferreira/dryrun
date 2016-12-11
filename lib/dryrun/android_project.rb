@@ -183,21 +183,23 @@ module Dryrun
 
       manifest_file.close
 
-      "am start -n \"#{launchable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
+      "am start -n \"#{launcheable_activity}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
     end
 
     def get_manifest(path_to_sample)
       default_path = File.join(path_to_sample, 'src/main/AndroidManifest.xml')
+
       if File.exist?(default_path)
-        return File.open(default_path)
+        File.open(default_path)
       else
+        puts path_to_sample
         Find.find(path_to_sample) do |path|
           return File.open(path) if path =~ /.*AndroidManifest.xml$/
         end
       end
     end
 
-    def launchable_activity
+    def launcheable_activity
       full_path_to_launcher = "#{@package}#{@launcher_activity.gsub(@package, '')}"
       "#{@package}/#{full_path_to_launcher}"
     end

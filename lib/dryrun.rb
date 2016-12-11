@@ -4,10 +4,10 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
+require 'dryrun/device'
 require 'highline/import'
 require 'openssl'
 require 'open3'
-require_relative 'dryrun/device'
 require 'optparse'
 
 module Dryrun
@@ -33,8 +33,8 @@ module Dryrun
     def create_options_parser(args)
       args.options do |opts|
         opts.banner = 'Usage: dryrun GIT_URL [OPTIONS]'
-        opts.separator  ''
-        opts.separator  'Options'
+        opts.separator ''
+        opts.separator 'Options'
 
         opts.on('-m MODULE_NAME', '--module MODULE_NAME', 'Custom module to run') do |custom_module|
           @custom_module = custom_module
@@ -107,11 +107,11 @@ module Dryrun
 
       @devices = DryrunUtils.run_adb('devices')
 
-      if @devices.nil? || @devices.empty?
-        puts 'Killing adb, there might be an issue with it...'
-        DryrunUtils.run_adb('kill-server')
-        @devices = DryrunUtils.run_adb('devices')
-      end
+      # if @devices.nil? || @devices.empty?
+      #   puts 'Killing adb, there might be an issue with it...'
+      #   DryrunUtils.run_adb('kill-server')
+      #   @devices = DryrunUtils.run_adb('devices')
+      # end
 
       puts 'No devices attached, but I\'ll run anyway' if @devices.empty?
 
@@ -161,24 +161,30 @@ module Dryrun
       end
 
       if @url.nil?
-        puts 'You need to insert a valid GIT URL'
+        puts 'You need to insert a valid GIT URL/folder'
         exit 1
       end
-
-      @url = @url.split('?').first
-      @url.chop! if @url.end_with? '/'
 
       pick_device
 
-      github = Github.new(@url)
+      if DryrunUtils::is_folder? (@url)
+        repository_path = File.expand_path @url
+      else
 
-      unless github.valid?
-        puts "#{@url.red} is not a valid git @url"
-        exit 1
+        @url = @url.split('?').first
+        @url.chop! if @url.end_with? '/'
+
+        github = Github.new(@url)
+
+        unless github.valid?
+          puts "#{@url.red} is not a valid git @url"
+          exit 1
+        end
+
+        # clone the repository
+        repository_path = github.clone(@branch, @tag, @cleanup)
+
       end
-
-      # clone the repository
-      repository_path = github.clone(@branch, @tag, @cleanup)
 
       android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
