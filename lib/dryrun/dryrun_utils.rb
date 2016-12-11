@@ -46,6 +46,10 @@ module Dryrun
       run(path)
     end
 
+    def self.is_folder? (path)
+      File.directory?(path)
+    end
+
     def self.run(path)
       Open3.popen3(path) do |_stdin, stdout, _stderr|
         devices = []
@@ -53,7 +57,7 @@ module Dryrun
           line = line.strip
           if !line.empty? && line !~ /^List of devices/ && !line.start_with?('adb') && !line.start_with?('*')
             parts = line.split
-            devices << AdbDevice::Device.new(parts[0], parts[1])
+            devices << Dryrun::Device.new(parts[0], parts[1])
           end
         end
         devices

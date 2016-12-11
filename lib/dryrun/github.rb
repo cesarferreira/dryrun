@@ -13,7 +13,7 @@ module Dryrun
     def sanitize_url(url)
       url = url.split('?').first
       url.chop! if url.end_with? '/'
-      return url
+      url
     end
 
     def destination
@@ -25,7 +25,7 @@ module Dryrun
       stripped_url = stripped_url.gsub('.git', '')
       stripped_url = stripped_url.gsub('git@github.com:', '')
       stripped_url = stripped_url.gsub('https://github.com/', '')
-      stripped_url = stripped_url.gsub('http://github.com/', '')
+      stripped_url.gsub('http://github.com/', '')
     end
 
     def valid?
@@ -36,7 +36,7 @@ module Dryrun
       (starts_with_git || starts_with_https || starts_with_http)
     end
 
-    def clonable_url
+    def cloneable_url
       starts_with_git = @base_url.split(//).first(4).join.eql? 'git@'
       ends_with_git = @base_url.split(//).last(4).join.eql? '.git'
 
@@ -53,7 +53,7 @@ module Dryrun
     ## CLONE THE REPOSITORY
     ##
     def clone(branch, tag, cleanup)
-      clonable = clonable_url
+      cloneable = cloneable_url
 
       tmpdir = Dir.tmpdir + "/dryrun/#{@destination}"
 
@@ -72,7 +72,7 @@ module Dryrun
 
         if !is_git_repo
           FileUtils.rm_rf(tmpdir)
-          DryrunUtils.execute("git clone --depth 1 #{clonable} #{tmpdir}")
+          DryrunUtils.execute("git clone --depth 1 #{cloneable} #{tmpdir}")
           DryrunUtils.execute("git checkout #{branch}")
         else
           puts "Found project in #{tmpdir.green}..."
@@ -82,7 +82,7 @@ module Dryrun
           DryrunUtils.execute("git pull origin #{branch}")
         end
       else
-        DryrunUtils.execute("git clone --depth 1 #{clonable} #{tmpdir}")
+        DryrunUtils.execute("git clone --depth 1 #{cloneable} #{tmpdir}")
       end
 
       if tag
