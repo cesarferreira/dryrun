@@ -1,5 +1,6 @@
 ![Image](extras/logo.png)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c9f73e75e72547008558b3e337acbff3)](https://www.codacy.com/app/cesarferreira/dryrun?utm_source=github.com&utm_medium=referral&utm_content=cesarferreira/dryrun&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun)
 [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dryrun-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2361)
