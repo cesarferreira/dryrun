@@ -1,5 +1,6 @@
 ![Image](extras/logo.png)
 
+![](http://ruby-gem-downloads-badge.herokuapp.com/dryrun?type=total)
 [![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun)
 [![Gem Version](https://badge.fury.io/rb/dryrun.svg)](http://badge.fury.io/rb/dryrun)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dryrun-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2361)
