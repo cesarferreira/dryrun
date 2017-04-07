@@ -9,13 +9,6 @@
 
 **Try** any **android library** hosted online **directly** from the **command line**
 
-
-### Show some :heart:
-[![GitHub stars](https://img.shields.io/github/stars/cesarferreira/dryrun.svg?style=social&label=Star)](https://github.com/cesarferreira/dryrun)
-[![GitHub forks](https://img.shields.io/github/forks/cesarferreira/dryrun.svg?style=social&label=Fork)](https://github.com/cesarferreira/dryrun/fork) [![GitHub watchers](https://img.shields.io/github/watchers/cesarferreira/dryrun.svg?style=social&label=Watch)](https://github.com/cesarferreira/dryrun) [![GitHub followers](https://img.shields.io/github/followers/cesarferreira.svg?style=social&label=Follow)](https://github.com/cesarferreira/dryrun)
-[![Twitter Follow](https://img.shields.io/twitter/follow/cesarmcferreira.svg?style=social)](https://twitter.com/cesarmcferreira)
-
-
 ## Usage
 ```bash
 dryrun https://github.com/cesarferreira/android-helloworld
