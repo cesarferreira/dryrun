@@ -1,4 +1,4 @@
-![Image](extras/logo.png)
+# dryrun
 
 ![](http://ruby-gem-downloads-badge.herokuapp.com/dryrun?type=total)
 [![Build Status](https://travis-ci.org/cesarferreira/dryrun.svg?branch=master)](https://travis-ci.org/cesarferreira/dryrun)
