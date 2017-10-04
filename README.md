@@ -54,7 +54,7 @@ Options
 
 ## Notes
 
-Behaware that ANDROID_HOME needs to be set with the adb path:
+Be aware that ANDROID_HOME needs to be set with the adb path:
  - MAC -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
  - Linux -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
  - Windows -> ```ANDROID_HOME="...sdk"```
