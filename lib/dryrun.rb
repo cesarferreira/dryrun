@@ -4,6 +4,7 @@ require 'fileutils'
 require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
+require 'dryrun/install_application_command'
 require 'dryrun/device'
 require 'highline/import'
 require 'openssl'
@@ -118,7 +119,7 @@ module Dryrun
       if @devices.size >= 2
         puts 'Pick your device (1,2,3...):'
 
-        @devices.each_with_index.map { |key, index| puts "#{index.to_s.green} -  #{key.name} \n" }
+        @devices.each_with_index.map {|key, index| puts "#{index.to_s.green} -  #{key.name} \n"}
 
         input = gets.chomp
 
@@ -186,7 +187,7 @@ module Dryrun
 
       end
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
 
       # is a valid android project?
       unless android_project.valid?
@@ -198,7 +199,7 @@ module Dryrun
       puts "Using custom module: #{@custom_module.green}" if @custom_module
 
       # clean and install the apk
-      android_project.install
+      android_project.execute_command(InstallApplicationCommand.new(@custom_module, @flavour, @device))
 
       puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.uninstall_command.yellow}\n\n"
     end

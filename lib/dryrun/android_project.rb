@@ -7,12 +7,11 @@ require_relative 'manifest_parser'
 
 module Dryrun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour, device)
+    def initialize(path, custom_app_path, custom_module, flavour)
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
-      @device = device
 
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
@@ -84,12 +83,11 @@ module Dryrun
       modules.each {|replacement| replacement.first.tr!(':', '/')}
     end
 
-    def install
+    def execute_command(command)
       Dir.chdir @base_path
 
       path = sample_project
       manifest_parsed = parse_manifest(path)
-      execute_line = get_execution_command_line(@package, @launcher_activity)
 
       if path == false && manifest_parsed == false
         puts "Couldn't open the sample project, sorry!".red
@@ -101,29 +99,7 @@ module Dryrun
       remove_application_id
       remove_local_properties
 
-      if @custom_module
-        DryrunUtils.execute("#{builder} clean")
-        DryrunUtils.execute("#{builder} :#{@custom_module}:install#{@flavour}Debug")
-      else
-        DryrunUtils.execute("#{builder} clean")
-
-        if @device.nil?
-          puts 'No devices picked/available, proceeding with assemble instead'.green
-          puts "#{builder} assemble#{@flavour}Debug"
-          DryrunUtils.execute("#{builder} assemble#{@flavour}Debug")
-        else
-          puts "#{builder} install#{@flavour}Debug"
-          DryrunUtils.execute("#{builder} install#{@flavour}Debug")
-        end
-      end
-
-      unless @device.nil?
-        clear_app_data
-        puts "Installing #{@package.green}...\n"
-        puts "executing: #{execute_line.green}\n"
-
-        DryrunUtils.run_adb("shell #{execute_line}")
-      end
+      command.run(builder, @package, @launcher_activity)
     end
 
     def gradle_wrapped?
@@ -171,15 +147,6 @@ module Dryrun
       return false unless @launcher_activity
 
       manifest_file.close
-    end
-
-    def get_execution_command_line(package, launcher_activity)
-      "am start -n \"#{launcheable_activity(package, launcher_activity)}\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER"
-    end
-
-    def launcheable_activity(package, launcher_activity)
-      full_path_to_launcher = "#{package}#{launcher_activity.gsub(package, '')}"
-      "#{package}/#{full_path_to_launcher}"
     end
 
     def get_manifest(path_to_sample)
