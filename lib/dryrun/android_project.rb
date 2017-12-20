@@ -7,11 +7,12 @@ require_relative 'manifest_parser'
 
 module Dryrun
   class AndroidProject
-    def initialize(path, custom_app_path, custom_module, flavour)
+    def initialize(path, custom_app_path, custom_module, flavour, device)
       @custom_app_path = custom_app_path
       @custom_module = custom_module
       @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
+      @device = device
 
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
@@ -99,7 +100,7 @@ module Dryrun
       remove_application_id
       remove_local_properties
 
-      command.run(builder, @package, @launcher_activity)
+      command.run(builder, @package, @launcher_activity, @custom_module, @flavour, @device)
     end
 
     def gradle_wrapped?
@@ -125,10 +126,6 @@ module Dryrun
 
     def uninstall_command
       "adb uninstall \"#{@package}\""
-    end
-
-    def clear_app_data
-      DryrunUtils.run_adb("shell pm clear #{@package}")
     end
 
     def uninstall_application

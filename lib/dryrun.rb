@@ -5,6 +5,7 @@ require 'dryrun/github'
 require 'dryrun/version'
 require 'dryrun/android_project'
 require 'dryrun/install_application_command'
+require 'dryrun/test_application_command'
 require 'dryrun/device'
 require 'highline/import'
 require 'openssl'
@@ -26,6 +27,7 @@ module Dryrun
       @branch = 'master'
       @devices = []
       @cleanup = false
+      @command = InstallApplicationCommand.new
 
       # Parse Options
       create_options_parser(arguments)
@@ -73,6 +75,10 @@ module Dryrun
         opts.on('-v', '--version', 'Displays the version') do
           puts Dryrun::VERSION
           exit
+        end
+
+        opts.on('-a', '--android-test', 'Execute android tests') do
+          @command = TestApplicationCommand.new
         end
 
         opts.parse!
@@ -187,7 +193,7 @@ module Dryrun
 
       end
 
-      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour)
+      android_project = AndroidProject.new(repository_path, @app_path, @custom_module, @flavour, @device)
 
       # is a valid android project?
       unless android_project.valid?
@@ -199,7 +205,7 @@ module Dryrun
       puts "Using custom module: #{@custom_module.green}" if @custom_module
 
       # clean and install the apk
-      android_project.execute_command(InstallApplicationCommand.new(@custom_module, @flavour, @device))
+      android_project.execute_command(@command)
 
       puts "\n> If you want to remove the app you just installed, execute:\n#{android_project.uninstall_command.yellow}\n\n"
     end
