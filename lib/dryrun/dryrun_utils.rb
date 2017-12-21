@@ -63,17 +63,5 @@ module Dryrun
         devices
       end
     end
-
-    def self.clear_app_data(package)
-      run_adb("shell pm clear #{package}")
-    end
-
-    def self.clean_execute(execute_line, package)
-      clear_app_data(package)
-      puts "Installing #{package.green}...\n"
-      puts "executing: #{execute_line.green}\n"
-
-      run_adb("shell #{execute_line}")
-    end
   end
 end

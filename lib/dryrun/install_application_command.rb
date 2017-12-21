@@ -1,4 +1,5 @@
 require_relative 'dryrun_utils'
+require_relative 'android_utils'
 
 module Dryrun
   class InstallApplicationCommand
@@ -22,7 +23,8 @@ module Dryrun
       end
 
       unless device.nil?
-        DryrunUtils.clean_execute(execute_line, package)
+        AndroidUtils.clear_app_data(package)
+        AndroidUtils.pretty_run(execute_line, package)
       end
     end
 
