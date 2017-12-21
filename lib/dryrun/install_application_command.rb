@@ -6,20 +6,13 @@ module Dryrun
 
     def run(builder, package, launcher_activity, custom_module, flavour, device)
       execute_line = get_execution_command_line(package, launcher_activity)
-      if custom_module
-        DryrunUtils.execute("#{builder} clean")
-        DryrunUtils.execute("#{builder} :#{custom_module}:install#{flavour}Debug")
-      else
-        DryrunUtils.execute("#{builder} clean")
+      builder.clean
 
-        if device.nil?
-          puts 'No devices picked/available, proceeding with assemble instead'.green
-          puts "#{builder} assemble#{flavour}Debug"
-          DryrunUtils.execute("#{builder} assemble#{flavour}Debug")
-        else
-          puts "#{builder} install#{flavour}Debug"
-          DryrunUtils.execute("#{builder} install#{flavour}Debug")
-        end
+      if device.nil?
+        puts 'No devices picked/available, proceeding with assemble instead'.green
+        builder.assemble(custom_module, flavour)
+      else
+        builder.install(custom_module, flavour)
       end
 
       unless device.nil?
