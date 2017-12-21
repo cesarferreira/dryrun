@@ -4,6 +4,7 @@ require 'tempfile'
 require 'find'
 require_relative 'dryrun_utils'
 require_relative 'manifest_parser'
+require_relative 'gradle_adapter'
 
 module Dryrun
   class AndroidProject
@@ -173,7 +174,7 @@ module Dryrun
 
       # Generate the gradle/ folder
       DryrunUtils.execute('gradle wrap') if File.exist?('gradlew') && !gradle_wrapped?
-      builder
+      GradleAdapter.new(builder)
     end
   end
 end
