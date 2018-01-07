@@ -49,6 +49,7 @@ Options
     -w, --wipe                       Wipe the temporary dryrun folder
     -h, --help                       Displays help
     -v, --version                    Displays the version
+    -a, --android-test               Execute android tests
 ```
 
 ## Alternative scenario (if you don't use `dryrun`)
