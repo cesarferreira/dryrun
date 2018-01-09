@@ -80,7 +80,7 @@ Be aware that ANDROID_HOME needs to be set with the adb path:
  - MAC -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
  - Linux -> ```ANDROID_HOME=/usr/local/opt/android-sdk```
  - Windows -> ```ANDROID_HOME="...sdk"```
-In windows this ANDROID_HOME is not automatically created, see more in [here](https://facebook.github.io/react-native/releases/0.21/docs/android-setup.html#define-the-android-home-environment-variable)
+In windows this ANDROID_HOME is not automatically created, see more in [here](https://github.com/facebook/react-native/blob/0.24-stable/docs/DevelopmentSetupAndroid.md#define-the-android_home-environment-variable)
 
 Additionally, on windows in order to use git commands, the following path should be on the environment variable
   - ```...\Git\cmd ```
