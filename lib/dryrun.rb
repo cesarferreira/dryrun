@@ -15,7 +15,7 @@ require 'optparse'
 module Dryrun
   class MainApp
     def initialize(arguments)
-      outdated_verification
+      # outdated_verification
 
       @url = %w(-h --help -v --version -w --wipe).include?(arguments.first) ? nil : arguments.shift
 
