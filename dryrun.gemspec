@@ -25,13 +25,4 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.0.0'
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'pry-byebug'
-  s.add_development_dependency 'rspec'
-
-  s.add_dependency 'bundler'
-  s.add_dependency 'colorize'
-  s.add_dependency 'oga'
-  s.add_dependency 'highline'
-  s.add_dependency 'rjb'
 end
