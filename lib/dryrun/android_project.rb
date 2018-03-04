@@ -91,8 +91,8 @@ module Dryrun
       path = sample_project
       manifest_parsed = parse_manifest(path)
 
-      if path == false && manifest_parsed == false
-        puts "Couldn't open the sample project, sorry!".red
+      if path == false && manifest_parsed == false or !@launcher_activity
+        puts "Couldn't open or there isnt any sample project, sorry!".red
         exit 1
       end
 
