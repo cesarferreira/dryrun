@@ -82,7 +82,7 @@ module Dryrun
 
       content = File.open(@settings_gradle_path, 'rb').read
       modules = content.scan(/'([^']*)'/)
-      modules.each {|replacement| replacement.first.tr!(':', '/')}
+      modules.each {|replacement| replacement.first.tr!(':', '')}
     end
 
     def execute_command(command)
@@ -112,8 +112,8 @@ module Dryrun
     end
 
     def sample_project
-      if @custom_module && @modules.any? {|m| m.first == "/#{@custom_module}"}
-        @path_to_sample = File.join(@base_path, "/#{@custom_module}")
+      if @custom_module && @modules.any? {|m| m.first == "#{@custom_module}"}
+        @path_to_sample = File.join(@base_path, "#{@custom_module}")
         return @path_to_sample
       else
         @modules.each do |child|
