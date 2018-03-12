@@ -94,7 +94,7 @@ module Dryrun
         input = ask "\n#{'Your Dryrun version is outdated, want to update?'.yellow} #{'[Y/n]:'.white}"
       end until %w(y n s).include?(input.downcase)
 
-      DryrunUtils.execute('gem update dryrun') if input.casecmp 'y'
+      DryrunUtils.execute('gem update dryrun') if input.casecmp('y') == 0
     end
 
     def pick_device
