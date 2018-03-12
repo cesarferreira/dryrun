@@ -89,9 +89,7 @@ module Dryrun
       Dir.chdir @base_path
 
       path = sample_project
-      manifest_parsed = parse_manifest(path)
-
-      if path == false && manifest_parsed == false or !@launcher_activity
+      if path == false or !@launcher_activity
         puts "Couldn't open or there isnt any sample project, sorry!".red
         exit 1
       end
@@ -119,7 +117,7 @@ module Dryrun
         @modules.each do |child|
           full_path = File.join(@base_path, child.first)
           @path_to_sample = full_path
-          return full_path
+          return full_path if parse_manifest(full_path)
         end
       end
       false
@@ -141,10 +139,8 @@ module Dryrun
       manifest_parser = ManifestParser.new(manifest_file)
       @package = manifest_parser.package
       @launcher_activity = manifest_parser.launcher_activity
-
-      return false unless @launcher_activity
-
       manifest_file.close
+      @launcher_activity && @package
     end
 
     def get_manifest(path_to_sample)
