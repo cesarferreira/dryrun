@@ -1,0 +1,24 @@
+{
+    "title": "dryrun",
+    "subtitle": "☁️ Try the demo project of any Android Library",
+    "installation": "gem install dryrun",
+    "url": "https://github.com/cesarferreira/dryrun",
+    "screenshot": "https://raw.githubusercontent.com/cesarferreira/dryrun/master/extras/ss.gif",
+    "author": {
+        "name": "cesar ferreira",
+        "thumbnail": "https://pbs.twimg.com/profile_images/884351017097322496/2mmpORsM_400x400.jpg",
+        "homepage": "http://cesarferreira.com"
+    },
+    "highlights": [
+        {
+            "title": "Features",
+            "items": [
+                "Try any android library hosted online directly from the command line",
+                "Specify any custom branch to run",
+                "Specify any flavour to run",
+                "Specify any app module to run",
+                "Checkout tag/commit hash to clone (e.g. \"v0.4.5\", \"6f7dd4b\")"
+            ]
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dryrun (1.1.5)
+    dryrun (1.1.6)
       bundler (>= 1.16)
       colorize (>= 0.8)
       highline (>= 1.7)

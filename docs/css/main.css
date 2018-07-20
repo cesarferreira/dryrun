@@ -1,0 +1,76 @@
+div.notification.notification-producthunt {
+  border-radius: 0 !important;
+  background: #da552f;
+}
+
+p.install-text code {
+  border-radius: 5px;
+  padding: 0.75rem;
+}
+
+p.install-text code::before {
+  content: '$ ';
+}
+
+p.install-text code:hover {
+  cursor: text;
+}
+
+p.install-text code:hover span {
+  background: pink;
+}
+
+.hero .hero-foot {
+  margin-bottom: 1rem;
+}
+
+#madeWithBulma {
+  vertical-align: bottom;
+}
+
+div.column.has-content-vcentered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.notification.copy-notification {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.makerlink {
+    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    right: 0px;
+    bottom: 0px;
+    position: fixed;
+    z-index: 100;
+    border-top-left-radius: 5px;
+    color: rgb(111, 111, 111);
+    padding: 6px;
+    border-top: 1px solid rgb(239, 239, 239);
+    border-left: 1px solid rgb(239, 239, 239);
+    background: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+.makerlink .makerlink__img {
+    width: 22px;
+    vertical-align: middle;
+    border-radius: 100%;
+}
+
+.makerlink .makerlink__author {
+    vertical-align: middle;
+    display: inline;
+    font-weight: 500;
+    font-size: 14px;
+    margin: 0px 0px 0px 7px;
+}
+
+h1 a {
+    color:inherit; 
+    text-decoration: none;
+ }
