@@ -9,8 +9,7 @@
         "thumbnail": "https://pbs.twimg.com/profile_images/884351017097322496/2mmpORsM_400x400.jpg",
         "homepage": "http://cesarferreira.com"
     },
-    "highlights": [
-        {
+    "highlights": [{
             "title": "Features",
             "items": [
                 "Try any android library hosted online directly from the command line",
@@ -18,6 +17,13 @@
                 "Specify any flavour to run",
                 "Specify any app module to run",
                 "Checkout tag/commit hash to clone (e.g. \"v0.4.5\", \"6f7dd4b\")"
+            ]
+        },
+        {
+            "title": "Links",
+            "items": [
+                "GitHub: <a href='https://github.com/cesarferreira/dryrun'>https://github.com/cesarferreira/dryrun</a>",
+                "rubygems: <a href='https://rubygems.org/gems/dryrun/'>https://rubygems.org/gems/dryrun/</a>"
             ]
         }
     ]
