@@ -23,15 +23,15 @@ Gem::Specification.new do |s|
   s.require_paths << 'lib'
   s.executables   << 'dryrun'
 
-  s.required_ruby_version = '>= 2.0.0'
+  # s.required_ruby_version = '>= 2.0.0'
 
-  s.add_development_dependency 'rake', '>= 12.3'
-  s.add_development_dependency 'pry-byebug', '>= 3.6'
-  s.add_development_dependency 'rspec', '>= 3.7'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'pry-byebug'
+  s.add_development_dependency 'rspec'
 
-  s.add_dependency 'bundler', '>= 1.16'
-  s.add_dependency 'colorize', '>= 0.8'
-  s.add_dependency 'oga', '>= 2.15'
-  s.add_dependency 'highline', '>= 1.7'
-  s.add_dependency 'rjb', '>= 1.5'
+  s.add_dependency 'bundler'
+  s.add_dependency 'colorize'
+  s.add_dependency 'oga'
+  s.add_dependency 'highline'
+  s.add_dependency 'rjb'
 end

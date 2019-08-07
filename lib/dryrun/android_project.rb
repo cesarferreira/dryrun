@@ -14,7 +14,6 @@ module Dryrun
       @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
       @device = device
-
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
 
@@ -81,7 +80,10 @@ module Dryrun
       return [] unless valid?
 
       content = File.open(@settings_gradle_path, 'rb').read
+      
+      content = content.split(/\n/).delete_if { |x| x.start_with?("rootProject")}.join("\n")
       modules = content.scan(/'([^']*)'/)
+      
       modules.each {|replacement| replacement.first.tr!(':', '')}
     end
 
