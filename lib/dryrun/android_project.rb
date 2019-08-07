@@ -114,7 +114,7 @@ module Dryrun
     def sample_project
       if @custom_module && @modules.any? {|m| m.first == "#{@custom_module}"}
         @path_to_sample = File.join(@base_path, "#{@custom_module}")
-        return @path_to_sample
+        return @path_to_sample if parse_manifest(@path_to_sample)
       else
         @modules.each do |child|
           full_path = File.join(@base_path, child.first)
