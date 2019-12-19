@@ -14,12 +14,21 @@ module Dryrun
       @base_path = @custom_app_path ? File.join(path, @custom_app_path) : path
       @flavour = flavour
       @device = device
+      @gradle_file_extension = gradle_file_extension
       @settings_gradle_path = settings_gradle_file
       @main_gradle_file = main_gradle_file
 
       check_custom_app_path
 
       @modules = find_modules
+    end
+
+    def gradle_file_extension
+      gradle_file = File.join(@base_path, 'settings.gradle.kts')
+      if (File.exist?(gradle_file))
+        return ".gradle.kts"
+      end
+      ".gradle"
     end
 
     def check_custom_app_path
@@ -49,7 +58,7 @@ module Dryrun
       # Open temporary file
       tmp = Tempfile.new('extract')
 
-      file = "#{@path_to_sample}/build.gradle"
+      file = "#{@path_to_sample}/build#{@gradle_file_extension}"
 
       # Write good lines to temporary file
       File.open(file, 'r') do |f|
@@ -64,11 +73,11 @@ module Dryrun
     end
 
     def settings_gradle_file(path = @base_path)
-      File.join(path, 'settings.gradle')
+      File.join(path, "settings#{@gradle_file_extension}")
     end
 
     def main_gradle_file(path = @base_path)
-      File.join(path, 'build.gradle')
+      File.join(path, "build#{@gradle_file_extension}")
     end
 
     def valid?(main_gradle_file = @main_gradle_file)
@@ -81,8 +90,8 @@ module Dryrun
 
       content = File.open(@settings_gradle_path, 'rb').read
       
-      content = content.split(/\n/).delete_if { |x| x.start_with?("rootProject")}.join("\n")
-      modules = content.scan(/'([^']*)'/)
+      content = content.split(/\n/).delete_if { |x| !x.start_with?("include")}.join("\n")
+      modules = content.scan(/'([^']*)'/) + content.scan(/\"([^"]*)\"/)
       
       modules.each {|replacement| replacement.first.tr!(':', '')}
     end
