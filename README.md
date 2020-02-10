@@ -1,8 +1,8 @@
-<p align="center">
+<!--<p align="center">
   <a href="https://github.com/cesarferreira/dryrun" target="_blank">
     <img width="200"src="extras/gift.gif">
   </a>
-</p>
+</p>-->
 <h1 align="center">dryrun</h1>
 <p align="center"><strong>Try any android library</strong> hosted online <strong>directly</strong> from the <strong>command line</strong></p>
 <p align="center">
