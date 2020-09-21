@@ -27,7 +27,7 @@ module Dryrun
           page_string = f.read
         end
       else
-        open(url) do |f|
+        URI.open(url) do |f|
           page_string = f.read
         end
       end
@@ -40,7 +40,7 @@ module Dryrun
       latest.to_s <= Dryrun::VERSION.to_s
     end
 
-    def self.run_adb(args) # :yields: stdout
+    def self.run_adb(args)
       adb_arg = " -s #{$device.name} " unless $device.nil?
       path = "#{$sdk} #{adb_arg} #{args} "
       run(path)

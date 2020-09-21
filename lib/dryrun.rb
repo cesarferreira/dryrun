@@ -102,12 +102,12 @@ module Dryrun
 
       if !Gem.win_platform?
         @sdk = `echo $ANDROID_HOME`.delete("\n")
-        @sdk += '/platform-tools/adb'
       else
         @sdk = `echo %ANDROID_HOME%`.delete("\n")
-        @sdk += '/platform-tools/adb.exe'
       end
 
+      @sdk = 'adb' if @sdk.empty?
+        
       $sdk = @sdk
 
       puts 'Searching for devices...'.yellow
