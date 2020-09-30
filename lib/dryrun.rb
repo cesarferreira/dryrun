@@ -142,7 +142,7 @@ module Dryrun
       puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 
-    def ANDROID_SDK_ROOT_is_defined
+    def android_sdk_root_is_defined
       @sdk = if !Gem.win_platform?
                `echo $ANDROID_SDK_ROOT`.delete('\n')
              else
@@ -160,7 +160,7 @@ module Dryrun
     end
 
     def call
-      unless ANDROID_SDK_ROOT_is_defined
+      unless android_sdk_root_is_defined
         puts "\nWARNING: your #{'$ANDROID_SDK_ROOT'.yellow} is not defined\n"
         puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_SDK_ROOT='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
