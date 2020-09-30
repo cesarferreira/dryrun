@@ -101,13 +101,13 @@ module Dryrun
       @device = nil
 
       if !Gem.win_platform?
-        @sdk = `echo $ANDROID_HOME`.delete("\n")
+        @sdk = `echo $ANDROID_SDK_ROOT`.delete("\n")
       else
-        @sdk = `echo %ANDROID_HOME%`.delete("\n")
+        @sdk = `echo %ANDROID_SDK_ROOT%`.delete("\n")
       end
 
       @sdk = 'adb' if @sdk.empty?
-        
+
       $sdk = @sdk
 
       puts 'Searching for devices...'.yellow
@@ -142,11 +142,11 @@ module Dryrun
       puts "Picked #{@device.name.to_s.green}" unless @device.nil?
     end
 
-    def android_home_is_defined
+    def ANDROID_SDK_ROOT_is_defined
       @sdk = if !Gem.win_platform?
-               `echo $ANDROID_HOME`.delete('\n')
+               `echo $ANDROID_SDK_ROOT`.delete('\n')
              else
-               `echo %ANDROID_HOME%`.delete('\n')
+               `echo %ANDROID_SDK_ROOT%`.delete('\n')
              end
       !@sdk.empty?
     end
@@ -160,9 +160,9 @@ module Dryrun
     end
 
     def call
-      unless android_home_is_defined
-        puts "\nWARNING: your #{'$ANDROID_HOME'.yellow} is not defined\n"
-        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_HOME='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
+      unless ANDROID_SDK_ROOT_is_defined
+        puts "\nWARNING: your #{'$ANDROID_SDK_ROOT'.yellow} is not defined\n"
+        puts "\nhint: in your #{'~/.bashrc'.yellow} or #{'~/.bash_profile'.yellow}  add:\n  #{"export ANDROID_SDK_ROOT='/Users/cesarferreira/Library/Android/sdk/'".yellow}"
         puts "\nNow type #{'source ~/.bashrc'.yellow}\n\n"
         exit 1
       end
