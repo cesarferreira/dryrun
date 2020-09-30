@@ -74,11 +74,7 @@ Options
 
 ## Notes
 
-Be aware that ANDROID_SDK_ROOT needs to be set with the adb path:
- - MAC -> ```ANDROID_SDK_ROOT=/usr/local/opt/android-sdk```
- - Linux -> ```ANDROID_SDK_ROOT=/usr/local/opt/android-sdk```
- - Windows -> ```ANDROID_SDK_ROOT="...sdk"```
-In Windows ANDROID_SDK_ROOT is not automatically created, see more in [here](https://github.com/facebook/react-native/blob/0.24-stable/docs/DevelopmentSetupAndroid.md#define-the-ANDROID_HOME-environment-variable)
+Be aware that `$ANDROID_SDK_ROOT` environment variable needs to be set. See more in [here](https://developer.android.com/studio/command-line/variables#set)
 
 Additionally, on windows in order to use git commands, the following path should be on the environment variable
   - ```...\Git\cmd ```
