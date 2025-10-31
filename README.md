@@ -6,10 +6,9 @@
 <h1 align="center">dryrun</h1>
 <p align="center"><strong>Try any android library</strong> hosted online <strong>directly</strong> from the <strong>command line</strong></p>
 <p align="center">
-  <a href="https://github.com/cesarferreira/dryrun"><img src="http://ruby-gem-downloads-badge.herokuapp.com/dryrun?type=total" alt="downloads"></a>
+ <a href="https://github.com/cesarferreira/dryrun"> <img alt="Gem Total Downloads" src="https://img.shields.io/gem/dt/dryrun"></a>
   <a href="https://github.com/cesarferreira/dryrun"><img src="https://badge.fury.io/rb/dryrun.svg" alt="npm"></a>
   <a href="http://androidweekly.net/issues/issue-200"><img src="https://img.shields.io/badge/Android%20Weekly-%23200-blue.svg" alt="Android Weekly"></a>
-  <a href="https://www.codacy.com/app/cesarferreira/dryrun?utm_source=github.com&utm_medium=referral&utm_content=cesarferreira/dryrun&utm_campaign=badger"><img src="https://api.codacy.com/project/badge/Grade/c9f73e75e72547008558b3e337acbff3" alt="Codacy Badge"></a>
 <a href="https://github.com/cesarferreira/dryrun/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed-raw/cesarferreira/dryrun.svg?color=%23FF69B4" alt="Closed"></a>
 
 </p>
